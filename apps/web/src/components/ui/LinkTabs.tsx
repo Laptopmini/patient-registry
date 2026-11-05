@@ -26,7 +26,7 @@ export function LinkTabs({ label, tabs, selectedKey, children }: LinkTabsProps) 
           </Tab>
         ))}
       </TabList>
-      <TabPanel id={selectedKey} className={styles.panel}>
+      <TabPanel key={selectedKey} id={selectedKey} className={styles.panel}>
         {children}
       </TabPanel>
     </Tabs>

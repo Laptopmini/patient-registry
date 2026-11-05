@@ -9,6 +9,7 @@ import {
 } from '../../api/generated/client';
 import type { NoteIn, NoteOut } from '../../api/generated/model';
 import { invalidatePatientLists } from '../../api/invalidate';
+import { withViewTransition } from '../../lib/viewTransition';
 
 export const OPTIMISTIC_PREFIX = 'optimistic-';
 export const isOptimistic = (note: NoteOut) => note.id.startsWith(OPTIMISTIC_PREFIX);
@@ -23,8 +24,13 @@ function patchCache(
 ) {
   const key = getListNotesQueryKey(patientId);
   const previous = queryClient.getQueryData<NotesCache>(key);
-  queryClient.setQueryData<NotesCache>(key, (old) =>
-    old && old.status === 200 ? { ...old, data: { items: change(old.data.items) } } : old,
+  // The list animates (a new note slides in, a deleted one fades and the gap closes).
+  withViewTransition(
+    () =>
+      queryClient.setQueryData<NotesCache>(key, (old) =>
+        old && old.status === 200 ? { ...old, data: { items: change(old.data.items) } } : old,
+      ),
+    { settle: true },
   );
   return previous;
 }

@@ -7,6 +7,7 @@ import { Button } from '../../components/ui/Button';
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog';
 import dialogStyles from '../../components/ui/ConfirmDialog.module.css';
 import { ErrorState } from '../../components/ui/ErrorState';
+import { OfflineGate, useOffline } from '../../components/ui/OfflineGate';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { formatDateTime, formatRelative, onDifferentDays } from '../../lib/format';
 import { showToast } from '../../lib/toast';
@@ -42,10 +43,14 @@ function NoteBody({ body }: { body: string }) {
 }
 
 function NoteItem({ note, onDelete }: { note: NoteOut; onDelete: (note: NoteOut) => void }) {
+  const offline = useOffline();
   const pending = isOptimistic(note);
   const showAdded = !pending && onDifferentDays(note.recorded_at, note.created_at);
   return (
-    <li className={`${styles.note} ${pending ? styles.pending : ''}`}>
+    <li
+      className={`${styles.note} ${pending ? styles.pending : ''}`}
+      style={{ viewTransitionName: `note-${note.id}`, viewTransitionClass: 'note' }}
+    >
       <article>
         <div className={styles.noteHeader}>
           <div className={styles.noteTimes}>
@@ -61,15 +66,18 @@ function NoteItem({ note, onDelete }: { note: NoteOut; onDelete: (note: NoteOut)
           {pending ? (
             <span className={styles.saving}>Saving…</span>
           ) : (
-            <Button
-              variant="quiet"
-              danger
-              data-delete-for={note.id}
-              aria-label={`Delete note from ${formatDateTime(note.recorded_at)}`}
-              onPress={() => onDelete(note)}
-            >
-              <Trash2 />
-            </Button>
+            <OfflineGate>
+              <Button
+                variant="quiet"
+                danger
+                isDisabled={offline}
+                data-delete-for={note.id}
+                aria-label={`Delete note from ${formatDateTime(note.recorded_at)}`}
+                onPress={() => onDelete(note)}
+              >
+                <Trash2 />
+              </Button>
+            </OfflineGate>
           )}
         </div>
         <NoteBody body={note.body} />

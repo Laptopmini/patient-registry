@@ -1,0 +1,100 @@
+/* View Transitions (motion.md #1, #10 to #12 and the toasts). Everything here sits behind
+   no-preference; under reduce, tokens.css also switches every transition group off, and
+   lib/viewTransition.ts never starts one. Only opacity and transform are animated. */
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-route-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-shift-sm));
+  }
+}
+
+@keyframes vt-note-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--motion-shift-md)));
+  }
+}
+
+@keyframes vt-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-shift-lg));
+  }
+}
+
+@keyframes vt-toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(var(--motion-shift-md));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The page cross-fades; the chrome that stays put is lifted out into its own group
+     (view-transition-name in the shell), so it does not fade with the page. */
+  ::view-transition-old(root) {
+    animation: vt-fade-out var(--motion-duration-fast) var(--motion-ease-exit) both;
+  }
+
+  ::view-transition-new(root) {
+    animation: vt-route-in var(--motion-duration-base) var(--motion-ease-enter) both;
+  }
+
+  ::view-transition-group(app-header),
+  ::view-transition-group(app-nav),
+  ::view-transition-group(allergy-strip) {
+    animation-duration: 0s;
+  }
+
+  ::view-transition-old(app-header),
+  ::view-transition-old(app-nav),
+  ::view-transition-old(allergy-strip) {
+    display: none;
+  }
+
+  ::view-transition-new(app-header),
+  ::view-transition-new(app-nav),
+  ::view-transition-new(allergy-strip) {
+    animation: none;
+  }
+
+  /* Patient results: a quick cross-fade when a search, filter, sort or page resolves. */
+  ::view-transition-group(patient-results) {
+    animation-duration: var(--motion-duration-fast);
+    animation-timing-function: var(--motion-ease-standard);
+  }
+
+  /* Notes: a new one slides in from above, others move down; a deleted one fades out and
+     the list closes the gap. */
+  ::view-transition-group(*.note) {
+    animation-duration: var(--motion-duration-slow);
+    animation-timing-function: var(--motion-ease-standard);
+  }
+
+  ::view-transition-new(*.note):only-child {
+    animation: vt-note-in var(--motion-duration-base) var(--motion-ease-enter) both;
+  }
+
+  ::view-transition-old(*.note):only-child {
+    animation: vt-fade-out var(--motion-duration-fast) var(--motion-ease-exit) both;
+  }
+
+  /* Toasts: in from below, out with a small drop. */
+  ::view-transition-group(*.toast) {
+    animation-duration: var(--motion-duration-base);
+  }
+
+  ::view-transition-new(*.toast):only-child {
+    animation: vt-toast-in var(--motion-duration-base) var(--motion-ease-enter) both;
+  }
+
+  ::view-transition-old(*.toast):only-child {
+    animation: vt-toast-out var(--motion-duration-fast) var(--motion-ease-exit) both;
+  }
+}

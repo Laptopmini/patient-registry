@@ -5,6 +5,7 @@ import { createQueryClient } from './api/queryClient';
 import { createAppRouter } from './router';
 import './styles/tokens.css';
 import './styles/base.css';
+import './styles/motion.css';
 
 const queryClient = createQueryClient();
 const router = createAppRouter({ queryClient });

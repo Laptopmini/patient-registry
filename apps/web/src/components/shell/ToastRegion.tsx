@@ -16,7 +16,11 @@ export default function ToastRegion() {
     <Region<ToastValue> queue={toastQueue} className={styles.region} aria-label="Notifications">
       <ToastList<ToastValue> className={styles.list}>
         {({ toast }) => (
-          <Toast toast={toast} className={styles.toast}>
+          <Toast
+            toast={toast}
+            className={styles.toast}
+            style={{ viewTransitionName: `toast-${toast.key}`, viewTransitionClass: 'toast' }}
+          >
             {toast.content.kind === 'error' ? <CircleAlert /> : <CircleCheck />}
             <ToastContent className={styles.content}>
               <Text slot="title">

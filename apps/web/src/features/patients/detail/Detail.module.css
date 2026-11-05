@@ -396,3 +396,16 @@
   display: flex;
   gap: var(--space-2);
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .pinned {
+    animation: pinned-in var(--motion-duration-fast) var(--motion-ease-enter);
+  }
+}
+
+@keyframes pinned-in {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}

@@ -7,3 +7,25 @@
   font-size: var(--text-sm);
   line-height: var(--leading-sm);
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tooltip[data-entering] {
+    animation: tooltip-in var(--motion-duration-fast) var(--motion-ease-enter);
+  }
+
+  .tooltip[data-exiting] {
+    animation: tooltip-out var(--motion-duration-fast) var(--motion-ease-exit);
+  }
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes tooltip-out {
+  to {
+    opacity: 0;
+  }
+}

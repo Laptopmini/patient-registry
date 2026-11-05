@@ -169,3 +169,26 @@
   text-decoration: line-through;
   cursor: not-allowed;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .popover[data-entering] {
+    animation: popover-in var(--motion-duration-fast) var(--motion-ease-enter);
+  }
+
+  .popover[data-exiting] {
+    animation: popover-out var(--motion-duration-fast) var(--motion-ease-exit);
+  }
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--motion-shift-sm)));
+  }
+}
+
+@keyframes popover-out {
+  to {
+    opacity: 0;
+  }
+}

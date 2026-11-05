@@ -26,3 +26,16 @@
     padding-inline: var(--space-10);
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .banner {
+    animation: banner-in var(--motion-duration-base) var(--motion-ease-enter);
+  }
+}
+
+@keyframes banner-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--motion-shift-md)));
+  }
+}

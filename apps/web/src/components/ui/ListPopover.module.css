@@ -1,4 +1,9 @@
 /* Shared by Select, ComboBox and Menu: the popover surface and its 44px options. */
+.option[data-disabled] {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
 .popover[data-hidden] {
   display: none;
 }
@@ -80,4 +85,27 @@
 .empty {
   padding: var(--space-3) var(--space-4);
   color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .popover[data-entering] {
+    animation: popover-in var(--motion-duration-fast) var(--motion-ease-enter);
+  }
+
+  .popover[data-exiting] {
+    animation: popover-out var(--motion-duration-fast) var(--motion-ease-exit);
+  }
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--motion-shift-sm)));
+  }
+}
+
+@keyframes popover-out {
+  to {
+    opacity: 0;
+  }
 }

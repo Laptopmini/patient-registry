@@ -106,3 +106,40 @@
     width: 100%;
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .overlay[data-entering] {
+    animation: fade-in var(--motion-duration-base) var(--motion-ease-enter);
+  }
+
+  .overlay[data-exiting] {
+    animation: fade-out var(--motion-duration-fast) var(--motion-ease-exit);
+  }
+
+  .modal[data-entering] {
+    animation: dialog-in var(--motion-duration-base) var(--motion-ease-enter);
+  }
+
+  .modal[data-exiting] {
+    animation: fade-out var(--motion-duration-fast) var(--motion-ease-exit);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-shift-md)) scale(var(--motion-scale-in));
+  }
+}

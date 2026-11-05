@@ -1,0 +1,79 @@
+/* Shared by Select, ComboBox and Menu: the popover surface and its 44px options. */
+.popover {
+  z-index: var(--z-popover);
+  min-width: var(--trigger-width);
+  max-width: min(420px, calc(100vw - var(--space-4)));
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-popover);
+}
+
+.listbox {
+  max-height: inherit;
+  padding: var(--space-1);
+  outline: none;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-touch);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-base);
+  cursor: pointer;
+  outline: none;
+}
+
+.option svg {
+  flex: none;
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+}
+
+.option[data-focused],
+.option[data-hovered] {
+  background: var(--color-nav-hover-bg);
+}
+
+.option[data-focus-visible] {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.option[data-selected] {
+  font-weight: var(--weight-semibold);
+}
+
+.option[data-danger] {
+  color: var(--color-danger-fg);
+}
+
+.check {
+  margin-inline-start: auto;
+}
+
+.optionText {
+  display: grid;
+  min-width: 0;
+}
+
+.optionTitle {
+  overflow-wrap: anywhere;
+  font-weight: var(--weight-semibold);
+}
+
+.optionMeta {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-sm);
+}
+
+.empty {
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text-muted);
+}

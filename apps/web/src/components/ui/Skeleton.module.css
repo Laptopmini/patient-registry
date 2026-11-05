@@ -1,0 +1,35 @@
+.block {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--leading-base);
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--color-skeleton);
+}
+
+.pill {
+  border-radius: var(--radius-pill);
+}
+
+/* The shimmer is a highlight sliding across; static under reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .block::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(90deg, transparent, var(--color-surface-hover), transparent);
+    opacity: 0.6;
+    animation: shimmer var(--motion-loop-shimmer) linear infinite;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}

@@ -1,65 +1,94 @@
 .field {
   display: grid;
-  gap: var(--space-1);
+  gap: var(--space-1-5);
   align-content: start;
   min-width: 0;
 }
 
 .label {
-  font-weight: 600;
-}
-
-.description {
-  color: var(--color-text-muted);
-  font-size: var(--text-md);
-}
-
-.input {
-  width: 100%;
-  min-height: var(--size-touch);
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
   color: var(--color-text);
-  font: inherit;
-}
-
-textarea.input {
-  min-height: 7rem;
-  resize: vertical;
-}
-
-/* Invalid fields get a thick border and an icon-style prefix in the message, not colour alone. */
-.field[data-invalid] .input,
-.input[data-invalid] {
-  border-color: var(--color-danger-fg);
-  border-width: 2px;
-  border-style: dashed;
-}
-
-.error {
-  display: flex;
-  gap: var(--space-1);
-  color: var(--color-danger-fg);
   font-size: var(--text-md);
-  font-weight: 600;
-}
-
-.error::before {
-  content: "⚠";
-  flex: none;
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-md);
 }
 
 .optional {
   color: var(--color-text-muted);
-  font-weight: 400;
+  font-weight: var(--weight-regular);
+}
+
+.description {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-sm);
+}
+
+.input {
+  width: 100%;
+  min-height: var(--size-control);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--text-base);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input[data-hovered] {
+  border-color: var(--color-text-muted);
+}
+
+textarea.input {
+  min-height: 112px;
+  padding-block: var(--space-2);
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.input[data-disabled] {
+  background: var(--color-surface-subtle);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* Invalid: 2px border and a tinted fill, plus an icon and text in the error message. The
+   padding shrinks by 1px so the text does not move. */
+.input[data-invalid] {
+  padding-inline: calc(var(--space-3) - 1px);
+  border: 2px solid var(--color-danger-border);
+  background: var(--color-danger-bg);
+}
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1-5);
+  color: var(--color-danger-fg);
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-md);
+}
+
+.error svg {
+  flex: none;
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
+  margin-block-start: var(--space-0-5);
 }
 
 .counter {
   color: var(--color-text-muted);
-  font-size: var(--text-md);
+  font-size: var(--text-sm);
   text-align: end;
+}
+
+.counterDanger {
+  color: var(--color-danger-fg);
 }
 
 .group {
@@ -68,14 +97,14 @@ textarea.input {
   min-width: 0;
   margin: 0 0 var(--space-6);
   padding: var(--space-4);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .group > legend {
   padding-inline: var(--space-2);
-  font-size: var(--text-2xl);
-  font-weight: 700;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-strong);
 }
 
 .row {

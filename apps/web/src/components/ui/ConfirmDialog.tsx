@@ -15,7 +15,10 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
 }
 
-/** A modal confirmation. Focus is trapped and Escape cancels. */
+/**
+ * A modal confirmation. Focus is trapped, Escape cancels, and the safe action (Cancel) has
+ * initial focus. The destructive confirm button is solid red.
+ */
 export function ConfirmDialog({
   isOpen,
   onOpenChange,
@@ -38,13 +41,17 @@ export function ConfirmDialog({
         <Dialog role="alertdialog" className={styles.dialog}>
           {({ close }) => (
             <>
-              <Heading slot="title">{title}</Heading>
-              {children}
+              <Heading slot="title" className={styles.title}>
+                {title}
+              </Heading>
+              <div className={styles.body}>{children}</div>
               <div className={styles.actions}>
-                <Button onPress={close}>{cancelLabel}</Button>
+                <Button autoFocus onPress={close}>
+                  {cancelLabel}
+                </Button>
                 <Button
-                  variant={destructive ? 'danger' : 'primary'}
-                  isDisabled={isPending}
+                  variant={destructive ? 'dangerSolid' : 'primary'}
+                  isPending={isPending}
                   onPress={onConfirm}
                 >
                   {confirmLabel}

@@ -36,52 +36,6 @@
   background: var(--color-surface);
 }
 
-.tags {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.tagList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  min-height: var(--size-touch);
-  margin: 0;
-  padding: 0;
-}
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding-inline-start: var(--space-3);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-pill);
-  background: var(--color-surface-subtle);
-  outline: none;
-}
-
-.tag[data-focus-visible] {
-  outline: var(--focus-ring-width) solid var(--color-focus);
-  outline-offset: 2px;
-}
-
-.tagRemove {
-  min-width: var(--size-touch);
-  min-height: var(--size-touch);
-  border: none;
-  border-radius: var(--radius-pill);
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-.tagEmpty {
-  align-self: center;
-  color: var(--color-text-muted);
-}
-
 .dialogActions {
   display: flex;
   flex-wrap: wrap;

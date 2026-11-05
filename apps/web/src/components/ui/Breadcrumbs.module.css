@@ -1,0 +1,46 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-md);
+  line-height: var(--leading-md);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* 44px hit area around the 14px text. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch);
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.link:hover,
+.link[data-hovered] {
+  text-decoration-thickness: 2px;
+}
+
+.link[data-current],
+.link:not([href]) {
+  color: var(--color-text);
+  text-decoration: none;
+  cursor: default;
+}
+
+.separator {
+  flex: none;
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+  color: var(--color-text-muted);
+}

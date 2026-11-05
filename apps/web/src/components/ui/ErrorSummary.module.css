@@ -1,0 +1,33 @@
+.summary {
+  padding: var(--space-4) var(--space-5);
+  border: 2px solid var(--color-danger-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-danger-bg);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-end: var(--space-2);
+  color: var(--color-danger-fg);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.title svg {
+  flex: none;
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+}
+
+.list {
+  margin: 0;
+  padding-inline-start: var(--space-6);
+}
+
+.link {
+  display: inline-block;
+  padding-block: var(--space-2);
+  color: var(--color-text);
+}

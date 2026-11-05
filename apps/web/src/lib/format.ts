@@ -6,8 +6,9 @@ export const STATUS_LABELS: Record<PatientStatus, string> = {
   inactive: 'Inactive',
 };
 
+/** "AB−" with a real minus sign (U+2212), "O+", or "Unknown". */
 export const bloodTypeLabel = (bloodType: BloodType) =>
-  bloodType === 'unknown' ? 'Unknown' : bloodType;
+  bloodType === 'unknown' ? 'Unknown' : bloodType.replace('-', '−');
 
 /** "Last, First" for lists. */
 export const listName = (p: { first_name: string; last_name: string }) =>
@@ -33,16 +34,22 @@ export function formatAge(dateOfBirth: string, now: Date = new Date()): string {
   return `${Math.floor(months / 12)} y`;
 }
 
+// `undefined` locale: the user's own, so the order and separators are theirs ("5 Nov 2026").
 const dateFormat = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' });
 const dateTimeFormat = new Intl.DateTimeFormat(undefined, {
   dateStyle: 'medium',
   timeStyle: 'short',
 });
+const timeFormat = new Intl.DateTimeFormat(undefined, { timeStyle: 'short' });
 
 export const formatDate = (value: string) =>
   dateFormat.format(/^\d{4}-\d{2}-\d{2}$/.test(value) ? parseLocalDate(value) : new Date(value));
 
+/** "13 Jul 2026, 23:30" in the user's time zone. */
 export const formatDateTime = (value: string) => dateTimeFormat.format(new Date(value));
+
+/** "13:02", for "Showing data from 13:02". */
+export const formatTime = (value: string | number | Date) => timeFormat.format(new Date(value));
 
 export const formatLastVisit = (value: string | null) => (value ? formatDate(value) : 'No visits');
 
@@ -66,6 +73,10 @@ export function formatRelative(value: string, now: Date = new Date()): string {
   return 'just now';
 }
 
-/** Whether two ISO timestamps are more than a minute apart. */
-export const differsByMoreThanAMinute = (a: string, b: string) =>
-  Math.abs(new Date(a).getTime() - new Date(b).getTime()) > 60_000;
+const dayKey = (value: string) => {
+  const d = new Date(value);
+  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+};
+
+/** Whether two timestamps fall on different calendar days in the user's time zone. */
+export const onDifferentDays = (a: string, b: string) => dayKey(a) !== dayKey(b);

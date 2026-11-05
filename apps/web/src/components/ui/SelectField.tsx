@@ -1,6 +1,6 @@
+import { Check, ChevronDown } from 'lucide-react';
 import {
   Button,
-  FieldError,
   Label,
   ListBox,
   ListBoxItem,
@@ -9,6 +9,8 @@ import {
   SelectValue,
 } from 'react-aria-components';
 import fieldStyles from './Field.module.css';
+import { FieldMessage } from './FieldMessage';
+import popoverStyles from './ListPopover.module.css';
 import styles from './SelectField.module.css';
 
 export interface SelectOption<K extends string> {
@@ -54,14 +56,19 @@ export function SelectField<K extends string>({
       <Label className={fieldStyles.label}>{label}</Label>
       <Button className={styles.trigger}>
         <SelectValue />
-        <span aria-hidden="true">▾</span>
+        <ChevronDown />
       </Button>
-      <FieldError className={fieldStyles.error}>{error}</FieldError>
-      <Popover className={styles.popover}>
-        <ListBox className={styles.listbox} items={options}>
+      <FieldMessage error={error} />
+      <Popover className={popoverStyles.popover}>
+        <ListBox className={popoverStyles.listbox} items={options}>
           {(option) => (
-            <ListBoxItem className={styles.option} textValue={option.label}>
-              {option.label}
+            <ListBoxItem className={popoverStyles.option} textValue={option.label}>
+              {({ isSelected }) => (
+                <>
+                  {option.label}
+                  {isSelected && <Check className={popoverStyles.check} />}
+                </>
+              )}
             </ListBoxItem>
           )}
         </ListBox>

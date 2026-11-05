@@ -1,0 +1,9 @@
+.tooltip {
+  z-index: var(--z-tooltip);
+  padding: var(--space-1-5) calc(var(--space-2) + var(--space-0-5));
+  border-radius: var(--radius-sm);
+  background: var(--color-toast-bg);
+  color: var(--color-toast-fg);
+  font-size: var(--text-sm);
+  line-height: var(--leading-sm);
+}

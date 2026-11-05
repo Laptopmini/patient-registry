@@ -2,13 +2,13 @@ import type { ReactNode } from 'react';
 import {
   TextField as AriaTextField,
   type TextFieldProps as AriaTextFieldProps,
-  FieldError,
   Input,
   Label,
   Text,
   TextArea,
 } from 'react-aria-components';
 import styles from './Field.module.css';
+import { FieldMessage } from './FieldMessage';
 
 export interface TextFieldProps extends Omit<AriaTextFieldProps, 'className' | 'children'> {
   label: string;
@@ -19,6 +19,8 @@ export interface TextFieldProps extends Omit<AriaTextFieldProps, 'className' | '
   multiline?: boolean;
   /** Text shown under the field, aligned right (for example a character counter). */
   footer?: ReactNode;
+  /** `danger` colours the footer, for a counter that is nearly at its limit. */
+  footerTone?: 'muted' | 'danger';
   optional?: boolean;
   inputRef?: React.Ref<HTMLInputElement | HTMLTextAreaElement>;
   placeholder?: string;
@@ -36,6 +38,7 @@ export function TextField({
   error,
   multiline = false,
   footer,
+  footerTone = 'muted',
   optional = false,
   inputRef,
   placeholder,
@@ -74,8 +77,15 @@ export function TextField({
           {description}
         </Text>
       )}
-      <FieldError className={styles.error}>{error}</FieldError>
-      {footer && <div className={styles.counter}>{footer}</div>}
+      <FieldMessage error={error} />
+      {footer && (
+        <div
+          aria-live="polite"
+          className={`${styles.counter} ${footerTone === 'danger' ? styles.counterDanger : ''}`}
+        >
+          {footer}
+        </div>
+      )}
     </AriaTextField>
   );
 }

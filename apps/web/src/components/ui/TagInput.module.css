@@ -1,0 +1,90 @@
+.root {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-height: var(--size-control-sm);
+  margin: 0;
+  padding: 0;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  height: var(--size-control-sm);
+  padding-inline-start: var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  outline: none;
+}
+
+.allergy {
+  border-color: var(--color-allergy-border);
+  background: var(--color-allergy-bg);
+  color: var(--color-allergy-fg);
+}
+
+.condition {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-subtle);
+  color: var(--color-text);
+}
+
+.tag[data-hovered] {
+  border-color: var(--color-text);
+}
+
+.tag[data-focus-visible] {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.tagIcon {
+  flex: none;
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+}
+
+/* The remove button is a 44px hit area that overlaps the tag's end; only the glyph shows. */
+.tag button {
+  width: var(--size-touch);
+  height: var(--size-touch);
+  margin-inline-start: calc(-1 * var(--space-2));
+  margin-block: calc(-1 * var(--space-1));
+  padding: 0;
+  border-radius: var(--radius-pill);
+  color: inherit;
+}
+
+.tag button svg {
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+}
+
+.empty {
+  align-self: center;
+  color: var(--color-text-muted);
+}
+
+.addRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.addField {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Line the button up with the input, below the label. */
+.addRow > button {
+  margin-block-start: calc(var(--leading-md) + var(--space-1-5));
+}

@@ -9,18 +9,49 @@
 }
 
 .modal {
-  width: min(32rem, 100%);
+  width: min(var(--size-dialog), 100%);
   max-height: 100%;
   overflow: auto;
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-xl);
   background: var(--color-surface);
   color: var(--color-text);
+  box-shadow: var(--shadow-dialog);
+}
+
+.wide {
+  width: min(var(--size-dialog-wide), 100%);
 }
 
 .dialog {
+  display: grid;
+  gap: var(--space-3);
   padding: var(--space-6);
   outline: none;
+}
+
+.title {
+  font-size: var(--text-2xl);
+  line-height: var(--leading-2xl);
+}
+
+.body {
+  display: grid;
+  gap: var(--space-3);
+  color: var(--color-text);
+}
+
+.body p {
+  margin: 0;
+}
+
+.quote {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-subtle);
+  color: var(--color-text-muted);
+  font-size: var(--text-md);
+  overflow-wrap: anywhere;
 }
 
 .actions {
@@ -28,5 +59,20 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: var(--space-3);
-  margin-block-start: var(--space-4);
+  margin-block-start: var(--space-3);
+}
+
+/* Compact: actions stack full width, with the primary on top. */
+@media (max-width: 767px) {
+  .dialog {
+    padding: var(--space-5);
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .actions > * {
+    width: 100%;
+  }
 }

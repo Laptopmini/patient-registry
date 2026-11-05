@@ -1,0 +1,28 @@
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 52px;
+  padding: var(--space-2) var(--space-4);
+  border-block-end: 1px solid var(--color-banner-border);
+  background: var(--color-banner-bg);
+  color: var(--color-banner-fg);
+}
+
+.icon {
+  flex: none;
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+}
+
+.text {
+  flex: 1;
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+}
+
+@container app (min-width: 1280px) {
+  .banner {
+    padding-inline: var(--space-10);
+  }
+}

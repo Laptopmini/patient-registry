@@ -1,0 +1,41 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-14);
+  height: var(--space-14);
+  border-radius: var(--radius-pill);
+}
+
+.icon svg {
+  width: var(--space-6);
+  height: var(--space-6);
+}
+
+.info {
+  background: var(--color-info-bg);
+  color: var(--color-info-fg);
+}
+
+.error {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-fg);
+}
+
+.title {
+  font-size: var(--text-xl);
+}
+
+.body {
+  max-width: 44ch;
+  color: var(--color-text-muted);
+}

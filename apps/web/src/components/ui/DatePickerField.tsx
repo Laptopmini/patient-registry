@@ -4,6 +4,7 @@ import type {
   DateValue,
   ZonedDateTime,
 } from '@internationalized/date';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   Button,
   Calendar,
@@ -13,7 +14,6 @@ import {
   DatePicker,
   DateSegment,
   Dialog,
-  FieldError,
   Group,
   Heading,
   Label,
@@ -22,6 +22,7 @@ import {
 } from 'react-aria-components';
 import styles from './DateField.module.css';
 import fieldStyles from './Field.module.css';
+import { FieldMessage } from './FieldMessage';
 
 interface DatePickerFieldProps {
   label: string;
@@ -32,6 +33,8 @@ interface DatePickerFieldProps {
   id?: string;
   granularity?: 'day' | 'minute';
   error?: string | undefined;
+  /** Marks the field invalid when its message is shown elsewhere. */
+  isInvalid?: boolean;
   description?: string;
 }
 
@@ -45,6 +48,7 @@ export function DatePickerField({
   id,
   granularity = 'day',
   error,
+  isInvalid,
   description,
 }: DatePickerFieldProps) {
   return (
@@ -54,7 +58,7 @@ export function DatePickerField({
       onChange={onChange}
       granularity={granularity}
       validationBehavior="aria"
-      isInvalid={Boolean(error)}
+      isInvalid={isInvalid ?? Boolean(error)}
       {...(onBlur ? { onBlur } : {})}
       {...(name ? { name } : {})}
       {...(id ? { id } : {})}
@@ -65,7 +69,7 @@ export function DatePickerField({
           {(segment) => <DateSegment segment={segment} className={styles.segment} />}
         </DateInput>
         <Button className={styles.trigger} aria-label={`Open calendar for ${label}`}>
-          <span aria-hidden="true">▾</span>
+          <CalendarIcon />
         </Button>
       </Group>
       {description && (
@@ -73,17 +77,17 @@ export function DatePickerField({
           {description}
         </Text>
       )}
-      <FieldError className={fieldStyles.error}>{error}</FieldError>
+      <FieldMessage error={error} />
       <Popover className={styles.popover}>
         <Dialog>
           <Calendar>
             <div className={styles.calendarHeader}>
               <Button slot="previous" className={styles.calendarNav} aria-label="Previous month">
-                <span aria-hidden="true">◀</span>
+                <ChevronLeft />
               </Button>
               <Heading />
               <Button slot="next" className={styles.calendarNav} aria-label="Next month">
-                <span aria-hidden="true">▶</span>
+                <ChevronRight />
               </Button>
             </div>
             <CalendarGrid className={styles.grid}>

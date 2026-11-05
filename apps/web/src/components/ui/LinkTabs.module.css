@@ -1,0 +1,62 @@
+.list {
+  display: flex;
+  margin-block-end: var(--space-6);
+  border-block-end: 1px solid var(--color-border);
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1-5);
+  height: 48px;
+  padding: 0 var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.tab[data-hovered] {
+  background: var(--color-nav-hover-bg);
+}
+
+/* Selected: darker text, heavier weight and a 3px accent bar over the baseline. */
+.tab[data-selected] {
+  color: var(--color-text);
+  font-weight: var(--weight-strong);
+}
+
+.tab[data-selected]::after {
+  content: "";
+  position: absolute;
+  inset-inline: var(--space-2);
+  inset-block-end: -1px;
+  height: 3px;
+  border-radius: var(--radius-xs);
+  background: var(--color-accent);
+}
+
+.tab[data-focus-visible] {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.panel {
+  outline: none;
+}
+
+.panel[data-focus-visible] {
+  outline: var(--focus-ring);
+}
+
+/* Compact: the three tabs share the width. */
+@container app (max-width: 767px) {
+  .tab {
+    flex: 1 1 0;
+    padding: 0 var(--space-2);
+  }
+}

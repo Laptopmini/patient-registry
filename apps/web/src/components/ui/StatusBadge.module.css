@@ -1,17 +1,45 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  padding: 0 var(--space-2);
-  border: 1px solid var(--color-border-strong);
+  gap: var(--space-1-5);
+  height: var(--size-badge);
+  padding: 0 calc(var(--space-2) + var(--space-0-5)) 0 var(--space-2);
   border-radius: var(--radius-pill);
-  font-size: var(--text-md);
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-sm);
   white-space: nowrap;
 }
 
 .icon {
-  width: 0.875rem;
-  height: 0.875rem;
   flex: none;
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+}
+
+.active {
+  background: var(--color-status-active-bg);
+  color: var(--color-status-active-fg);
+}
+
+.active .icon {
+  color: var(--color-status-active-icon);
+}
+
+.followUp {
+  background: var(--color-status-followup-bg);
+  color: var(--color-status-followup-fg);
+}
+
+.followUp .icon {
+  color: var(--color-status-followup-icon);
+}
+
+.inactive {
+  background: var(--color-status-inactive-bg);
+  color: var(--color-status-inactive-fg);
+}
+
+.inactive .icon {
+  color: var(--color-status-inactive-icon);
 }

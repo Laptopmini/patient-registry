@@ -1,0 +1,22 @@
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-touch);
+  height: var(--size-touch);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.trigger svg {
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+}
+
+.trigger[data-hovered],
+.trigger[data-pressed] {
+  background: var(--color-nav-hover-bg);
+}

@@ -4,50 +4,44 @@
   justify-content: space-between;
   gap: var(--space-2);
   width: 100%;
-  min-height: var(--size-touch);
-  padding: var(--space-2) var(--space-3);
+  min-height: var(--size-control);
+  padding: 0 var(--space-3);
   border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
+  font-size: var(--text-base);
   text-align: start;
   cursor: pointer;
 }
 
-.popover {
-  min-width: var(--trigger-width);
-  max-height: 20rem;
-  overflow: auto;
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
-  color: var(--color-text);
+.trigger svg {
+  flex: none;
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+  color: var(--color-text-muted);
 }
 
-.listbox {
-  padding: var(--space-1);
-  outline: none;
+.trigger[data-hovered] {
+  border-color: var(--color-text-muted);
 }
 
-.option {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: var(--size-touch);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  outline: none;
+/* The trigger shows the focus ring while its list is open. */
+.trigger[data-focus-visible],
+.trigger[aria-expanded="true"] {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
-.option[data-focused] {
+.trigger[data-invalid] {
+  padding-inline: calc(var(--space-3) - 1px);
+  border: 2px solid var(--color-danger-border);
+  background: var(--color-danger-bg);
+}
+
+.trigger[data-disabled] {
   background: var(--color-surface-subtle);
-  outline: 2px solid var(--color-focus);
-  outline-offset: -2px;
-}
-
-.option[data-selected]::after {
-  content: "✓";
-  margin-inline-start: auto;
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
 }

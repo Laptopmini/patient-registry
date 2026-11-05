@@ -1,0 +1,71 @@
+.grid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@container app (max-width: 767px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 52px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.card svg {
+  flex: none;
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+}
+
+.card[data-hovered] {
+  background: var(--color-surface-hover);
+}
+
+.card[data-focus-visible] {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.ring {
+  position: relative;
+  flex: none;
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+}
+
+/* Selected: 2px accent border, tinted fill and a filled dot in the ring. */
+.card[data-selected] {
+  padding: calc(var(--space-2) - 1px) calc(var(--space-4) - 1px);
+  border: 2px solid var(--color-accent);
+  background: var(--color-info-bg);
+}
+
+.card[data-selected] .ring {
+  border-color: var(--color-accent);
+}
+
+.card[data-selected] .ring::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+}
+
+.text {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}

@@ -1,0 +1,46 @@
+.track {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border-radius: var(--radius-seg);
+  background: var(--color-seg-track);
+}
+
+/* 36px visible button; the track around it makes the hit area 44px. */
+.segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1-5);
+  min-height: var(--size-control-sm);
+  min-width: var(--size-control-sm);
+  padding: 0 var(--space-4);
+  border: 1.5px solid transparent;
+  border-radius: calc(var(--radius-seg) - var(--space-1));
+  background: transparent;
+  color: var(--color-seg-fg);
+  font: inherit;
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.segment[data-hovered] {
+  color: var(--color-text);
+}
+
+/* Selected is a border and a heavier weight as well as the fill. */
+.segment[data-selected] {
+  border-color: var(--color-seg-selected-border);
+  background: var(--color-seg-selected-bg);
+  color: var(--color-seg-selected-fg);
+  font-weight: var(--weight-strong);
+}
+
+.count {
+  font-weight: var(--weight-medium);
+  font-variant-numeric: var(--font-numeric);
+  opacity: 0.85;
+}

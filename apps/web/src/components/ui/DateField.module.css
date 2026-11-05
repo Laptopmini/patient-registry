@@ -1,6 +1,6 @@
 .picker {
   display: grid;
-  gap: var(--space-1);
+  gap: var(--space-1-5);
   align-content: start;
   min-width: 0;
 }
@@ -9,20 +9,27 @@
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  min-height: var(--size-touch);
+  min-height: var(--size-control);
   padding-inline: var(--space-3);
   border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
+  font-size: var(--text-base);
+}
+
+.group[data-hovered] {
+  border-color: var(--color-text-muted);
 }
 
 .group[data-focus-within] {
-  outline: var(--focus-ring-width) solid var(--color-focus);
-  outline-offset: 2px;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .group[data-invalid] {
-  border: 2px dashed var(--color-danger-fg);
+  padding-inline: calc(var(--space-3) - 1px);
+  border: 2px solid var(--color-danger-border);
+  background: var(--color-danger-bg);
 }
 
 .input {
@@ -32,11 +39,12 @@
   align-items: center;
 }
 
+/* A focused segment is filled; placeholders are muted. */
 .segment {
-  padding: var(--space-1) var(--space-0-5);
+  padding: var(--space-0-5) var(--space-0-5);
   border-radius: var(--radius-xs);
   outline: none;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: var(--font-numeric);
 }
 
 .segment[data-placeholder] {
@@ -44,26 +52,41 @@
 }
 
 .segment[data-focused] {
-  background: var(--color-accent);
-  color: var(--color-primary-fg);
+  background: var(--color-info-bg);
+  color: var(--color-info-fg);
 }
 
 .trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: var(--size-touch);
   min-height: var(--size-touch);
-  border: none;
+  margin-inline-end: calc(-1 * var(--space-3));
+  border: 0;
+  border-radius: var(--radius-md);
   background: transparent;
-  color: var(--color-text);
-  font: inherit;
+  color: var(--color-text-muted);
   cursor: pointer;
 }
 
+.trigger svg {
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+}
+
+.trigger[data-hovered] {
+  background: var(--color-nav-hover-bg);
+}
+
 .popover {
+  z-index: var(--z-popover);
   padding: var(--space-3);
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
   color: var(--color-text);
+  box-shadow: var(--shadow-popover);
 }
 
 .calendarHeader {
@@ -75,23 +98,39 @@
 }
 
 .calendarHeader h2 {
-  margin: 0;
   font-size: var(--text-lg);
 }
 
 .calendarNav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: var(--size-touch);
   min-height: var(--size-touch);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface-subtle);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
   color: var(--color-text);
-  font: inherit;
   cursor: pointer;
+}
+
+.calendarNav[data-hovered] {
+  background: var(--color-nav-hover-bg);
+}
+
+.calendarNav[data-disabled] {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
 }
 
 .grid {
   border-collapse: collapse;
+}
+
+.grid th {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
 }
 
 .cell {
@@ -100,9 +139,13 @@
   justify-content: center;
   width: var(--size-touch);
   height: var(--size-touch);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   outline: none;
   cursor: pointer;
+}
+
+.cell[data-hovered] {
+  background: var(--color-nav-hover-bg);
 }
 
 .cell[data-outside-month] {
@@ -110,19 +153,19 @@
 }
 
 .cell[data-focus-visible] {
-  outline: var(--focus-ring-width) solid var(--color-focus);
-  outline-offset: -2px;
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
 }
 
 .cell[data-selected] {
-  background: var(--color-accent);
+  background: var(--color-primary-bg);
   color: var(--color-primary-fg);
-  font-weight: 700;
+  font-weight: var(--weight-bold);
 }
 
 .cell[data-disabled],
 .cell[data-unavailable] {
-  color: var(--color-text-muted);
+  color: var(--color-text-disabled);
   text-decoration: line-through;
   cursor: not-allowed;
 }

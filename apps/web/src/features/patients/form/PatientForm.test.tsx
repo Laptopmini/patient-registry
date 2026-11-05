@@ -124,7 +124,7 @@ describe('patient form (create)', () => {
     await user.type(input, 'Peanuts{Enter}');
     expect(screen.getByRole('row', { name: /Peanuts/ })).toBeVisible();
     await user.type(input, 'peanuts{Enter}');
-    expect(await screen.findByText('"peanuts" is already in the list.')).toBeVisible();
+    expect(await screen.findByText('peanuts is already in the list')).toBeVisible();
     // Enter never submits the form.
     expect(screen.queryByRole('region', { name: /problems?/ })).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /Remove Peanuts/ }));

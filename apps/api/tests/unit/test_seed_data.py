@@ -94,3 +94,16 @@ def test_rows_pass_api_validation_and_notes_are_in_the_past() -> None:
         for recorded_at, _ in patient.notes:
             assert recorded_at < NOW
             assert recorded_at.date() >= row["date_of_birth"]  # pyright: ignore[reportOperatorIssue]
+
+
+def test_note_created_at_follows_the_encounter_and_never_the_future() -> None:
+    from datetime import UTC, datetime, timedelta
+
+    from app.seed import note_created_at
+
+    now = datetime(2026, 11, 5, 12, tzinfo=UTC)
+    past = now - timedelta(days=30)
+    for i in range(10):
+        created = note_created_at(past, i, now)
+        assert past + timedelta(minutes=15) <= created <= past + timedelta(hours=4)
+    assert note_created_at(now - timedelta(minutes=5), 3, now) == now

@@ -229,7 +229,13 @@ async def seed(sessionmaker: async_sessionmaker[AsyncSession], count: int, seed_
     return len(patients)
 
 
+def note_created_at(recorded_at: datetime, index: int, now: datetime) -> datetime:
+    """Notes are typically written up shortly after the encounter: 15 minutes to about 4 hours."""
+    return min(recorded_at + timedelta(minutes=15 + (index * 47) % 225), now)
+
+
 async def _insert(session: AsyncSession, patients: list[SeedPatient]) -> None:
+    now = datetime.now(UTC)
     await session.execute(insert(Patient), [p.row for p in patients])
     allergies: list[dict[str, object]] = []
     conditions: list[dict[str, object]] = []
@@ -245,8 +251,14 @@ async def _insert(session: AsyncSession, patients: list[SeedPatient]) -> None:
             for i, n in enumerate(p.conditions)
         ]
         notes += [
-            {"id": uuid.uuid4(), "patient_id": pid, "recorded_at": at, "body": body}
-            for at, body in p.notes
+            {
+                "id": uuid.uuid4(),
+                "patient_id": pid,
+                "recorded_at": at,
+                "body": body,
+                "created_at": note_created_at(at, i, now),
+            }
+            for i, (at, body) in enumerate(p.notes)
         ]
     for table, rows in ((PatientAllergy, allergies), (PatientCondition, conditions), (Note, notes)):
         if rows:

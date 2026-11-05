@@ -1,0 +1,144 @@
+.header {
+  display: grid;
+  gap: var(--space-3);
+  margin-block-end: var(--space-4);
+}
+
+.title {
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+}
+
+.allergies {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-danger);
+  border-radius: var(--radius-2);
+  background: var(--color-danger-surface);
+  font-weight: 600;
+}
+
+.allergiesNone {
+  border-color: var(--color-border);
+  background: var(--color-surface-raised);
+  font-weight: 400;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.tabList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-block-end: var(--space-4);
+  border-block-end: 1px solid var(--color-border);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch);
+  padding: var(--space-2) var(--space-4);
+  border-block-end: 4px solid transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+/* The selected tab is marked by a thick underline and weight, not colour alone. */
+.tab[data-selected] {
+  border-block-end-color: var(--color-text);
+  font-weight: 700;
+}
+
+.tab[data-focus-visible] {
+  outline: var(--size-focus-ring) solid var(--color-focus);
+  outline-offset: -3px;
+}
+
+.panel {
+  outline: none;
+}
+
+.panel[data-focus-visible] {
+  outline: var(--size-focus-ring) solid var(--color-focus);
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  margin: 0 0 var(--space-4);
+}
+
+.facts dt {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+}
+
+.summary section {
+  margin-block-end: var(--space-4);
+}
+
+.provenance {
+  color: var(--color-text-muted);
+}
+
+.skeleton {
+  height: 3rem;
+  margin-block-end: var(--space-3);
+  border-radius: var(--radius-2);
+  background: var(--color-surface-raised);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.skeletonTall {
+  height: 8rem;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.skeletonPage {
+  height: 10rem;
+}
+
+.allergyText {
+  margin: 0;
+}

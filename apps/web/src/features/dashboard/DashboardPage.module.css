@@ -1,0 +1,59 @@
+.cards {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2);
+  background: var(--color-surface-raised);
+}
+
+.card dt {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.card dd {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+}
+
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-3);
+  margin-block-end: var(--space-5);
+}
+
+.search > :first-child {
+  flex: 1 1 16rem;
+}
+
+.recent {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-block-end: 1px solid var(--color-border);
+}
+
+.muted {
+  color: var(--color-text-muted);
+}

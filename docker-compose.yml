@@ -49,6 +49,7 @@ services:
       SEED_PATIENTS: ${SEED_PATIENTS:-20}
       FLAGD_HOST: flagd
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-haiku-5-5}
     ports:
       - "${API_PORT:-8000}:8000"
     depends_on:

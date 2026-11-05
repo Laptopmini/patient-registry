@@ -5,8 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 5, run 5a merged; run 5b in progress (`frontend-engineer` worktree, `docs/plan/stage-5.md` run 5b plus the "Run 5b additions").
-> **Next action:** review and merge 5b, compare with Playwright MCP, then check in. If the agent was lost, relaunch run 5b from the brief.
+> **Current:** Stage 5 complete, waiting for the owner's "go".
+> **Next action:** after "go", push, then launch Stage 6 runs 6-api (`backend-engineer`) and 6-web (`frontend-engineer`) in parallel from `docs/plan/stage-6.md`.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 
@@ -61,8 +61,8 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 ## Stage 5: Design implementation (`design/handoff/` committed in 948dd80)
 - [x] Brief: `docs/plan/stage-5.md` (runs 5a and 5b)
 - [x] Run 5a: tokens, font, stylelint, shell, primitives, styleguide, list, detail, dialogs
-- [~] Run 5b: create wizard, edit, unsaved-changes guard, dashboard, 404, states, motion
-- [ ] Compare with Playwright MCP at 360, 768 and 1280px, in light and dark
+- [x] Run 5b: create wizard, edit, unsaved-changes guard, dashboard, 404, states, motion
+- [x] Compare with Playwright MCP at 360, 768 and 1280px, in light and dark
 
 ## Stage 6: Quality gate and release (final stage before submission)
 - [x] Brief: `docs/plan/stage-6.md` (runs 6-api and 6-web in parallel)

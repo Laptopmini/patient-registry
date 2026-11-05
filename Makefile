@@ -2,7 +2,7 @@
 API := apps/api
 WEB := apps/web
 
-.PHONY: help install up down watch logs check lint typecheck test e2e fmt api-openapi
+.PHONY: help install up down watch logs check lint typecheck test e2e fmt openapi
 
 help: ## List targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-12s %s\n", $$1, $$2}'
@@ -40,6 +40,9 @@ test: ## Unit and API tests for both apps
 	cd $(WEB) && pnpm test
 
 check: lint typecheck test ## Lint, typecheck and test everything
+
+openapi: ## Regenerate apps/api/openapi.json
+	cd $(API) && uv run python -m app.export_openapi
 
 e2e: ## Playwright e2e and axe checks (stack must be up)
 	cd $(WEB) && pnpm e2e

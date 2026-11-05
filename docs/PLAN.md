@@ -5,8 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 2 merged, waiting for the owner's "go". The owner is in Claude Design.
-> **Next action:** after "go", push, then start Stage 3 (Compose, `.env.example`, Makefile, CI, lefthook), and verify it from a clean clone.
+> **Current:** Stage 3 complete, waiting for the owner's "go". The owner is in Claude Design.
+> **Next action:** after "go", push and confirm the first CI run is green. Then write `docs/plan/stage-4.md` and launch `frontend-engineer` in a worktree. The web Dockerfile and Caddyfile already exist; Stage 4 only adjusts them.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 
@@ -43,9 +43,9 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 - [x] Review the diff and merge
 
 ## Stage 3: Compose and developer setup
-- [ ] `docker-compose.yml`: db, migrate, api, flagd, web; health checks; `watch`
-- [ ] `.env.example`, Makefile targets, CI workflow, lefthook verified
-- [ ] Clean-clone check: `docker compose up` brings up a healthy, seeded API
+- [x] `docker-compose.yml`: db, migrate, api, flagd, web; health checks; `watch`
+- [x] `.env.example`, Makefile targets, CI workflow, lefthook verified
+- [x] Clean-clone check: `docker compose up` brings up a healthy, seeded API
 
 ## Stage 4: Frontend foundation (`frontend-engineer`, worktree)
 - [ ] Brief: `docs/plan/stage-4.md`

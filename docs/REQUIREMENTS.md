@@ -62,9 +62,9 @@ Each requirement has a stable ID. Code, tests, commits and reviews refer to requ
 | ID | Requirement | Status | Where | Test |
 |----|-------------|--------|-------|------|
 | R-5.1 | The API ships with a Dockerfile. | done | `apps/api/Dockerfile` | Image built and `/health` checked against a throwaway Postgres (Stage 2 verification) |
-| R-5.2 | The web client ships with a Dockerfile. | planned | — | — |
-| R-5.3 | One `docker-compose.yml` starts the API, PostgreSQL and the web client. | planned | — | — |
-| R-5.4 | `.env.example` documents every environment variable. | planned | — | — |
+| R-5.2 | The web client ships with a Dockerfile. | done | `apps/web/Dockerfile`, `apps/web/docker/Caddyfile` | `scripts/smoke.sh` (CI `stack` job) |
+| R-5.3 | One `docker-compose.yml` starts the API, PostgreSQL and the web client. | done | `docker-compose.yml` (db, migrate, flagd, api, web, all with health checks) | `scripts/smoke.sh`, clean-clone run |
+| R-5.4 | `.env.example` documents every environment variable. | done | `.env.example` | — |
 | R-5.5 | The README is complete but brief, and explains how to run the project locally. | planned | — | — |
 | R-5.6 | The code is published in a public GitHub repository (owner action). | planned | — | — |
 
@@ -85,7 +85,7 @@ Chosen focus: **Advanced Backend** (R-S.1–R-S.3) and **Testing & Quality** (R-
 | R-S.9 | Large patient lists are virtualized. | planned | — | — |
 | R-S.10 | The dashboard charts patients by status. | planned | — | — |
 | R-S.11 | Routes are code-split and lazy-loaded, and an audit confirms it. | planned | — | — |
-| R-S.12 | A CI pipeline runs all checks. | planned | — | — |
-| R-S.13 | Both apps hot-reload inside Docker. | planned | — | — |
+| R-S.12 | A CI pipeline runs all checks. | in progress | `.github/workflows/ci.yml` (api, web, compose smoke; e2e and Lighthouse added in Stage 6) | — |
+| R-S.13 | Both apps hot-reload inside Docker. | done | `compose.dev.yaml`, `make watch` | Verified manually: Vite module update and uvicorn reload |
 | R-S.14 | Natural-language search turns a free-text query into filters, behind a flag. | planned | — | — |
 | R-S.15 | A read-only MCP server exposes the patient API. | planned | — | — |

@@ -4,6 +4,7 @@ import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
 const apiTarget = process.env.API_PROXY_TARGET ?? 'http://localhost:8000';
+const flagdTarget = process.env.FLAGD_PROXY_TARGET ?? 'http://localhost:8013';
 
 export default defineConfig({
   plugins: [
@@ -16,6 +17,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': { target: apiTarget, rewrite: (path) => path.replace(/^\/api/, '') },
+      '/flagd': { target: flagdTarget, rewrite: (path) => path.replace(/^\/flagd/, '') },
     },
   },
   test: {

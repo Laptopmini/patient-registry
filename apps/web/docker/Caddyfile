@@ -1,0 +1,44 @@
+{
+	admin off
+	auto_https off
+}
+
+:8080 {
+	encode zstd gzip
+
+	# Container health check
+	handle /healthz {
+		respond 200
+	}
+
+	# The API, mounted under /api so the browser sees a single origin (no CORS)
+	handle_path /api/* {
+		reverse_proxy {$API_UPSTREAM:api:8000}
+	}
+
+	# OpenFeature flagd evaluation (Connect protocol), used by the web provider
+	handle_path /flagd/* {
+		reverse_proxy {$FLAGD_UPSTREAM:flagd:8013}
+	}
+
+	# The single-page app, with fallback to index.html for client-side routes
+	handle {
+		root * /srv
+		@hashed path /assets/*
+		header @hashed Cache-Control "public, max-age=31536000, immutable"
+		@html not path /assets/*
+		header @html Cache-Control "no-cache"
+		try_files {path} /index.html
+		file_server
+	}
+
+	header {
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Frame-Options "DENY"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+		-Server
+	}
+	# Access logging is off on purpose: query strings can contain patient names.
+}

@@ -1,0 +1,14 @@
+# Root build context (web image). Keep it small and never send owner-only or secret files.
+.git
+.local
+.env
+.env.*
+**/node_modules
+**/dist
+**/.tanstack
+apps/api
+design
+docs
+.claude
+**/test-results
+**/playwright-report

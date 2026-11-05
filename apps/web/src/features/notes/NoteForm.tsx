@@ -45,15 +45,17 @@ export function NoteForm({ patientId }: { patientId: string }) {
 
   const submit = form.handleSubmit(async (values) => {
     setFailure(null);
-    try {
-      await addNote.mutateAsync(values);
-    } catch {
-      // Keep the text so nothing is lost; the user can retry.
-      setFailure("We couldn't save this note.");
-      return;
-    }
+    // The note is already in the list (optimistic), so the form clears and keeps focus now.
+    const sent = values;
     form.reset({ recorded_at: currentMinuteIso(), body: '' });
     bodyRef.current?.focus();
+    try {
+      await addNote.mutateAsync(sent);
+    } catch {
+      // Put the text back so nothing is lost; the user can retry.
+      form.reset(sent);
+      setFailure("We couldn't save this note.");
+    }
   });
 
   return (

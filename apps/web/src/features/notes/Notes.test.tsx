@@ -44,14 +44,14 @@ describe('notes tab', () => {
     await user.type(textarea, 'Follow-up call completed');
     await user.click(screen.getByRole('button', { name: 'Add note' }));
 
-    // Visible immediately, marked as saving, and the text stays until the server confirms.
+    // Visible immediately, marked as saving, and the form is already cleared with focus kept.
     expect(await screen.findByText('Follow-up call completed', { selector: 'p' })).toBeVisible();
     expect(screen.getByText('Saving…')).toBeVisible();
-    expect(textarea).toHaveValue('Follow-up call completed');
+    expect(textarea).toHaveValue('');
+    expect(textarea).toHaveFocus();
 
     release();
-    await waitFor(() => expect(textarea).toHaveValue(''));
-    expect(textarea).toHaveFocus();
+    await waitFor(() => expect(screen.queryByText('Saving…')).not.toBeInTheDocument());
   });
 
   it('keeps the text and offers Retry when saving fails', async () => {

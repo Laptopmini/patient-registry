@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(extra="ignore")
+    model_config = SettingsConfigDict(extra="ignore", env_ignore_empty=True)
 
     database_url: str = "postgresql+asyncpg://registry:registry@localhost:5432/registry"
     seed_on_startup: bool = True

@@ -217,3 +217,10 @@ class TestProviderSelection:
     async def test_without_implementation_falls_back(self) -> None:
         settings = Settings(anthropic_api_key="k")  # pyright: ignore[reportArgumentType]
         assert (await select_provider(settings, lambda _: True)).name == "template"
+
+
+def test_empty_env_values_fall_back_to_defaults(monkeypatch: pytest.MonkeyPatch) -> None:
+    # Compose passes `ANTHROPIC_API_KEY=` when the key is unset; that must mean "no key".
+
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "")
+    assert Settings().anthropic_api_key is None

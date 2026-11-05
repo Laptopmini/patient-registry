@@ -468,7 +468,7 @@
       ],
       "conditions": [
         {
-          "name": "Type 2 diabetes"
+          "name": "Eczema"
         }
       ],
       "version": 1,
@@ -1123,10 +1123,10 @@
       ],
       "conditions": [
         {
-          "name": "Osteoarthritis"
+          "name": "ADHD"
         },
         {
-          "name": "Atrial fibrillation"
+          "name": "Otitis media (recurrent)"
         }
       ],
       "version": 1,
@@ -1136,25 +1136,25 @@
         {
           "id": "024f4351-3a9e-4f4e-aaa4-be896966fc26",
           "recorded_at": "2026-10-20T07:45:00+00:00",
-          "body": "Routine follow-up. BP 127/78. Patient reports good adherence to medication. Continue current plan; recheck in 6 weeks.",
+          "body": "Well-child check. Weight 15.9 kg, growth tracking along the 50th percentile. Development appropriate for age. Parent has no concerns.",
           "created_at": "2026-10-20T11:17:00+00:00"
         },
         {
           "id": "2660ec75-c07f-4a34-9933-e0dd7c76a2b5",
           "recorded_at": "2026-08-28T06:15:00+00:00",
-          "body": "Annual physical. Weight 84 kg, BP 139/81. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "body": "Routine immunizations given per schedule. Parent advised on expected mild fever and soreness. No immediate reaction observed.",
           "created_at": "2026-08-28T08:48:00+00:00"
         },
         {
           "id": "6503020d-52c3-4a7f-b677-d3a5cb928628",
           "recorded_at": "2026-06-12T11:15:00+00:00",
-          "body": "Presented with cough for 7 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "body": "Seen with fever and ear pain for 4 days. Mild otitis media on exam. Supportive care discussed with parent; review if not improving in 48 hours.",
           "created_at": "2026-06-12T12:21:00+00:00"
         },
         {
           "id": "a6cf8d28-c7cf-4e81-9109-d871c091c81b",
           "recorded_at": "2025-11-09T02:30:00+00:00",
-          "body": "Presented with fatigue for 9 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "body": "Follow-up for mild wheeze. Chest clear today. Reliever inhaler technique reviewed with parent and child.",
           "created_at": "2025-11-09T04:29:00+00:00"
         }
       ]

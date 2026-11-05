@@ -33,6 +33,7 @@ dev = [
     "pyright>=1.1.414",
     "pytest>=9.2.0",
     "pytest-asyncio>=1.4.1.post1",
+    "pytest-cov>=7.1.0",
     "ruff>=0.17.4",
     "testcontainers[postgres]>=4.15.0",
 ]
@@ -47,6 +48,7 @@ ignore = ["S101"]  # assert is fine in tests
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S"]
+"src/app/seed.py" = ["S311"]  # synthetic data, not cryptography
 
 [tool.pyright]
 include = ["src", "tests"]
@@ -60,4 +62,8 @@ testpaths = ["tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
 asyncio_default_test_loop_scope = "session"
-addopts = "-ra --strict-markers"
+addopts = "-ra --strict-markers --cov=app --cov-report=term-missing:skip-covered --cov-fail-under=90"
+
+[tool.coverage.run]
+source = ["app"]
+branch = false

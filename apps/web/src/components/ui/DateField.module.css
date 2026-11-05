@@ -11,18 +11,18 @@
   gap: var(--space-1);
   min-height: var(--size-touch);
   padding-inline: var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-1);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
 }
 
 .group[data-focus-within] {
-  outline: var(--size-focus-ring) solid var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: 2px;
 }
 
 .group[data-invalid] {
-  border: 2px dashed var(--color-danger);
+  border: 2px dashed var(--color-danger-fg);
 }
 
 .input {
@@ -33,8 +33,8 @@
 }
 
 .segment {
-  padding: var(--space-1) 2px;
-  border-radius: 2px;
+  padding: var(--space-1) var(--space-0-5);
+  border-radius: var(--radius-xs);
   outline: none;
   font-variant-numeric: tabular-nums;
 }
@@ -45,7 +45,7 @@
 
 .segment[data-focused] {
   background: var(--color-accent);
-  color: var(--color-accent-contrast);
+  color: var(--color-primary-fg);
 }
 
 .trigger {
@@ -60,8 +60,8 @@
 
 .popover {
   padding: var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-2);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
   color: var(--color-text);
 }
@@ -76,15 +76,15 @@
 
 .calendarHeader h2 {
   margin: 0;
-  font-size: var(--font-size-md);
+  font-size: var(--text-lg);
 }
 
 .calendarNav {
   min-width: var(--size-touch);
   min-height: var(--size-touch);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-1);
-  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-subtle);
   color: var(--color-text);
   font: inherit;
   cursor: pointer;
@@ -100,7 +100,7 @@
   justify-content: center;
   width: var(--size-touch);
   height: var(--size-touch);
-  border-radius: var(--radius-1);
+  border-radius: var(--radius-sm);
   outline: none;
   cursor: pointer;
 }
@@ -110,13 +110,13 @@
 }
 
 .cell[data-focus-visible] {
-  outline: var(--size-focus-ring) solid var(--color-focus);
+  outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: -2px;
 }
 
 .cell[data-selected] {
   background: var(--color-accent);
-  color: var(--color-accent-contrast);
+  color: var(--color-primary-fg);
   font-weight: 700;
 }
 

@@ -1,58 +1,470 @@
-/* Placeholder semantic tokens. Stage 5 replaces the values, not the names. */
-:root {
-  color-scheme: light dark;
+/* =============================================================================
+   Patient Registry · design tokens
+   Direction "Lavender Clinical". Approved 5 Nov 2026.
 
-  --color-surface: #ffffff;
-  --color-surface-raised: #f6f7f9;
-  --color-border: #c4c9d2;
-  --color-text: #14181f;
-  --color-text-muted: #4a5260;
-  --color-accent: #1d4ed8;
-  --color-accent-contrast: #ffffff;
-  --color-danger: #b42318;
-  --color-danger-surface: #fdecea;
-  --color-warning-surface: #fff4d6;
-  --color-success-surface: #e3f6ea;
-  --color-focus: #1d4ed8;
-  --color-overlay: rgb(10 14 20 / 0.5);
+   - Primitives (palette and scales) are defined once on :root.
+   - Semantic tokens (--color-*) are what components use. Components never use
+     a primitive directly.
+   - Light theme: :root and :root[data-theme="light"].
+     Dark theme: @media (prefers-color-scheme: dark) and :root[data-theme="dark"].
+     The data-theme hooks are for the manual toggle that comes later.
+   - Contrast ratios (WCAG 2.x relative luminance) are given in comments as
+     "fg on bg = ratio". Text needs 4.5:1 (3:1 for 24px+ or 19px bold).
+     UI components, focus indicators and meaningful graphics need 3:1.
+   ============================================================================= */
 
-  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-size-sm: 0.875rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.75rem;
-
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-
-  --radius-1: 0.25rem;
-  --radius-2: 0.5rem;
-
-  --size-touch: 2.75rem; /* 44px */
-  --size-focus-ring: 3px;
-
-  --motion-duration-fast: 120ms;
-  --motion-duration-base: 200ms;
+/* Self-hosted variable font: Latin subset, WOFF2, ~48 kB.
+   Source: Inter 4 (SIL OFL 1.1), e.g. @fontsource-variable/inter
+   files/inter-latin-wght-normal.woff2, copied to /fonts/. */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
+:root {
+  /* ---------------------------------------------------------------------------
+     PRIMITIVES · palette
+     --------------------------------------------------------------------------- */
+  /* Ink: cool neutral with a slight violet cast */
+  --ink-0:   #FFFFFF;
+  --ink-25:  #F8F7FB;
+  --ink-40:  #F8F6FD;
+  --ink-75:  #ECEAF2;
+  --ink-100: #ECEAF0;
+  --ink-150: #E4E1EC;
+  --ink-400: #8F8A9E;
+  --ink-500: #8A8699;
+  --ink-600: #77738A;
+  --ink-650: #6F6B80;
+  --ink-700: #5D5970;
+  --ink-750: #4D4A5C;
+  --ink-900: #1B1A22;
+  /* Ink for dark surfaces */
+  --ink-d-50:  #EDEBF5;
+  --ink-d-200: #BDB9CC;
+  --ink-d-300: #A7A3B8;
+  --ink-d-700: #2B2838;
+  --ink-d-725: #2A2833;
+  --ink-d-750: #2A2735;
+  --ink-d-800: #221F2E;
+  --ink-d-850: #1E1C27;
+  --ink-d-900: #1A1922;
+  --ink-d-950: #121117;
+
+  /* Lavender / violet: accent */
+  --violet-50:  #F3F0FB;
+  --violet-75:  #EEE9FD;
+  --violet-100: #EAE6F7;
+  --violet-150: #E4DCFB;
+  --violet-300: #D3C9FF;
+  --violet-325: #C9BBFF;
+  --violet-350: #B4A3FF;
+  --violet-400: #A08CFF;
+  --violet-500: #6D4AE0;
+  --violet-600: #5B3FD0;
+  --violet-700: #4B33B8;
+  --violet-800: #3F2A9E;
+  --violet-d-700: #2D2650;
+  --violet-d-800: #262236;
+  --violet-d-900: #1E1B2B;
+
+  /* Green: status "Active" */
+  --green-100: #DDF0E9;
+  --green-300: #84D6BE;
+  --green-600: #1F7A62;
+  --green-800: #135A48;
+  --green-d-900: #15302A;
+
+  /* Amber: status "Follow-up", offline banner */
+  --amber-100: #FCEACC;
+  --amber-300: #F2BC6E;
+  --amber-600: #A35800;
+  --amber-800: #7A4100;
+  --amber-d-900: #36260F;
+
+  /* Red: danger and allergy */
+  --red-50:  #FDEBE8;
+  --red-200: #FFB0A3;
+  --red-250: #FFA597;
+  --red-300: #FF8A7A;
+  --red-400: #E5604D;
+  --red-600: #C2321F;
+  --red-650: #B42318;
+  --red-700: #A3180D;
+  --red-800: #8F1A0F;
+  --red-d-900: #3A1612;
+  --red-d-950: #2A100D;
+
+  /* ---------------------------------------------------------------------------
+     TYPOGRAPHY
+     --------------------------------------------------------------------------- */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-numeric: tabular-nums;           /* use font-variant-numeric on dates, ages, counts, phone numbers */
+
+  --text-xs:   12px;  --leading-xs:   16px;  /* count pills, step sub-labels */
+  --text-sm:   13px;  --leading-sm:   18px;  /* help text, table headers, badges, meta */
+  --text-md:   14px;  --leading-md:   20px;  /* labels, breadcrumbs, secondary buttons */
+  --text-base: 15px;  --leading-base: 24px;  /* body, inputs, table cells (1.6 for note text) */
+  --text-lg:   16px;  --leading-lg:   24px;  /* card titles, compact card names */
+  --text-xl:   18px;  --leading-xl:   26px;  /* h2 section headings */
+  --text-2xl:  20px;  --leading-2xl:  28px;  /* dialog titles */
+  --text-3xl:  24px;  --leading-3xl:  30px;  /* h1 on compact */
+  --text-4xl:  28px;  --leading-4xl:  34px;  /* h1 on medium and wide */
+  --text-5xl:  36px;  --leading-5xl:  40px;  /* dashboard stat numbers (30px on compact) */
+
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-strong:   650;  /* headings, names, selected nav, selected tab */
+  --weight-bold:     700;
+
+  --tracking-tight: -0.02em;  /* h1, stat numbers */
+  --tracking-snug:  -0.01em;  /* h2, product name */
+
+  --measure-note: 72ch;       /* max line length for note text and the summary narrative (≤ 80 chars) */
+
+  /* ---------------------------------------------------------------------------
+     SPACING · 4px base
+     --------------------------------------------------------------------------- */
+  --space-0-5: 2px;
+  --space-1:   4px;
+  --space-1-5: 6px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-14:  56px;
+
+  /* ---------------------------------------------------------------------------
+     SIZES
+     --------------------------------------------------------------------------- */
+  --size-touch:        44px;   /* minimum hit area for every interactive element (exceeds AA 24px by design) */
+  --size-control:      44px;   /* buttons, inputs, selects */
+  --size-control-sm:   36px;   /* segmented buttons and tags, inside a ≥44px hit area */
+  --size-header:       64px;
+  --size-sidebar:      248px;  /* wide */
+  --size-rail:         72px;   /* medium */
+  --size-drawer:       288px;  /* compact off-canvas nav */
+  --size-snapshot:     300px;  /* clinical snapshot column, wide only */
+  --size-guide:        300px;  /* create-patient tips column, wide only */
+  --size-dialog:       460px;
+  --size-dialog-wide:  520px;  /* conflict dialog */
+  --size-toast:        360px;
+  --size-main-max:     1192px; /* main column; with the 248px sidebar the app is about 1440px wide */
+  --size-content-max:  1440px;
+  --size-form-max:     860px;
+  --size-icon-sm:      16px;
+  --size-icon-md:      18px;
+  --size-icon-lg:      20px;
+  --size-row:          52px;   /* table row, comfortable density (min; rows grow for wrapped names) */
+  --size-badge:        28px;
+  --size-count:        24px;   /* count pill */
+
+  /* ---------------------------------------------------------------------------
+     RADII
+     --------------------------------------------------------------------------- */
+  --radius-xs:   3px;
+  --radius-sm:   6px;
+  --radius-md:   8px;    /* controls */
+  --radius-lg:   10px;   /* cards, strips, tables */
+  --radius-seg:  12px;   /* segmented track */
+  --radius-xl:   14px;   /* dialogs */
+  --radius-pill: 999px;  /* badges, chips, count pills, tags */
+
+  /* ---------------------------------------------------------------------------
+     Z-INDEX LAYERS
+     --------------------------------------------------------------------------- */
+  --z-base:      0;
+  --z-sticky:    100;   /* sticky form footer, compact pinned patient header */
+  --z-header:    200;
+  --z-banner:    210;   /* offline banner, below header */
+  --z-drawer:    300;
+  --z-popover:   400;   /* Select, ComboBox, Menu, Popover */
+  --z-modal:     500;   /* Modal scrim and Dialog */
+  --z-toast:     600;
+  --z-tooltip:   650;
+  --z-skip-link: 700;
+
+  /* ---------------------------------------------------------------------------
+     FOCUS RING  (WCAG 2.4.7, 2.4.11, 2.4.13)
+     Outline only, so it never shifts layout. Sticky header and footer use
+     scroll-padding so a focused element is never hidden behind them:
+       html { scroll-padding-top: calc(var(--size-header) + var(--space-4));
+              scroll-padding-bottom: 88px; }   (compact sticky footer)
+     --------------------------------------------------------------------------- */
+  --focus-ring-width:  2px;
+  --focus-ring-offset: 2px;
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus);
+
+  /* ---------------------------------------------------------------------------
+     MOTION  (see motion.md; every animation is off under prefers-reduced-motion)
+     --------------------------------------------------------------------------- */
+  --motion-duration-fast: 120ms;
+  --motion-duration-base: 200ms;
+  --motion-duration-slow: 320ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-enter:    cubic-bezier(0, 0, 0, 1);
+  --motion-ease-exit:     cubic-bezier(0.3, 0, 1, 1);
+  --motion-shift-sm: 4px;
+  --motion-shift-md: 8px;
+  --motion-shift-lg: 16px;
+  --motion-scale-in: 0.98;
+  --motion-loop-progress: 1200ms;  /* refetch bar, linear */
+  --motion-loop-shimmer:  1400ms;  /* skeleton, linear */
+  --motion-loop-spinner:  800ms;   /* pending button icon, linear */
+  --toast-timeout: 6000ms;         /* not motion; documented here for one source of truth */
+
+  /* ---------------------------------------------------------------------------
+     BREAKPOINTS  (documentation values. Custom properties can't be used inside
+     @media, so copy these numbers, or use postcss-custom-media with the
+     @custom-media lines below.)
+       compact: 360–767px   one column, drawer nav, list as cards
+       medium:  768–1279px  icon rail, condensed table, no snapshot column
+       wide:    ≥1280px     full sidebar, table, snapshot and guide columns
+     Components respond to the app container (container-type: inline-size on
+     the app shell), so they behave the same at 200% zoom.
+     --------------------------------------------------------------------------- */
+  --bp-compact: 360px;
+  --bp-medium:  768px;
+  --bp-wide:    1280px;
+  /* @custom-media --compact (max-width: 767px);
+     @custom-media --medium  (768px <= width <= 1279px);
+     @custom-media --wide    (min-width: 1280px); */
+}
+
+/* =============================================================================
+   SEMANTIC COLOUR · LIGHT  (default)
+   ============================================================================= */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surfaces */
+  --color-bg:             var(--ink-0);       /* page */
+  --color-surface:        var(--ink-0);       /* cards, table, dialogs, inputs */
+  --color-surface-subtle: var(--ink-25);      /* snapshot, guide, quotes, table header */
+  --color-surface-hover:  var(--ink-40);      /* table row and card hover */
+  --color-sidebar:        var(--violet-50);
+  --color-skeleton:       var(--ink-75);      /* decorative, no contrast requirement */
+  --color-scrim:          rgba(18, 17, 23, 0.5);
+
+  /* Text */
+  --color-text:           var(--ink-900);
+  /* ink-900 #1B1A22 on #FFFFFF = 17.25 | on surface-subtle #F8F7FB = 16.17 | on sidebar #F3F0FB = 15.33 */
+  --color-text-muted:     var(--ink-700);
+  /* ink-700 #5D5970 on #FFFFFF = 6.71 | on #F8F7FB = 6.29 | on sidebar #F3F0FB = 5.97 */
+  --color-text-disabled:  var(--ink-400);     /* #8F8A9E on #FFFFFF = 3.33 (disabled controls are exempt from 1.4.3; still legible) */
+  --color-link:           var(--violet-700);  /* #4B33B8 on #FFFFFF = 8.52 | on #F8F7FB = 7.99; always underlined */
+
+  /* Lines */
+  --color-border:         var(--ink-150);     /* #E4E1EC decorative dividers and card edges only (not a control boundary) */
+  --color-border-strong:  var(--ink-500);     /* #8A8699 on #FFFFFF = 3.53 → input, select, secondary-button boundary (1.4.11) */
+
+  /* Brand / interactive */
+  --color-primary-bg:     var(--violet-600);  /* #5B3FD0 vs #FFFFFF page = 6.85 (shape) */
+  --color-primary-fg:     var(--ink-0);       /* #FFFFFF on #5B3FD0 = 6.85 */
+  --color-accent:         var(--violet-600);  /* selected-tab bar, radio dot, stepper, progress: #5B3FD0 on #FFFFFF = 6.85 */
+  --color-focus:          var(--violet-500);  /* #6D4AE0 on #FFFFFF = 5.67 | on sidebar #F3F0FB = 5.04 | on allergy bg #FDEBE8 = 4.92 */
+
+  /* Navigation */
+  --color-nav-text:       var(--ink-700);     /* 5.97 on sidebar */
+  --color-nav-hover-bg:   var(--violet-100);
+  --color-nav-selected-bg: var(--violet-150);
+  --color-nav-selected-fg: var(--violet-800); /* #3F2A9E on #E4DCFB = 7.82; selected also = filled pill + weight 650 + dot */
+
+  /* Segmented control (status filter) */
+  --color-seg-track:       var(--violet-50);
+  --color-seg-fg:          var(--ink-700);    /* #5D5970 on #F3F0FB = 5.97 */
+  --color-seg-selected-bg: var(--ink-0);
+  --color-seg-selected-fg: var(--violet-800); /* #3F2A9E on #FFFFFF = 10.31 */
+  --color-seg-selected-border: var(--violet-600); /* 1.5px, 6.85 vs white: selected is shown by border + weight, not colour alone */
+
+  /* Status: Active / Follow-up / Inactive. Each badge = icon + label (+ tint). */
+  --color-status-active-bg:   var(--green-100);
+  --color-status-active-fg:   var(--green-800);  /* #135A48 on #DDF0E9 = 6.86 */
+  --color-status-active-icon: var(--green-600);  /* #1F7A62 on #DDF0E9 = 4.41 (graphic ≥ 3:1) | on #FFFFFF = 5.23; icon: circle-check */
+  --color-status-followup-bg:   var(--amber-100);
+  --color-status-followup-fg:   var(--amber-800); /* #7A4100 on #FCEACC = 6.88 */
+  --color-status-followup-icon: var(--amber-600); /* #A35800 on #FCEACC = 4.50 | on #FFFFFF = 5.31; icon: clock */
+  --color-status-inactive-bg:   var(--ink-100);
+  --color-status-inactive-fg:   var(--ink-750);   /* #4D4A5C on #ECEAF0 = 7.18 */
+  --color-status-inactive-icon: var(--ink-750);   /* icon: circle-minus */
+
+  /* Info / AI provenance */
+  --color-info-bg: var(--violet-75);
+  --color-info-fg: var(--violet-800);          /* #3F2A9E on #EEE9FD = 8.70 */
+
+  /* Danger (destructive actions, validation) */
+  --color-danger-fg:       var(--red-700);     /* #A3180D on #FFFFFF = 7.80 | on #FDEBE8 = 6.77 */
+  --color-danger-solid-bg: var(--red-650);
+  --color-danger-solid-fg: var(--ink-0);       /* #FFFFFF on #B42318 = 6.57 */
+  --color-danger-border:   var(--red-600);     /* invalid field border (2px): #C2321F on #FFFFFF = 5.57 */
+  --color-danger-bg:       var(--red-50);      /* invalid field fill, error summary fill */
+  /* text in invalid field: #1B1A22 on #FDEBE8 = 14.97 */
+
+  /* Allergy (always icon + "Allergies" label + count + 2px border, never colour alone) */
+  --color-allergy-bg:       var(--red-50);
+  --color-allergy-border:   var(--red-600);    /* #C2321F on #FDEBE8 = 4.83 | on page #FFFFFF = 5.57 */
+  --color-allergy-fg:       var(--red-800);    /* #8F1A0F on #FDEBE8 = 7.85 | on chip #FFFFFF = 9.04 */
+  --color-allergy-chip-bg:  var(--ink-0);
+  --color-allergy-count-bg: var(--red-600);
+  --color-allergy-count-fg: var(--ink-0);      /* #FFFFFF on #C2321F = 5.57 */
+
+  /* Neutral count pill (Notes tab, Conditions) */
+  --color-count-bg:     var(--ink-25);
+  --color-count-border: var(--ink-500);
+  --color-count-fg:     var(--ink-900);        /* 16.17 */
+
+  /* Offline banner */
+  --color-banner-bg:     var(--amber-100);
+  --color-banner-fg:     var(--amber-800);     /* #7A4100 on #FCEACC = 6.88 */
+  --color-banner-border: var(--amber-600);     /* #A35800 on #FCEACC = 4.50 */
+
+  /* Toast */
+  --color-toast-bg: var(--ink-900);
+  --color-toast-fg: var(--ink-0);              /* #FFFFFF on #1B1A22 = 17.25 */
+
+  /* Shadows */
+  --shadow-popover: 0 8px 24px rgba(18, 17, 23, 0.16);
+  --shadow-toast:   0 12px 32px rgba(18, 17, 23, 0.24);
+  --shadow-dialog:  0 24px 64px rgba(18, 17, 23, 0.28);
+}
+
+/* =============================================================================
+   SEMANTIC COLOUR · DARK
+   The same values appear twice: under the media query (system setting) and
+   under [data-theme="dark"] (future manual toggle). Keep them in sync.
+   ============================================================================= */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --color-surface: #11151c;
-    --color-surface-raised: #1a202a;
-    --color-border: #3b4452;
-    --color-text: #eef1f5;
-    --color-text-muted: #aab2c0;
-    --color-accent: #7aa2ff;
-    --color-accent-contrast: #0b1020;
-    --color-danger: #ff8a80;
-    --color-danger-surface: #3a1a18;
-    --color-warning-surface: #3a2f12;
-    --color-success-surface: #14301f;
-    --color-focus: #9db9ff;
-    --color-overlay: rgb(0 0 0 / 0.65);
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg: var(--ink-d-950); --color-surface: var(--ink-d-900); --color-surface-subtle: var(--ink-d-850);
+    --color-surface-hover: var(--ink-d-800); --color-sidebar: var(--violet-d-900); --color-skeleton: var(--ink-d-750);
+    --color-scrim: rgba(0, 0, 0, 0.6);
+    --color-text: var(--ink-d-50); --color-text-muted: var(--ink-d-300); --color-text-disabled: var(--ink-650);
+    --color-link: var(--violet-325);
+    --color-border: var(--ink-d-700); --color-border-strong: var(--ink-600);
+    --color-primary-bg: var(--violet-350); --color-primary-fg: var(--ink-d-950);
+    --color-accent: var(--violet-350); --color-focus: var(--violet-400);
+    --color-nav-text: var(--ink-d-300); --color-nav-hover-bg: var(--violet-d-800);
+    --color-nav-selected-bg: var(--violet-d-700); --color-nav-selected-fg: var(--violet-300);
+    --color-seg-track: var(--violet-d-900); --color-seg-fg: var(--ink-d-300);
+    --color-seg-selected-bg: var(--violet-d-700); --color-seg-selected-fg: var(--violet-300); --color-seg-selected-border: var(--violet-350);
+    --color-status-active-bg: var(--green-d-900); --color-status-active-fg: var(--green-300); --color-status-active-icon: var(--green-300);
+    --color-status-followup-bg: var(--amber-d-900); --color-status-followup-fg: var(--amber-300); --color-status-followup-icon: var(--amber-300);
+    --color-status-inactive-bg: var(--ink-d-725); --color-status-inactive-fg: var(--ink-d-200); --color-status-inactive-icon: var(--ink-d-200);
+    --color-info-bg: var(--violet-d-700); --color-info-fg: var(--violet-300);
+    --color-danger-fg: var(--red-250); --color-danger-solid-bg: var(--red-300); --color-danger-solid-fg: var(--ink-d-950);
+    --color-danger-border: var(--red-400); --color-danger-bg: var(--red-d-900);
+    --color-allergy-bg: var(--red-d-900); --color-allergy-border: var(--red-400); --color-allergy-fg: var(--red-200);
+    --color-allergy-chip-bg: var(--red-d-950); --color-allergy-count-bg: var(--red-400); --color-allergy-count-fg: var(--ink-d-950);
+    --color-count-bg: var(--ink-d-850); --color-count-border: var(--ink-600); --color-count-fg: var(--ink-d-50);
+    --color-banner-bg: var(--amber-d-900); --color-banner-fg: var(--amber-300); --color-banner-border: var(--amber-300);
+    --color-toast-bg: var(--ink-d-50); --color-toast-fg: var(--ink-d-950);
+    --shadow-popover: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-toast:   0 12px 32px rgba(0, 0, 0, 0.55);
+    --shadow-dialog:  0 24px 64px rgba(0, 0, 0, 0.6);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: var(--ink-d-950);            /* page #121117 */
+  --color-surface: var(--ink-d-900);       /* #1A1922 */
+  --color-surface-subtle: var(--ink-d-850);/* #1E1C27 */
+  --color-surface-hover: var(--ink-d-800);
+  --color-sidebar: var(--violet-d-900);    /* #1E1B2B */
+  --color-skeleton: var(--ink-d-750);
+  --color-scrim: rgba(0, 0, 0, 0.6);
+
+  --color-text: var(--ink-d-50);
+  /* #EDEBF5 on #121117 = 15.92 | on #1A1922 = 14.76 | on #1E1C27 = 14.24 */
+  --color-text-muted: var(--ink-d-300);
+  /* #A7A3B8 on #121117 = 7.67 | on #1E1C27 = 6.86 | on sidebar #1E1B2B = 6.88 */
+  --color-text-disabled: var(--ink-650);   /* #6F6B80, disabled exempt */
+  --color-link: var(--violet-325);         /* #C9BBFF on #121117 = 10.76 | on #1A1922 = 9.98 */
+
+  --color-border: var(--ink-d-700);        /* decorative */
+  --color-border-strong: var(--ink-600);   /* #77738A on #1A1922 = 3.82 | on #121117 = 4.12 */
+
+  --color-primary-bg: var(--violet-350);
+  --color-primary-fg: var(--ink-d-950);    /* #121117 on #B4A3FF = 8.61 */
+  --color-accent: var(--violet-350);       /* #B4A3FF on #121117 = 8.61 */
+  --color-focus: var(--violet-400);        /* #A08CFF on #121117 = 6.88 | on #1A1922 = 6.38 */
+
+  --color-nav-text: var(--ink-d-300);
+  --color-nav-hover-bg: var(--violet-d-800);
+  --color-nav-selected-bg: var(--violet-d-700);
+  --color-nav-selected-fg: var(--violet-300); /* #D3C9FF on #2D2650 = 9.02 */
+
+  --color-seg-track: var(--violet-d-900);
+  --color-seg-fg: var(--ink-d-300);        /* #A7A3B8 on #1E1B2B = 6.88 */
+  --color-seg-selected-bg: var(--violet-d-700);
+  --color-seg-selected-fg: var(--violet-300); /* 9.02 */
+  --color-seg-selected-border: var(--violet-350);
+
+  --color-status-active-bg: var(--green-d-900);
+  --color-status-active-fg: var(--green-300);   /* #84D6BE on #15302A = 8.29 */
+  --color-status-active-icon: var(--green-300);
+  --color-status-followup-bg: var(--amber-d-900);
+  --color-status-followup-fg: var(--amber-300); /* #F2BC6E on #36260F = 8.46 */
+  --color-status-followup-icon: var(--amber-300);
+  --color-status-inactive-bg: var(--ink-d-725);
+  --color-status-inactive-fg: var(--ink-d-200); /* #BDB9CC on #2A2833 = 7.57 */
+  --color-status-inactive-icon: var(--ink-d-200);
+
+  --color-info-bg: var(--violet-d-700);
+  --color-info-fg: var(--violet-300);      /* #D3C9FF on #2D2650 = 9.02 */
+
+  --color-danger-fg: var(--red-250);       /* #FFA597 on #1A1922 = 9.19 | on #3A1612 = 8.50 */
+  --color-danger-solid-bg: var(--red-300);
+  --color-danger-solid-fg: var(--ink-d-950); /* #121117 on #FF8A7A = 8.20 */
+  --color-danger-border: var(--red-400);   /* #E5604D on #121117 = 5.47 */
+  --color-danger-bg: var(--red-d-900);
+
+  --color-allergy-bg: var(--red-d-900);
+  --color-allergy-border: var(--red-400);  /* #E5604D on #3A1612 = 4.69 | on page #121117 = 5.47 */
+  --color-allergy-fg: var(--red-200);      /* #FFB0A3 on #3A1612 = 9.20 | on chip #2A100D = 10.18 */
+  --color-allergy-chip-bg: var(--red-d-950);
+  --color-allergy-count-bg: var(--red-400);
+  --color-allergy-count-fg: var(--ink-d-950); /* #121117 on #E5604D = 5.47 */
+
+  --color-count-bg: var(--ink-d-850);
+  --color-count-border: var(--ink-600);
+  --color-count-fg: var(--ink-d-50);       /* 14.24 */
+
+  --color-banner-bg: var(--amber-d-900);
+  --color-banner-fg: var(--amber-300);     /* #F2BC6E on #36260F = 8.46 */
+  --color-banner-border: var(--amber-300);
+
+  --color-toast-bg: var(--ink-d-50);
+  --color-toast-fg: var(--ink-d-950);      /* #121117 on #EDEBF5 = 15.92 */
+
+  --shadow-popover: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-toast:   0 12px 32px rgba(0, 0, 0, 0.55);
+  --shadow-dialog:  0 24px 64px rgba(0, 0, 0, 0.6);
+}
+
+/* =============================================================================
+   REDUCED MOTION: global safety net (components also guard their own motion)
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

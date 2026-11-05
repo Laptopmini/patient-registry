@@ -2,26 +2,26 @@
   display: grid;
   gap: var(--space-3);
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  margin: 0 0 var(--space-5);
+  margin: 0 0 var(--space-6);
   padding: 0;
   list-style: none;
 }
 
 .card {
   padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-2);
-  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-subtle);
 }
 
 .card dt {
   color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
+  font-size: var(--text-md);
 }
 
 .card dd {
   margin: 0;
-  font-size: var(--font-size-xl);
+  font-size: var(--text-4xl);
   font-weight: 700;
 }
 
@@ -30,7 +30,7 @@
   flex-wrap: wrap;
   align-items: end;
   gap: var(--space-3);
-  margin-block-end: var(--space-5);
+  margin-block-end: var(--space-6);
 }
 
 .search > :first-child {
@@ -51,7 +51,7 @@
   justify-content: space-between;
   gap: var(--space-2);
   padding: var(--space-2) 0;
-  border-block-end: 1px solid var(--color-border);
+  border-block-end: 1px solid var(--color-border-strong);
 }
 
 .muted {

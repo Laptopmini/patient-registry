@@ -11,15 +11,15 @@
 
 .description {
   color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
+  font-size: var(--text-md);
 }
 
 .input {
   width: 100%;
   min-height: var(--size-touch);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-1);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
@@ -33,7 +33,7 @@ textarea.input {
 /* Invalid fields get a thick border and an icon-style prefix in the message, not colour alone. */
 .field[data-invalid] .input,
 .input[data-invalid] {
-  border-color: var(--color-danger);
+  border-color: var(--color-danger-fg);
   border-width: 2px;
   border-style: dashed;
 }
@@ -41,8 +41,8 @@ textarea.input {
 .error {
   display: flex;
   gap: var(--space-1);
-  color: var(--color-danger);
-  font-size: var(--font-size-sm);
+  color: var(--color-danger-fg);
+  font-size: var(--text-md);
   font-weight: 600;
 }
 
@@ -58,7 +58,7 @@ textarea.input {
 
 .counter {
   color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
+  font-size: var(--text-md);
   text-align: end;
 }
 
@@ -66,15 +66,15 @@ textarea.input {
   display: grid;
   gap: var(--space-4);
   min-width: 0;
-  margin: 0 0 var(--space-5);
+  margin: 0 0 var(--space-6);
   padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-2);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
 }
 
 .group > legend {
   padding-inline: var(--space-2);
-  font-size: var(--font-size-lg);
+  font-size: var(--text-2xl);
   font-weight: 700;
 }
 

@@ -1,11 +1,11 @@
 .form {
   display: grid;
   gap: var(--space-3);
-  margin-block-end: var(--space-5);
+  margin-block-end: var(--space-6);
   padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-2);
-  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-subtle);
 }
 
 .formActions {
@@ -25,8 +25,8 @@
 
 .note {
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-2);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
 }
 
 .noteHeader {
@@ -44,7 +44,7 @@
 
 .added {
   color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
+  font-size: var(--text-md);
 }
 
 .body {
@@ -72,14 +72,14 @@
 
 .empty {
   padding: var(--space-4);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-2);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
 }
 
 .skeleton {
   height: 5rem;
-  border-radius: var(--radius-2);
-  background: var(--color-surface-raised);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-subtle);
   animation: pulse 1.4s ease-in-out infinite;
 }
 

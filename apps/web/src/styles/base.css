@@ -1,4 +1,3 @@
-/* biome-ignore-all lint/complexity/noImportantStyles: the reduced-motion reset must beat component styles */
 *,
 *::before,
 *::after {
@@ -6,47 +5,63 @@
 }
 
 html {
-  font-family: var(--font-family);
+  font-family: var(--font-sans);
   font-size: 100%;
   color: var(--color-text);
-  background: var(--color-surface);
+  background: var(--color-bg);
   -webkit-text-size-adjust: 100%;
+  /* A focused element is never hidden behind the sticky header (WCAG 2.4.11). */
+  scroll-padding-top: calc(var(--size-header) + var(--space-4));
+  scroll-padding-bottom: var(--space-4);
 }
 
 body {
   margin: 0;
   min-height: 100dvh;
-  line-height: 1.5;
+  font-size: var(--text-base);
+  line-height: var(--leading-base);
+  font-variant-numeric: var(--font-numeric);
 }
 
 h1,
 h2,
 h3 {
-  line-height: 1.25;
-  margin: 0 0 var(--space-3);
+  margin: 0;
+  font-weight: var(--weight-strong);
+  overflow-wrap: anywhere;
 }
 
 h1 {
-  font-size: var(--font-size-xl);
+  font-size: var(--text-3xl);
+  line-height: var(--leading-3xl);
+  letter-spacing: var(--tracking-tight);
 }
 
 h2 {
-  font-size: var(--font-size-lg);
+  font-size: var(--text-xl);
+  line-height: var(--leading-xl);
+  letter-spacing: var(--tracking-snug);
+}
+
+h3 {
+  font-size: var(--text-lg);
+  line-height: var(--leading-lg);
 }
 
 p {
-  margin-block: 0 var(--space-3);
+  margin-block: 0;
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--color-link);
+  text-underline-offset: 3px;
 }
 
-/* Focus ring: visible for keyboard users, 3px (the minimum is 2px). */
+/* Focus ring: visible for keyboard users, outline only so nothing shifts. */
 :focus-visible,
 [data-focus-visible] {
-  outline: var(--size-focus-ring) solid var(--color-focus);
-  outline-offset: 2px;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 /* Elements focused by script (the h1 on route change, the error summary) show no ring
@@ -80,17 +95,4 @@ button,
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    animation-delay: 0ms !important;
-    transition-duration: 0.001ms !important;
-    transition-delay: 0ms !important;
-    scroll-behavior: auto !important;
-  }
 }

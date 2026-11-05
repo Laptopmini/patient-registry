@@ -2,7 +2,10 @@
 API := apps/api
 WEB := apps/web
 
-.PHONY: help install up down watch logs check lint typecheck test e2e fmt openapi
+smoke: ## Check the running stack answers through Caddy
+	./scripts/smoke.sh
+
+.PHONY: smoke help install up down watch logs check lint typecheck test e2e fmt openapi
 
 help: ## List targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-12s %s\n", $$1, $$2}'
@@ -11,14 +14,14 @@ install: ## Install all dependencies and git hooks
 	cd $(API) && uv sync
 	pnpm install
 
-up: ## Start the full stack (docker compose)
-	docker compose up --build -d
+up: ## Start the full stack and wait until it is healthy
+	docker compose up --build --wait
 
-down: ## Stop the stack
+down: ## Stop the stack (keeps the database volume; add -v by hand to reset it)
 	docker compose down
 
-watch: ## Start the stack with hot reload
-	docker compose watch
+watch: ## Start the stack with hot reload (Vite dev server and uvicorn --reload)
+	docker compose -f docker-compose.yml -f compose.dev.yaml up --build --watch
 
 logs: ## Follow logs
 	docker compose logs -f

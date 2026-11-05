@@ -11,7 +11,7 @@ import { type ToastValue, toastQueue } from '../../lib/toast';
 import styles from './ToastRegion.module.css';
 
 /** Bottom-right on wide and medium, full width on compact. Failures stay until dismissed. */
-export function ToastRegion() {
+export default function ToastRegion() {
   return (
     <Region<ToastValue> queue={toastQueue} className={styles.region} aria-label="Notifications">
       <ToastList<ToastValue> className={styles.list}>

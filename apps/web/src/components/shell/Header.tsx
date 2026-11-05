@@ -1,31 +1,18 @@
 import { Link as RouterLink, useRouterState } from '@tanstack/react-router';
 import { Menu, Plus, Search } from 'lucide-react';
-import { Dialog, DialogTrigger, Popover } from 'react-aria-components';
+import { lazy, Suspense } from 'react';
 import { useLayout } from '../../lib/layout';
 import { Button, buttonClass } from '../ui/Button';
 import styles from './Header.module.css';
 import { Logo } from './Logo';
-import { PatientSearch } from './PatientSearch';
+import { PatientSearchBoundary } from './PatientSearchBoundary';
+
+// The popover (and the overlay code behind it) loads on demand; the icon holds its place.
+const SearchPopover = lazy(() => import('./SearchPopover'));
 
 interface HeaderProps {
   /** Opens the compact navigation drawer. */
   onOpenMenu: () => void;
-}
-
-/** The icon that opens the search in a popover (medium, compact, and on the list page). */
-function SearchPopover() {
-  return (
-    <DialogTrigger>
-      <Button variant="quiet" aria-label="Find a patient">
-        <Search />
-      </Button>
-      <Popover className={styles.searchPopover} placement="bottom end">
-        <Dialog aria-label="Find a patient" className={styles.searchDialog}>
-          <PatientSearch autoFocus />
-        </Dialog>
-      </Popover>
-    </DialogTrigger>
-  );
 }
 
 export function Header({ onOpenMenu }: HeaderProps) {
@@ -47,11 +34,21 @@ export function Header({ onOpenMenu }: HeaderProps) {
       </RouterLink>
       {inlineSearch && (
         <div className={styles.search}>
-          <PatientSearch hideLabel />
+          <PatientSearchBoundary hideLabel />
         </div>
       )}
       <div className={styles.spacer} />
-      {!inlineSearch && <SearchPopover />}
+      {!inlineSearch && (
+        <Suspense
+          fallback={
+            <Button variant="quiet" aria-label="Find a patient" isDisabled>
+              <Search />
+            </Button>
+          }
+        >
+          <SearchPopover />
+        </Suspense>
+      )}
       <RouterLink to="/patients/new" className={`${buttonClass('primary')} ${styles.newPatient}`}>
         <Plus />
         <span className={styles.newLabel}>New patient</span>

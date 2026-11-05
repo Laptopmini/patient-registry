@@ -1,15 +1,15 @@
 import { Outlet, useRouter, useRouterState } from '@tanstack/react-router';
-import { X } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { Dialog, Heading, Modal, ModalOverlay, RouterProvider } from 'react-aria-components';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { RouterProvider } from 'react-aria-components';
 import { LayoutProvider, useContainerLayout, useLayout } from '../../lib/layout';
-import { Button } from '../ui/Button';
 import { Header } from './Header';
-import { Logo } from './Logo';
 import { MainNav } from './MainNav';
 import { OfflineBanner } from './OfflineBanner';
 import styles from './Shell.module.css';
-import { ToastRegion } from './ToastRegion';
+
+// Compact-only and on-demand code stays out of the entry chunk.
+const NavDrawer = lazy(() => import('./NavDrawer'));
+const ToastRegion = lazy(() => import('./ToastRegion'));
 
 /** Moves focus to the page's h1 whenever the path changes, so screen reader users land on the new page. */
 function useFocusHeadingOnNavigation() {
@@ -21,43 +21,6 @@ function useFocusHeadingOnNavigation() {
     document.querySelector<HTMLElement>('main h1')?.focus();
   }, [pathname]);
   return pathname;
-}
-
-/** The compact navigation: a drawer from the start edge, opened by the header's menu button. */
-function NavDrawer({
-  isOpen,
-  onOpenChange,
-}: {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-}) {
-  return (
-    <ModalOverlay
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      isDismissable
-      className={styles.overlay}
-    >
-      <Modal className={styles.drawer}>
-        <Dialog aria-label="Navigation menu" className={styles.drawerDialog}>
-          {({ close }) => (
-            <>
-              <div className={styles.drawerHeader}>
-                <Heading slot="title" level={2} className={styles.drawerTitle}>
-                  <Logo />
-                  Patient Registry
-                </Heading>
-                <Button variant="quiet" aria-label="Close navigation menu" onPress={close}>
-                  <X />
-                </Button>
-              </div>
-              <MainNav variant="drawer" />
-            </>
-          )}
-        </Dialog>
-      </Modal>
-    </ModalOverlay>
-  );
 }
 
 function ShellBody({ pathname }: { pathname: string }) {
@@ -95,7 +58,11 @@ function ShellBody({ pathname }: { pathname: string }) {
           </div>
         </main>
       </div>
-      {layout === 'compact' && <NavDrawer isOpen={drawerOpen} onOpenChange={setDrawerOpen} />}
+      {layout === 'compact' && drawerOpen && (
+        <Suspense fallback={null}>
+          <NavDrawer isOpen={drawerOpen} onOpenChange={setDrawerOpen} />
+        </Suspense>
+      )}
     </>
   );
 }
@@ -118,7 +85,9 @@ export function Shell() {
           <ShellBody pathname={pathname} />
         </div>
         {/* Outside the container, so `position: fixed` is relative to the viewport. */}
-        <ToastRegion />
+        <Suspense fallback={null}>
+          <ToastRegion />
+        </Suspense>
       </LayoutProvider>
     </RouterProvider>
   );

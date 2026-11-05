@@ -2,11 +2,13 @@ import type { QueryClient } from '@tanstack/react-query';
 import { createRouter, type RouterHistory } from '@tanstack/react-router';
 import { NotFoundPage } from './components/shell/NotFoundPage';
 import { RouteError } from './components/shell/RouteError';
+import { withDevRoutes } from './devRoutes';
 import { routeTree } from './routeTree.gen';
 
 export function createAppRouter(options: { queryClient: QueryClient; history?: RouterHistory }) {
   return createRouter({
-    routeTree,
+    // The component gallery exists in development only (see devRoutes.ts).
+    routeTree: import.meta.env.DEV ? withDevRoutes(routeTree) : routeTree,
     context: { queryClient: options.queryClient },
     ...(options.history ? { history: options.history } : {}),
     defaultPreload: 'intent',

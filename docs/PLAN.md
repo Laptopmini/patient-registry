@@ -5,8 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 5 complete, waiting for the owner's "go".
-> **Next action:** after "go", push, then launch Stage 6 runs 6-api (`backend-engineer`) and 6-web (`frontend-engineer`) in parallel from `docs/plan/stage-6.md`.
+> **Current:** Stage 6 in progress. Runs 6-api (`backend-engineer`) and 6-web (`frontend-engineer`) are running in parallel worktrees from `docs/plan/stage-6.md`.
+> **Next action:** review and merge both runs, then write SECURITY.md, the README and AI-WORKFLOW.md, sweep REQUIREMENTS, do a clean-clone run, tag v1.0.0 and push. If an agent was lost, relaunch its run from the brief.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 

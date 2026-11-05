@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: web-biome
+      root: apps/web/
+      glob: "*.{ts,tsx,js,json,css}"
+      run: pnpm exec biome check --no-errors-on-unmatched {staged_files}
+    - name: api-ruff
+      root: apps/api/
+      glob: "*.py"
+      run: uv run ruff check {staged_files} && uv run ruff format --check {staged_files}
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: pnpm exec commitlint --edit {1}

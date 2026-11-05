@@ -1,0 +1,33 @@
+# Dependencies and builds
+node_modules/
+dist/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+coverage/
+.coverage
+htmlcov/
+
+# Test artefacts
+apps/web/test-results/
+apps/web/playwright-report/
+apps/web/blob-report/
+.lighthouseci/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Local agent state
+.claude/settings.local.json
+.claude/worktrees/
+.tanstack/

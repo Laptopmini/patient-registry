@@ -64,33 +64,18 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 - [~] Run 5b: create wizard, edit, unsaved-changes guard, dashboard, 404, states, motion
 - [ ] Compare with Playwright MCP at 360, 768 and 1280px, in light and dark
 
-## Stage 6: Quality gate and core release
-- [ ] e2e tests for the main journeys, with an axe scan on every route (`qa-reviewer`)
-- [ ] Lighthouse CI scoring 95 or higher in every category
-- [ ] `anthropic` summary provider behind its flag
-- [ ] README complete
-- [ ] Every row in `REQUIREMENTS.md` is `done`
-- [ ] Tag `v1.0.0`
-
-## Stage 7: Stretch backlog (one check-in per item)
-- [ ] Verify the Advanced Backend and Testing & Quality items are complete and documented
-- [ ] Manual theme toggle (R-S.7)
-- [ ] Advanced search with filters (R-S.8)
-- [ ] Virtualized list with the 1,000-patient seed (R-S.9)
-- [ ] Patient status chart (R-S.10)
-- [ ] Code-splitting audit (R-S.11)
-- [ ] Natural-language search, behind a flag (R-S.14)
-- [ ] Read-only MCP server (R-S.15)
-
-## Stage 8: Security review
-- [ ] The owner runs `/security-audit`
-- [ ] Triage the findings, fix the confirmed ones with tests, write `docs/SECURITY.md`
-
-## Stage 9: Judge and iterate (`requirements-judge`)
-- [ ] Independent review saved to `.local/review-N.md`; fix and repeat until every criterion scores 4 or higher
-
-## Stage 10: Release
-- [ ] Clean-clone smoke test
-- [ ] Final README pass
+## Stage 6: Quality gate and release (final stage before submission)
+- [ ] Brief: `docs/plan/stage-6.md`
+- [ ] e2e tests for F1–F8, with an axe scan on every route and a reduced-motion check (`frontend-engineer`)
+- [ ] Lighthouse CI scoring 95 or higher in every category; e2e and Lighthouse jobs in CI
+- [ ] `anthropic` summary provider behind its flag (`backend-engineer`, `claude-api` skill)
+- [ ] `docs/SECURITY.md`: threat model, what was reviewed, known limitations (never an unqualified "secure")
+- [ ] README complete: quick start, without Docker, architecture (Mermaid), API, decisions, testing, stretch table, "Designed to grow"
 - [ ] `docs/AI-WORKFLOW.md`
-- [ ] Hand over (the owner makes the repo public)
+- [ ] Every row in `REQUIREMENTS.md` is `done` or explicitly out of scope
+- [ ] Clean-clone run, tag `v1.0.0`, push, and tell the owner it's ready to make public and submit
+
+## Post-submission backlog (not scheduled)
+- Manual theme toggle (R-S.7) · advanced search with filters (R-S.8) · virtualized list (R-S.9) · status chart (R-S.10) · code-splitting audit (R-S.11)
+- Natural-language search (R-S.14) · read-only MCP server (R-S.15)
+- Full `/security-audit` run and triage · independent requirements judge

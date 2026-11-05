@@ -49,7 +49,9 @@ function ShellBody({ pathname }: { pathname: string }) {
       <div className={styles.body}>
         {layout !== 'compact' && (
           <div className={styles.nav}>
-            <MainNav variant={layout === 'wide' ? 'sidebar' : 'rail'} />
+            <div className={styles.navSticky}>
+              <MainNav variant={layout === 'wide' ? 'sidebar' : 'rail'} />
+            </div>
           </div>
         )}
         <main id="main" tabIndex={-1} className={styles.main}>

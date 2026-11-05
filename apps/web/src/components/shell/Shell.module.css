@@ -29,17 +29,20 @@
   min-height: 0;
 }
 
-/* The wide sidebar and the medium rail share one sticky column. */
+/* The wide sidebar and the medium rail share one column. It stretches to the full page
+   height (so full-page captures keep the sidebar colour); its content sticks under the header. */
 .nav {
-  position: sticky;
-  inset-block-start: var(--size-header);
   flex: none;
-  align-self: flex-start;
   width: var(--size-sidebar);
-  height: calc(100dvh - var(--size-header));
-  overflow-y: auto;
   border-inline-end: 1px solid var(--color-border);
   background: var(--color-sidebar);
+}
+
+.navSticky {
+  position: sticky;
+  inset-block-start: var(--size-header);
+  max-height: calc(100dvh - var(--size-header));
+  overflow-y: auto;
 }
 
 @container app (max-width: 1279px) {

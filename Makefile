@@ -5,7 +5,7 @@ WEB := apps/web
 smoke: ## Check the running stack answers through Caddy
 	./scripts/smoke.sh
 
-.PHONY: smoke help install up down watch logs check lint typecheck test e2e fmt openapi
+.PHONY: smoke help install up down watch logs check lint typecheck test e2e fmt openapi client
 
 help: ## List targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-12s %s\n", $$1, $$2}'
@@ -46,6 +46,9 @@ check: lint typecheck test ## Lint, typecheck and test everything
 
 openapi: ## Regenerate apps/api/openapi.json
 	cd $(API) && uv run python -m app.export_openapi
+
+client: ## Regenerate the web API client and Zod schemas from apps/api/openapi.json
+	cd $(WEB) && pnpm generate:api
 
 e2e: ## Playwright e2e and axe checks (stack must be up)
 	cd $(WEB) && pnpm e2e

@@ -1,0 +1,73 @@
+# Patient Registry: `docker compose up` needs no .env file and no API key.
+# Web: http://localhost:8080 · API: http://localhost:8000/docs (also proxied at /api)
+name: patient-registry
+
+x-api-env: &api-env
+  DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-registry}:${POSTGRES_PASSWORD:-registry}@db:5432/${POSTGRES_DB:-registry}
+  LOG_LEVEL: ${LOG_LEVEL:-INFO}
+  LOG_FORMAT: ${LOG_FORMAT:-json}
+
+services:
+  db:
+    image: postgres:18.6-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-registry}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-registry}
+      POSTGRES_DB: ${POSTGRES_DB:-registry}
+    volumes:
+      - db-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # One-off job: apply migrations, then exit. The API waits for it to succeed.
+  migrate:
+    build: { context: apps/api, target: runtime }
+    image: patient-registry-api
+    command: ["alembic", "upgrade", "head"]
+    environment: *api-env
+    depends_on:
+      db: { condition: service_healthy }
+    restart: "no"
+    healthcheck:
+      disable: true # exits after migrating; success is checked by `service_completed_successfully`
+
+  flagd:
+    build: infra/flagd
+    volumes:
+      - ./flags:/etc/flagd:ro
+    # healthcheck: defined in infra/flagd/Dockerfile (management port /healthz)
+
+  api:
+    build: { context: apps/api, target: runtime }
+    image: patient-registry-api
+    environment:
+      <<: *api-env
+      SEED_ON_STARTUP: ${SEED_ON_STARTUP:-true}
+      SEED_PATIENTS: ${SEED_PATIENTS:-20}
+      FLAGD_HOST: flagd
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    ports:
+      - "${API_PORT:-8000}:8000"
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      flagd: { condition: service_healthy }
+    healthcheck: # declared here too so the dev target (no HEALTHCHECK in its stage) is covered
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2).status == 200 else 1)"]
+      interval: 5s
+      timeout: 3s
+      start_period: 20s
+      retries: 10
+
+  web:
+    build: { context: ., dockerfile: apps/web/Dockerfile, target: runtime }
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+    depends_on:
+      api: { condition: service_healthy }
+    # healthcheck: defined in apps/web/Dockerfile (GET /healthz)
+
+volumes:
+  db-data:

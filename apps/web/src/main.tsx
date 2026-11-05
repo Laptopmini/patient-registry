@@ -1,26 +1,22 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { routeTree } from './routeTree.gen';
-import './index.css';
+import { AppProviders } from './AppProviders';
+import { createQueryClient } from './api/queryClient';
+import { createAppRouter } from './router';
+import './styles/tokens.css';
+import './styles/base.css';
 
-const queryClient = new QueryClient();
-const router = createRouter({ routeTree, context: { queryClient } });
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router;
-  }
-}
+const queryClient = createQueryClient();
+const router = createAppRouter({ queryClient });
 
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Missing #root element');
 
 createRoot(rootElement).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <AppProviders queryClient={queryClient} router={router} />
   </StrictMode>,
 );
+
+// Flags are not needed to render, and the provider is sizeable: load it after first paint.
+void import('./lib/flags').then((flags) => flags.registerFlagProvider());

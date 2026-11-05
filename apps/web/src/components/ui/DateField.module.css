@@ -1,0 +1,128 @@
+.picker {
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+  min-width: 0;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--size-touch);
+  padding-inline: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-1);
+  background: var(--color-surface);
+}
+
+.group[data-focus-within] {
+  outline: var(--size-focus-ring) solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.group[data-invalid] {
+  border: 2px dashed var(--color-danger);
+}
+
+.input {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.segment {
+  padding: var(--space-1) 2px;
+  border-radius: 2px;
+  outline: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.segment[data-placeholder] {
+  color: var(--color-text-muted);
+}
+
+.segment[data-focused] {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.trigger {
+  min-width: var(--size-touch);
+  min-height: var(--size-touch);
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.popover {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-block-end: var(--space-2);
+}
+
+.calendarHeader h2 {
+  margin: 0;
+  font-size: var(--font-size-md);
+}
+
+.calendarNav {
+  min-width: var(--size-touch);
+  min-height: var(--size-touch);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-1);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.grid {
+  border-collapse: collapse;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-touch);
+  height: var(--size-touch);
+  border-radius: var(--radius-1);
+  outline: none;
+  cursor: pointer;
+}
+
+.cell[data-outside-month] {
+  display: none;
+}
+
+.cell[data-focus-visible] {
+  outline: var(--size-focus-ring) solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.cell[data-selected] {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-weight: 700;
+}
+
+.cell[data-disabled],
+.cell[data-unavailable] {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}

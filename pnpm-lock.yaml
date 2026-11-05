@@ -181,6 +181,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^7.0.2
         version: 7.0.2(ajv@8.20.0)(react-hook-form@7.91.0(@types/react@19.3.0)(react@19.3.1))(zod@4.6.7)
+      '@internationalized/date':
+        specifier: ^3.12.4
+        version: 3.12.4
       '@openfeature/flagd-web-provider':
         specifier: ^0.8.0
         version: 0.8.0(@openfeature/web-sdk@1.10.0(@openfeature/core@1.12.0))

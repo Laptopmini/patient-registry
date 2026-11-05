@@ -1,0 +1,150 @@
+.shell {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  min-height: 100dvh;
+}
+
+.skip {
+  position: absolute;
+  inset-inline-start: var(--space-2);
+  inset-block-start: var(--space-2);
+  z-index: 200;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 2px solid var(--color-focus);
+  border-radius: var(--radius-2);
+  transform: translateY(-300%);
+}
+
+.skip:focus {
+  transform: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-block-end: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-inline-start: auto;
+}
+
+/* Placeholder for a future user menu. */
+.userMenu:empty {
+  display: none;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 0;
+}
+
+@media (min-width: 768px) {
+  .body {
+    grid-template-columns: 14rem minmax(0, 1fr);
+  }
+}
+
+.sidebar {
+  padding: var(--space-4);
+  border-inline-end: 1px solid var(--color-border);
+}
+
+.main {
+  padding: var(--space-4);
+  max-width: 90rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.main:focus {
+  outline: none;
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding: var(--space-5) var(--space-6);
+  }
+}
+
+.navList {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  min-height: var(--size-touch);
+  padding: var(--space-2) var(--space-3);
+  border-inline-start: 4px solid transparent;
+  border-radius: var(--radius-1);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/* The current page is marked by weight, an underline-style bar and the aria-current
+   attribute, not by colour alone. */
+.navLink[aria-current="page"] {
+  border-inline-start-color: var(--color-text);
+  background: var(--color-surface);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--color-overlay);
+}
+
+.drawer {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: min(18rem, 85vw);
+  background: var(--color-surface);
+  border-inline-end: 1px solid var(--color-border);
+  overflow: auto;
+}
+
+.drawerDialog {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  outline: none;
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.drawerHeader h2 {
+  margin: 0;
+}

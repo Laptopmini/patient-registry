@@ -5,9 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 4 in progress. `frontend-engineer` is running in a worktree from `docs/plan/stage-4.md`. The owner is in Claude Design.
-> **Also:** the design handoff has landed (`design/handoff/`, with the brand removed; ADR 0012). Stage 5 starts after Stage 4 merges and the owner says "go".
-> **Next action:** review the agent's branch, run the web checks, the compose smoke test and the drift check, rebase, fast-forward `main`, and check in. If the agent was lost, relaunch it from the brief.
+> **Current:** Stage 4 merged, waiting for the owner's "go". The design handoff is in `design/handoff/` (with the brand removed; ADR 0012).
+> **Next action:** after "go", push, then write `docs/plan/stage-5.md` from `design/handoff/HANDOFF.md` and launch `frontend-engineer`. Then compare with Playwright MCP at 360/768/1280, light and dark.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 
@@ -50,14 +49,14 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 
 ## Stage 4: Frontend foundation (`frontend-engineer`, worktree)
 - [x] Brief: `docs/plan/stage-4.md` (+ ADR 0011, Orval)
-- [ ] Generated client and Zod schemas, plus a drift check
-- [ ] Router (lazy routes), query layer, layout shell
-- [ ] List: URL state, server-side search, filter, sort and pagination
-- [ ] Detail: profile, notes, summary
-- [ ] Form: client validation, server 422 errors mapped to fields, retry on network failure
-- [ ] 404 page and error boundaries
-- [ ] Component tests (list, form, notes); Dockerfile (Caddy and dev targets)
-- [ ] Review the diff and merge
+- [x] Generated client and Zod schemas, plus a drift check
+- [x] Router (lazy routes), query layer, layout shell
+- [x] List: URL state, server-side search, filter, sort and pagination
+- [x] Detail: profile, notes, summary
+- [x] Form: client validation, server 422 errors mapped to fields, retry on network failure
+- [x] 404 page and error boundaries
+- [x] Component tests (list, form, notes); Dockerfile (Caddy and dev targets)
+- [x] Review the diff and merge
 
 ## Stage 5: Design implementation (`design/handoff/` committed in 948dd80)
 - [ ] Follow `design/handoff/HANDOFF.md`: tokens, themes, motion, responsive layouts

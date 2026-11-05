@@ -3,7 +3,7 @@
  * closing a dialog, and adding a note, `document.getAnimations()` is empty.
  */
 import { expect, type Page, test } from '@playwright/test';
-import { addNote, createPatient, ready } from './support';
+import { addNote, createPatient, ready } from './support.ts';
 
 test.use({ reducedMotion: 'reduce' });
 

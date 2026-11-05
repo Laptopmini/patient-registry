@@ -4,7 +4,7 @@
  * of at least 44px.
  */
 import { expect, test } from '@playwright/test';
-import { createPatient, ready, uniqueSurname } from './support';
+import { createPatient, ready, uniqueSurname } from './support.ts';
 
 test('the list shows cards, with the URL state round-trip through the selects', async ({
   page,

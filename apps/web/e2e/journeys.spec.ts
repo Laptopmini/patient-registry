@@ -11,7 +11,7 @@ import {
   fillIdentity,
   ready,
   uniqueSurname,
-} from './support';
+} from './support.ts';
 
 test.describe('F1 browse, search and filter', () => {
   test('the list URL state survives a reload and a shared link', async ({ page, request }) => {

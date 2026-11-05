@@ -4,7 +4,7 @@
  */
 import AxeBuilder from '@axe-core/playwright';
 import { expect, type Page, test } from '@playwright/test';
-import { addNote, createPatient, fillIdentity, type Patient, ready } from './support';
+import { addNote, createPatient, fillIdentity, type Patient, ready } from './support.ts';
 
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'];
 const WIDTHS = [360, 1280] as const;

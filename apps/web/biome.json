@@ -7,7 +7,10 @@
       "!src/routeTree.gen.ts",
       "!src/api/generated",
       "!src/styles/tokens.css",
-      "!**/*.module.d.css.ts"
+      "!**/*.module.d.css.ts",
+      "!.lighthouseci",
+      "!test-results",
+      "!playwright-report"
     ]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2, "lineWidth": 100 },

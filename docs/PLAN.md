@@ -65,7 +65,7 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 - [ ] Compare with Playwright MCP at 360, 768 and 1280px, in light and dark
 
 ## Stage 6: Quality gate and release (final stage before submission)
-- [ ] Brief: `docs/plan/stage-6.md`
+- [x] Brief: `docs/plan/stage-6.md` (runs 6-api and 6-web in parallel)
 - [ ] e2e tests for F1–F8, with an axe scan on every route and a reduced-motion check (`frontend-engineer`)
 - [ ] Lighthouse CI scoring 95 or higher in every category; e2e and Lighthouse jobs in CI
 - [ ] `anthropic` summary provider behind its flag (`backend-engineer`, `claude-api` skill)

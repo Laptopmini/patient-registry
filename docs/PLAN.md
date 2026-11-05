@@ -5,8 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 3 complete, waiting for the owner's "go". The owner is in Claude Design.
-> **Next action:** after "go", push and confirm the first CI run is green. Then write `docs/plan/stage-4.md` and launch `frontend-engineer` in a worktree. The web Dockerfile and Caddyfile already exist; Stage 4 only adjusts them.
+> **Current:** Stage 4 in progress. `frontend-engineer` is running in a worktree from `docs/plan/stage-4.md`. The owner is in Claude Design.
+> **Next action:** review the agent's branch, run the web checks, the compose smoke test and the drift check, rebase, fast-forward `main`, and check in. If the agent was lost, relaunch it from the brief.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 
@@ -48,7 +48,7 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 - [x] Clean-clone check: `docker compose up` brings up a healthy, seeded API
 
 ## Stage 4: Frontend foundation (`frontend-engineer`, worktree)
-- [ ] Brief: `docs/plan/stage-4.md`
+- [x] Brief: `docs/plan/stage-4.md` (+ ADR 0011, Orval)
 - [ ] Generated client and Zod schemas, plus a drift check
 - [ ] Router (lazy routes), query layer, layout shell
 - [ ] List: URL state, server-side search, filter, sort and pagination

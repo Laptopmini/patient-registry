@@ -12,5 +12,6 @@
 | [0008](0008-biome-for-lint-and-format.md) | Biome for TypeScript, Ruff for Python |
 | [0009](0009-flagd-feature-flag-provider.md) | OpenFeature with flagd |
 | [0010](0010-caddy-serves-the-web-app.md) | Caddy serves the web app and proxies the API |
+| [0011](0011-orval-api-client-generation.md) | Orval generates the API client and Zod schemas |
 
 Template: Context, Options, Decision, Consequences. At most 25 lines.

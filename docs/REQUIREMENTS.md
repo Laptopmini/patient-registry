@@ -30,9 +30,9 @@ Each requirement has a stable ID. Code, tests, commits and reviews refer to requ
 | R-2.9 | The patient list can be sorted. | done | `apps/web/src/features/patients/list/PatientTable.tsx` | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (sort) |
 | R-2.10 | The patient list is paginated (or scrolls infinitely). | done | `apps/web/src/features/patients/list/Pagination.tsx` | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (pagination) |
 | R-2.11 | Routes exist for the dashboard home `/`, the list `/patients`, a patient `/patients/:id`, and a not-found page. | done | `apps/web/src/routes/` | `apps/web/src/features/notes/Notes.test.tsx` (detail, not found, dashboard) |
-| R-2.12 | The list stays efficient with well over 100 patients. | in progress | Server-side paging (20 per page), keepPreviousData, deferred query key | `apps/web/src/features/patients/list/PatientListPage.test.tsx`; no 100+ row profiling yet (Stage 5); View Transition cross-fade on result changes, skipped under reduced motion |
-| R-2.13 | Typing in search never blocks the UI. | done | `PatientListPage.tsx` (local input, 250 ms debounce, `useDeferredValue`) | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (debounce, keeps previous results) |
-| R-2.14 | The UI works on small, low-resolution screens. | done | Cards below 768px, drawer nav, sticky wizard and edit footers, 360px captures with axe and no horizontal scroll (`apps/web/e2e/visual.capture.ts`) | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (cards), `apps/web/src/features/patients/form/PatientForm.test.tsx` |
+| R-2.12 | The list stays efficient with well over 100 patients. | in progress | Server-side paging (20 per page), keepPreviousData, deferred query key | `apps/web/src/features/patients/list/PatientListPage.test.tsx`; View Transition cross-fade on result changes, skipped under reduced motion; e2e: `journeys.spec.ts` F1 (URL state round-trip across 2 pages, with 21 matching patients), `reduced-motion.spec.ts` (search cross-fade); no 100+ row profiling yet |
+| R-2.13 | Typing in search never blocks the UI. | done | `PatientListPage.tsx` (local input, 250 ms debounce, `useDeferredValue`) | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (debounce, keeps previous results); `apps/web/e2e/journeys.spec.ts` F1 (search debounced into the URL) |
+| R-2.14 | The UI works on small, low-resolution screens. | done | Cards below 768px, drawer nav, sticky wizard and edit footers, 360px captures with axe and no horizontal scroll (`apps/web/e2e/visual.capture.ts`) | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (cards), `apps/web/src/features/patients/form/PatientForm.test.tsx`; `apps/web/e2e/mobile.spec.ts` (cards, selects, 44px targets, no horizontal scroll at 360px), `apps/web/e2e/axe.spec.ts` (360px) |
 | R-2.15 | The API validates input and answers with the appropriate HTTP status codes. | done | `apps/api/src/app/errors.py`, `schemas/` | `tests/api/test_patients_crud.py::TestCreate::test_validation_errors`, `tests/api/test_platform.py::TestErrorHandlers` |
 
 ## R-3 Clinical notes and summary
@@ -50,12 +50,12 @@ Each requirement has a stable ID. Code, tests, commits and reviews refer to requ
 
 | ID | Requirement | Status | Where | Test |
 |----|-------------|--------|-------|------|
-| R-4.1 | A form captures personal details: name, date of birth, contact details and address. | done | `apps/web/src/features/patients/form/` | `apps/web/src/features/patients/form/PatientForm.test.tsx` |
-| R-4.2 | The form captures medical details: allergies, conditions, blood type and status. | done | `apps/web/src/features/patients/form/` (selects, tag inputs) | `apps/web/src/features/patients/form/PatientForm.test.tsx` |
-| R-4.3 | Input is validated on the client and again on the server. | done | `patientFormSchema.ts` (client, generated Zod base), API validation | `apps/web/src/features/patients/form/PatientForm.test.tsx`, API tests |
-| R-4.4 | Users see clear, specific error messages. | done | `patientFormSchema.ts`, `ErrorSummary.tsx` | `apps/web/src/features/patients/form/PatientForm.test.tsx` (validates on submit) |
-| R-4.5 | Network failures are handled without losing the user's input. | done | `PatientForm.tsx` (values kept, banner, Retry) | `apps/web/src/features/patients/form/PatientForm.test.tsx` (network failure) |
-| R-4.6 | Validation errors from the server are shown on the matching fields. | done | `PatientForm.tsx` (`setError` per server field) | `apps/web/src/features/patients/form/PatientForm.test.tsx` (422 mapping) |
+| R-4.1 | A form captures personal details: name, date of birth, contact details and address. | done | `apps/web/src/features/patients/form/` | `apps/web/src/features/patients/form/PatientForm.test.tsx`; `apps/web/e2e/journeys.spec.ts` F5 (wizard create) |
+| R-4.2 | The form captures medical details: allergies, conditions, blood type and status. | done | `apps/web/src/features/patients/form/` (selects, tag inputs) | `apps/web/src/features/patients/form/PatientForm.test.tsx`; `apps/web/e2e/journeys.spec.ts` F5 (wizard create) |
+| R-4.3 | Input is validated on the client and again on the server. | done | `patientFormSchema.ts` (client, generated Zod base), API validation | `apps/web/src/features/patients/form/PatientForm.test.tsx`, API tests; `apps/web/e2e/journeys.spec.ts` F6 ("client errors, then a value only the server rejects") |
+| R-4.4 | Users see clear, specific error messages. | done | `patientFormSchema.ts`, `ErrorSummary.tsx` | `apps/web/src/features/patients/form/PatientForm.test.tsx` (validates on submit); `apps/web/e2e/journeys.spec.ts` F5 (step 1 blocks Continue), F6 (error summary focus and links) |
+| R-4.5 | Network failures are handled without losing the user's input. | done | `PatientForm.tsx` (values kept, banner, Retry) | `apps/web/src/features/patients/form/PatientForm.test.tsx` (network failure); `apps/web/e2e/journeys.spec.ts` F7 ("a save while offline keeps the form, and works after recovery") |
+| R-4.6 | Validation errors from the server are shown on the matching fields. | done | `PatientForm.tsx` (`setError` per server field) | `apps/web/src/features/patients/form/PatientForm.test.tsx` (422 mapping); `apps/web/e2e/journeys.spec.ts` F6 ("a routed 422 lands on the matching field") |
 
 ## R-5 Containers and delivery
 
@@ -79,13 +79,13 @@ Chosen focus: **Advanced Backend** (R-S.1–R-S.3) and **Testing & Quality** (R-
 | R-S.3 | Schema changes are managed with Alembic migrations. | done | `apps/api/migrations/` | `tests/api/test_platform.py::TestMigrations` |
 | R-S.4 | API endpoints have automated tests. | done | `apps/api/tests/` | `uv run pytest`: 170 tests, 98% line coverage |
 | R-S.5 | Critical UI components have component tests. | done | `apps/web/src/**/*.test.tsx`, `apps/web/src/api/http.test.ts` | `pnpm test` (35 tests) |
-| R-S.6 | The main user journeys have end-to-end tests. | planned | — | — |
+| R-S.6 | The main user journeys have end-to-end tests. | done | `apps/web/playwright.config.ts` (Chromium and Firefox at 1280, Chromium at 360) | `apps/web/e2e/journeys.spec.ts` (F1–F8: list URL state, optimistic note add plus failure and retry, delete with confirmation, wizard, edit with client and server errors, 412 both choices, offline save and recovery, 404 for unknown and archived ids), `apps/web/e2e/axe.spec.ts` (WCAG 2.2 AA, 92 checks), `apps/web/e2e/reduced-motion.spec.ts`, `apps/web/e2e/mobile.spec.ts`; `make e2e` |
 | R-S.7 | Users can switch between light and dark themes manually. | planned | — | — |
 | R-S.8 | Advanced search combines several filters. | planned | — | — |
 | R-S.9 | Large patient lists are virtualized. | planned | — | — |
 | R-S.10 | The dashboard charts patients by status. | planned | — | — |
 | R-S.11 | Routes are code-split and lazy-loaded, and an audit confirms it. | planned | — | — |
-| R-S.12 | A CI pipeline runs all checks. | in progress | `.github/workflows/ci.yml` (api, web, compose smoke; e2e and Lighthouse added in Stage 6) | — |
+| R-S.12 | A CI pipeline runs all checks. | done | `.github/workflows/ci.yml` (api, web, compose smoke, e2e, lighthouse) | `e2e` job (Playwright and axe, report uploaded on failure) and `lighthouse` job (`lhci`, 0.95 floors, `apps/web/lighthouserc.json`) |
 | R-S.13 | Both apps hot-reload inside Docker. | done | `compose.dev.yaml`, `make watch` | Verified manually: Vite module update and uvicorn reload |
 | R-S.14 | Natural-language search turns a free-text query into filters, behind a flag. | planned | — | — |
 | R-S.15 | A read-only MCP server exposes the patient API. | planned | — | — |

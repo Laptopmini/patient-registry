@@ -1,18 +1,28 @@
 import { keepPreviousData } from '@tanstack/react-query';
-import { getRouteApi, Link } from '@tanstack/react-router';
-import { useDeferredValue, useEffect, useState } from 'react';
-import { ToggleButton, ToggleButtonGroup } from 'react-aria-components';
+import { getRouteApi, Link, useRouter } from '@tanstack/react-router';
+import { useDeferredValue, useEffect, useRef, useState } from 'react';
 import { useListPatients } from '../../../api/generated/client';
-import { type PatientStatus, SortField } from '../../../api/generated/model';
+import {
+  type ListPatientsParams,
+  type PatientListItem,
+  type PatientStatus,
+  SortField,
+} from '../../../api/generated/model';
 import { unwrap } from '../../../api/unwrap';
 import { Button, buttonClass } from '../../../components/ui/Button';
-import { ErrorState } from '../../../components/ui/ErrorState';
+import { EmptyState } from '../../../components/ui/EmptyState';
+import { Pagination } from '../../../components/ui/Pagination';
+import { ProgressBar } from '../../../components/ui/ProgressBar';
+import { SearchField } from '../../../components/ui/SearchField';
+import { SegmentedControl } from '../../../components/ui/SegmentedControl';
 import { SelectField, type SelectOption } from '../../../components/ui/SelectField';
-import { TextField } from '../../../components/ui/TextField';
+import { Skeleton } from '../../../components/ui/Skeleton';
 import { STATUS_LABELS } from '../../../lib/format';
-import { useIsWide } from '../../../lib/useMediaQuery';
+import { useLayout } from '../../../lib/layout';
+import { usePageTitle } from '../../../lib/usePageTitle';
+import { ArchiveDialog } from '../ArchiveDialog';
+import { useArchivePatient } from '../useArchivePatient';
 import { PAGE_SIZE, toListParams } from './listSearch';
-import { Pagination } from './Pagination';
 import { PatientCards } from './PatientCards';
 import styles from './PatientList.module.css';
 import { PatientTable } from './PatientTable';
@@ -22,8 +32,8 @@ const route = getRouteApi('/patients/');
 const SEARCH_DEBOUNCE_MS = 250;
 
 const SORT_OPTIONS: SelectOption<SortField>[] = [
-  { id: SortField.last_name, label: 'Last name, A to Z' },
-  { id: SortField['-last_name'], label: 'Last name, Z to A' },
+  { id: SortField.last_name, label: 'Name, A–Z' },
+  { id: SortField['-last_name'], label: 'Name, Z–A' },
   { id: SortField.age, label: 'Age, youngest first' },
   { id: SortField['-age'], label: 'Age, oldest first' },
   { id: SortField['-last_visit'], label: 'Last visit, newest first' },
@@ -31,7 +41,9 @@ const SORT_OPTIONS: SelectOption<SortField>[] = [
   { id: SortField['-created_at'], label: 'Recently added' },
 ];
 
-const STATUS_KEYS = ['all', 'active', 'follow_up', 'inactive'] as const;
+type StatusKey = 'all' | PatientStatus;
+const STATUS_KEYS: StatusKey[] = ['all', 'active', 'follow_up', 'inactive'];
+const statusLabel = (key: StatusKey) => (key === 'all' ? 'All' : STATUS_LABELS[key]);
 
 function SearchBox() {
   const search = route.useSearch();
@@ -66,58 +78,75 @@ function SearchBox() {
     return () => clearTimeout(timer);
   }, [input, committed, navigate]);
 
+  return <SearchField label="Search patients" value={input} onChange={setInput} />;
+}
+
+/** The number of patients with a status (or all), for the current search. One cached `limit=1` query each. */
+function useStatusCount(q: string | undefined, status: StatusKey) {
+  const params: ListPatientsParams = {
+    ...(q ? { q } : {}),
+    ...(status === 'all' ? {} : { status }),
+    limit: 1,
+  };
+  const { data } = useListPatients(params, {
+    query: { placeholderData: keepPreviousData, select: unwrap },
+  });
+  return data?.total;
+}
+
+function useStatusCounts(q: string | undefined) {
+  return {
+    all: useStatusCount(q, 'all'),
+    active: useStatusCount(q, 'active'),
+    follow_up: useStatusCount(q, 'follow_up'),
+    inactive: useStatusCount(q, 'inactive'),
+  } satisfies Record<StatusKey, number | undefined>;
+}
+
+function ListSkeleton({ compact }: { compact: boolean }) {
   return (
-    <div className={styles.searchField}>
-      <TextField
-        label="Search patients"
-        description="By name, email or phone"
-        type="search"
-        value={input}
-        onChange={setInput}
-        autoComplete="off"
-      />
+    <div aria-busy="true">
+      <p role="status" className="visually-hidden">
+        Loading patients…
+      </p>
+      {compact ? (
+        <div className={styles.skeletonList}>
+          {Array.from({ length: 5 }, (_, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
+            <div key={i} className={styles.skeletonCard}>
+              <Skeleton width="55%" height="24px" />
+              <Skeleton width="40%" />
+              <Skeleton width="70%" height="28px" pill />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className={styles.tableCard}>
+          <div className={styles.skeletonHeader} />
+          {Array.from({ length: 10 }, (_, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
+            <div key={i} className={styles.skeletonRow}>
+              <Skeleton width="70%" />
+              <Skeleton width="50%" />
+              <Skeleton width="60%" />
+              <Skeleton width="90px" height="28px" pill />
+              <Skeleton width="24px" />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-function StatusFilter({ status }: { status: PatientStatus | undefined }) {
-  const navigate = route.useNavigate();
-  return (
-    <ToggleButtonGroup
-      aria-label="Filter by status"
-      selectionMode="single"
-      disallowEmptySelection
-      selectedKeys={[status ?? 'all']}
-      onSelectionChange={(keys) => {
-        const key = [...keys][0];
-        const next = STATUS_KEYS.find((k) => k === key);
-        if (!next) return;
-        void navigate({
-          search: (prev) => ({
-            ...prev,
-            status: next === 'all' ? undefined : next,
-            page: undefined,
-          }),
-        });
-      }}
-      className={styles.statusGroup}
-    >
-      <ToggleButton id="all" className={styles.toggle}>
-        All
-      </ToggleButton>
-      {(['active', 'follow_up', 'inactive'] as const).map((s) => (
-        <ToggleButton key={s} id={s} className={styles.toggle}>
-          {STATUS_LABELS[s]}
-        </ToggleButton>
-      ))}
-    </ToggleButtonGroup>
-  );
-}
-
 export function PatientListPage() {
+  usePageTitle('Patients');
   const search = route.useSearch();
   const navigate = route.useNavigate();
-  const isWide = useIsWide();
+  const router = useRouter();
+  const layout = useLayout();
+  const compact = layout === 'compact';
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
   // The query key follows a deferred copy of the URL state, so the input stays responsive.
   const deferredSearch = useDeferredValue(search);
@@ -126,72 +155,164 @@ export function PatientListPage() {
     { query: { placeholderData: keepPreviousData, select: unwrap } },
   );
   const isUpdating = isPlaceholderData || deferredSearch !== search;
+  const counts = useStatusCounts(deferredSearch.q);
+
+  const [toArchive, setToArchive] = useState<PatientListItem | null>(null);
+  const archive = useArchivePatient({
+    onArchived: () => {
+      setToArchive(null);
+      headingRef.current?.focus();
+    },
+  });
 
   const hasFilters = Boolean(search.q || search.status);
   const totalPages = data ? Math.max(1, Math.ceil(data.total / PAGE_SIZE)) : 1;
+  const hrefForPage = (page: number) =>
+    router.buildLocation({ to: '/patients', search: { ...search, page } }).href;
 
   const setSort = (sort: SortField) =>
     void navigate({ search: (prev) => ({ ...prev, sort, page: undefined }) });
-
+  const setStatus = (key: StatusKey) =>
+    void navigate({
+      search: (prev) => ({ ...prev, status: key === 'all' ? undefined : key, page: undefined }),
+    });
+  const open = (patientId: string) =>
+    void navigate({ to: '/patients/$patientId', params: { patientId } });
   const clear = () => void navigate({ search: {} });
+
+  const currentStatus: StatusKey = search.status ?? 'all';
+  const statusOptions = STATUS_KEYS.map((key) => ({ id: key, label: statusLabel(key) }));
 
   return (
     <>
-      <h1 tabIndex={-1}>Patients</h1>
+      <h1 ref={headingRef} tabIndex={-1}>
+        Patients
+      </h1>
 
       <div className={styles.toolbar}>
-        <SearchBox />
-        <div>
-          <span id="status-filter-label" className={styles.statusLabel}>
-            Status
-          </span>
-          <StatusFilter status={search.status} />
+        <div className={styles.search}>
+          <SearchBox />
         </div>
-        {!isWide && (
-          <div className={styles.sortSelect}>
-            <SelectField
-              label="Sort by"
-              options={SORT_OPTIONS}
-              value={search.sort}
-              onChange={setSort}
-            />
-          </div>
-        )}
+        <div className={styles.filters}>
+          {compact ? (
+            <div className={styles.selects}>
+              <SelectField
+                label="Status"
+                options={statusOptions}
+                value={currentStatus}
+                onChange={setStatus}
+              />
+              <SelectField
+                label="Sort by"
+                options={SORT_OPTIONS}
+                value={search.sort}
+                onChange={setSort}
+              />
+            </div>
+          ) : (
+            <div className={styles.statusFilter}>
+              <span className={styles.fieldLabel}>Status</span>
+              <SegmentedControl
+                label="Filter by status"
+                value={currentStatus}
+                onChange={setStatus}
+                segments={STATUS_KEYS.map((key) => ({
+                  id: key,
+                  label: statusLabel(key),
+                  count: counts[key] ?? '…',
+                }))}
+              />
+            </div>
+          )}
+          {/* Polite live region: the result count is announced after each update. */}
+          <p role="status" className={styles.count}>
+            {data && (
+              <>
+                <strong>{data.total}</strong> {data.total === 1 ? 'patient' : 'patients'}
+              </>
+            )}
+          </p>
+        </div>
       </div>
 
-      <div className={styles.resultsHeader}>
-        {/* Polite live region: the result count is announced after each update. */}
-        <p role="status" className={styles.count}>
-          {data ? `${data.total} ${data.total === 1 ? 'patient' : 'patients'}` : ''}
-        </p>
-        <span className={styles.updating} aria-hidden={!isUpdating}>
+      <div className={styles.results} data-stale={isUpdating}>
+        <div className={styles.refetch}>
+          {isUpdating && !isPending && <ProgressBar label="Updating results" size="thin" />}
+        </div>
+        <span className={styles.updatingText} role="status">
           {isUpdating && !isPending ? 'Updating results…' : ''}
         </span>
+
+        {isError && !data && (
+          <div className={styles.tableCard}>
+            <EmptyState
+              tone="error"
+              title="We couldn't load patients"
+              action={
+                <Button variant="primary" onPress={() => void refetch()}>
+                  Retry
+                </Button>
+              }
+            >
+              Check your connection and try again. Your search and filters are kept.
+            </EmptyState>
+          </div>
+        )}
+
+        {isPending && !isError && <ListSkeleton compact={compact} />}
+
+        {data &&
+          (data.items.length === 0 ? (
+            <div className={styles.tableCard}>
+              <ListEmpty query={search.q} hasFilters={hasFilters} onClear={clear} />
+            </div>
+          ) : compact ? (
+            <>
+              <PatientCards items={data.items} />
+              <Pagination
+                page={search.page}
+                totalPages={totalPages}
+                total={data.total}
+                pageSize={PAGE_SIZE}
+                hrefFor={hrefForPage}
+              />
+            </>
+          ) : (
+            <div className={styles.tableCard}>
+              <PatientTable
+                items={data.items}
+                sort={search.sort}
+                onSortChange={setSort}
+                onOpen={open}
+                onArchive={setToArchive}
+              />
+              <div className={styles.footer}>
+                <Pagination
+                  page={search.page}
+                  totalPages={totalPages}
+                  total={data.total}
+                  pageSize={PAGE_SIZE}
+                  hrefFor={hrefForPage}
+                />
+              </div>
+            </div>
+          ))}
       </div>
 
-      {isError && (
-        <ErrorState message="We couldn't load patients." onRetry={() => void refetch()} />
-      )}
-
-      {isPending && !isError && <p>Loading patients…</p>}
-
-      {data && (
-        <div className={styles.results} data-stale={isUpdating}>
-          {data.items.length === 0 ? (
-            <EmptyState query={search.q} hasFilters={hasFilters} onClear={clear} />
-          ) : isWide ? (
-            <PatientTable items={data.items} sort={search.sort} onSortChange={setSort} />
-          ) : (
-            <PatientCards items={data.items} />
-          )}
-          <Pagination page={search.page} totalPages={totalPages} />
-        </div>
-      )}
+      <ArchiveDialog
+        name={toArchive ? `${toArchive.first_name} ${toArchive.last_name}` : 'this patient'}
+        isOpen={toArchive !== null}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) setToArchive(null);
+        }}
+        isPending={archive.isPending}
+        onConfirm={() => toArchive && archive.mutate({ id: toArchive.id })}
+      />
     </>
   );
 }
 
-function EmptyState({
+function ListEmpty({
   query,
   hasFilters,
   onClear,
@@ -202,22 +323,28 @@ function EmptyState({
 }) {
   if (!hasFilters) {
     return (
-      <div className={styles.empty}>
-        <h2>No patients yet</h2>
-        <p>Add the first patient to get started.</p>
-        <Link to="/patients/new" className={buttonClass('primary')}>
-          New patient
-        </Link>
-      </div>
+      <EmptyState
+        title="No patients yet"
+        action={
+          <Link to="/patients/new" className={buttonClass('primary')}>
+            Add the first patient
+          </Link>
+        }
+      >
+        Patients you add will show up here.
+      </EmptyState>
     );
   }
   return (
-    <div className={styles.empty}>
-      <h2>{query ? `No matches for "${query}"` : 'No patients match these filters'}</h2>
-      <p>Try a different spelling, or remove a filter.</p>
-      <Button variant="primary" onPress={onClear}>
-        Clear search and filters
-      </Button>
-    </div>
+    <EmptyState
+      title={query ? `No matches for '${query}'` : 'No patients match these filters'}
+      action={
+        <Button variant="primary" onPress={onClear}>
+          Clear search and filters
+        </Button>
+      }
+    >
+      Try a different spelling, or remove a filter.
+    </EmptyState>
   );
 }

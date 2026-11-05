@@ -1,199 +1,330 @@
+/* Toolbar: wide = one row, medium = search then filters, compact = search, selects, count. */
 .toolbar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: end;
+  flex-direction: column;
   gap: var(--space-4);
-  margin-block-end: var(--space-4);
 }
 
-.searchField {
-  flex: 1 1 18rem;
-  max-width: 28rem;
+.search {
+  min-width: 0;
 }
 
-.statusGroup {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-}
-
-.statusLabel {
-  display: block;
-  margin-block-end: var(--space-1);
-  font-weight: 600;
-}
-
-.toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: var(--size-touch);
-  min-width: var(--size-touch);
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
-  color: var(--color-text);
-  font: inherit;
-  cursor: pointer;
-}
-
-/* Selected is shown by a check mark and weight as well as the fill. */
-.toggle[data-selected] {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-  color: var(--color-primary-fg);
-  font-weight: 700;
-}
-
-.toggle[data-selected]::before {
-  content: "✓ ";
-  white-space: pre;
-}
-
-.sortSelect {
-  min-width: 14rem;
-}
-
-.resultsHeader {
+.filters {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: var(--space-2);
-  margin-block-end: var(--space-2);
+  gap: var(--space-3) var(--space-4);
+}
+
+.statusFilter {
+  display: grid;
+  gap: var(--space-1-5);
+}
+
+.fieldLabel {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-sm);
+}
+
+.selects {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
 }
 
 .count {
+  align-self: center;
   margin: 0;
-  font-weight: 600;
+  color: var(--color-text);
+  font-size: var(--text-base);
 }
 
-.updating {
-  color: var(--color-text-muted);
-  font-size: var(--text-md);
-  min-height: 1.5em;
+.count strong {
+  font-weight: var(--weight-bold);
 }
 
-.results[data-stale="true"] {
-  opacity: 0.7;
-  transition: opacity var(--motion-duration-base);
+/* The status filter and the search sit on one row, with the count at the end. */
+@container app (min-width: 1280px) {
+  .toolbar {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: var(--space-6);
+  }
+
+  .search {
+    flex: none;
+    width: 360px;
+  }
+
+  .filters {
+    flex: 1;
+    flex-wrap: nowrap;
+  }
+}
+
+@container app (max-width: 767px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .count {
+    align-self: flex-start;
+  }
+}
+
+/* Results */
+.results {
+  position: relative;
+}
+
+/* The 2px refetch bar runs along the top edge of the results; its height is always reserved. */
+.refetch {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  z-index: var(--z-sticky);
+  height: 2px;
+  overflow: hidden;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.updatingText {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.tableCard {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.footer {
+  border-block-start: 1px solid var(--color-border);
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-}
-
-.table th,
-.table td {
-  padding: var(--space-2) var(--space-3);
-  border-block-end: 1px solid var(--color-border-strong);
-  text-align: start;
-  vertical-align: middle;
-}
-
-.table th {
-  background: var(--color-surface-subtle);
-}
-
-.column {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  min-height: var(--size-touch);
-  cursor: pointer;
+  table-layout: fixed;
   outline: none;
 }
 
-.column[data-focus-visible] {
-  outline: var(--focus-ring-width) solid var(--color-focus);
-  outline-offset: 2px;
+.table th:nth-child(1) {
+  width: 40%;
 }
 
-.link {
+.table th:nth-child(2),
+.table th:nth-child(3) {
+  width: 19%;
+}
+
+.table th:nth-child(5) {
+  width: 68px;
+}
+
+.column {
+  height: 48px;
+  padding: 0 var(--space-4);
+  background: var(--color-surface-subtle);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-align: start;
+  cursor: default;
+  outline: none;
+}
+
+.column[data-allows-sorting] {
+  cursor: pointer;
+}
+
+.column[data-allows-sorting][aria-sort="ascending"],
+.column[data-allows-sorting][aria-sort="descending"],
+.column[data-hovered] {
+  color: var(--color-text);
+}
+
+.column[data-focus-visible] {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.columnInner {
   display: inline-flex;
   align-items: center;
-  min-height: var(--size-touch);
-  font-weight: 600;
-  overflow-wrap: anywhere;
+  gap: var(--space-1-5);
 }
 
+.columnInner svg {
+  flex: none;
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+}
+
+.sortIdle {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+.row {
+  min-height: var(--size-row);
+  outline: none;
+  cursor: pointer;
+}
+
+.row[data-hovered] {
+  background: var(--color-surface-hover);
+}
+
+.row[data-focus-visible] {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.cell {
+  height: var(--size-row);
+  padding: var(--space-2) var(--space-4);
+  border-block-start: 1px solid var(--color-border);
+  vertical-align: middle;
+  outline: none;
+}
+
+.cell[data-focus-visible] {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+@container app (max-width: 1279px) {
+  .cell,
+  .column {
+    padding-inline: var(--space-3);
+  }
+}
+
+.name {
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  outline: none;
+}
+
+.row[data-hovered] .name {
+  text-decoration: underline;
+}
+
+.name[data-focus-visible] {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.age {
+  display: block;
+}
+
+.meta {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-sm);
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+/* Compact: one card per patient. */
 .cards {
   display: grid;
   gap: var(--space-3);
   margin: 0;
   padding: 0;
-  list-style: none;
+  outline: none;
 }
 
-.card {
+.patientCard {
   display: grid;
   gap: var(--space-1);
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-md);
-  background: var(--color-surface-subtle);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
   color: var(--color-text);
   text-decoration: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.patientCard[data-hovered],
+.patientCard[data-pressed] {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
+}
+
+.patientCard[data-focus-visible] {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .cardName {
-  font-weight: 700;
+  display: block;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-strong);
+  line-height: var(--leading-lg);
   overflow-wrap: anywhere;
 }
 
-.cardFacts {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2) var(--space-4);
+.cardMeta {
+  display: block;
   color: var(--color-text-muted);
 }
 
-.pagination {
-  margin-block-start: var(--space-4);
-}
-
-.pageList {
+.cardFoot {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-1);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-block-start: var(--space-1);
 }
 
-.page {
-  display: inline-flex;
+/* Loading skeletons at the final row and card heights. */
+.skeletonRow {
+  display: grid;
   align-items: center;
-  justify-content: center;
-  min-height: var(--size-touch);
-  min-width: var(--size-touch);
-  padding: 0 var(--space-3);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
-  color: var(--color-text);
-  text-decoration: none;
+  gap: var(--space-4);
+  grid-template-columns: 40% 19% 19% 1fr 68px;
+  height: 61px;
+  padding: 0 var(--space-4);
+  border-block-start: 1px solid var(--color-border);
 }
 
-.page[aria-current="page"] {
-  border-width: 3px;
-  font-weight: 700;
+.skeletonHeader {
+  height: 48px;
+  background: var(--color-surface-subtle);
 }
 
-.pageDisabled {
-  color: var(--color-text-muted);
-  border-style: dashed;
+.skeletonCard {
+  display: grid;
+  gap: var(--space-2);
+  height: 115px;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
-.empty {
-  padding: var(--space-6);
-  border: 1px dashed var(--color-border-strong);
-  border-radius: var(--radius-md);
-}
-
-.empty h2 {
-  margin-block-end: var(--space-2);
+.skeletonList {
+  display: grid;
+  gap: var(--space-3);
 }

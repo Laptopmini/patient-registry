@@ -5,8 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 0 complete, waiting for the owner's "go".
-> **Next action:** after "go", push `main` to origin, then start Stage 1 (the design handoff package in `design/brief/`).
+> **Current:** Stage 1 complete, waiting for the owner's "go". The owner works in Claude Design in parallel.
+> **Next action:** after "go", push `main`, then write `docs/plan/stage-2.md` and launch `backend-engineer` in a worktree.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 
@@ -27,9 +27,9 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 - [x] Verify (`make check`), commit, check in
 
 ## Stage 1: Design handoff package (main session)
-- [ ] `design/brief/01-product.md` … `07-return-package.md` (at most 8 files)
-- [ ] `design/CLAUDE_DESIGN_PROMPT.md`
-- [ ] Check in. While the owner works in Claude Design, Stages 2–4 continue
+- [x] `design/brief/01-product.md` … `07-return-package.md` (7 files)
+- [x] `design/CLAUDE_DESIGN_PROMPT.md`
+- [x] Check in. While the owner works in Claude Design, Stages 2–4 continue
 
 ## Stage 2: Backend (`backend-engineer`, worktree)
 - [ ] Brief: `docs/plan/stage-2.md`

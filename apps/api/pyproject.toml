@@ -47,7 +47,7 @@ select = ["E", "W", "F", "I", "B", "UP", "SIM", "ASYNC", "S", "RUF", "N", "PT", 
 ignore = ["S101"]  # assert is fine in tests
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S"]
+"tests/**" = ["S", "PT018"]
 "src/app/seed.py" = ["S311"]  # synthetic data, not cryptography
 
 [tool.pyright]

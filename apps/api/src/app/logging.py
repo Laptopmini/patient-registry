@@ -5,7 +5,6 @@ Logs never contain request bodies, query strings or patient fields.
 
 import logging
 import re
-import sys
 import time
 import uuid
 from typing import Literal
@@ -35,7 +34,7 @@ def configure_logging(level: str = "INFO", fmt: Literal["json", "console"] = "js
     structlog.configure(
         processors=[*shared, renderer],
         wrapper_class=structlog.make_filtering_bound_logger(numeric_level),
-        logger_factory=structlog.PrintLoggerFactory(file=sys.stdout),
+        logger_factory=structlog.PrintLoggerFactory(),
         cache_logger_on_first_use=False,
     )
     # Uvicorn's access log prints the query string, and search terms can be names.

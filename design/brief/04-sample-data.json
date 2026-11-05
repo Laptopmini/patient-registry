@@ -1,0 +1,1163 @@
+{
+  "_comment": "SYNTHETIC DATA generated with Faker (seed 20261105). Not real people. Derived fields (age, last_visit) are computed by the API and omitted here.",
+  "generated_for_date": "2026-11-05",
+  "patients": [
+    {
+      "id": "52a58099-7786-48d0-8167-6dc894e54716",
+      "first_name": "David",
+      "last_name": "Maldonado",
+      "date_of_birth": "1947-09-27",
+      "email": "david.maldonado@example.com",
+      "phone": "+14155550155",
+      "address": {
+        "line1": "9264 Sherri Summit",
+        "line2": null,
+        "city": "North Kyle",
+        "region": "MH",
+        "postal_code": "44724",
+        "country": "US"
+      },
+      "blood_type": "O+",
+      "status": "active",
+      "allergies": [],
+      "conditions": [
+        {
+          "name": "Hypertension"
+        }
+      ],
+      "version": 1,
+      "created_at": "2025-07-30T12:00:00+00:00",
+      "updated_at": "2025-07-30T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "2b7a9742-a21a-4572-9d69-934a690106e6",
+          "recorded_at": "2026-08-19T03:00:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-08-19T03:11:00+00:00"
+        },
+        {
+          "id": "a2fd9650-15c3-44a9-b9a6-dd5ba43a366b",
+          "recorded_at": "2026-06-27T05:30:00+00:00",
+          "body": "Medication review. Dose of current therapy adjusted after discussing side effects. Patient understands and agrees with plan.",
+          "created_at": "2026-06-27T05:52:00+00:00"
+        },
+        {
+          "id": "d2183517-7c41-4181-8c55-f5d5defe2ecc",
+          "recorded_at": "2026-05-31T07:30:00+00:00",
+          "body": "Presented with joint pain for 9 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-05-31T09:58:00+00:00"
+        },
+        {
+          "id": "fb46fb2b-dfae-4fd8-8bf3-7a5f44ba48a5",
+          "recorded_at": "2026-04-25T10:15:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-04-25T12:11:00+00:00"
+        },
+        {
+          "id": "88d55d25-7206-4994-a7e0-ad9b0a92901d",
+          "recorded_at": "2026-04-13T07:15:00+00:00",
+          "body": "Telehealth check-in. Symptoms improving since last visit. No new concerns raised. Next review in 8 weeks.",
+          "created_at": "2026-04-13T10:58:00+00:00"
+        },
+        {
+          "id": "d983ec9c-1bdf-4fbc-bace-3b72fc4c0dbf",
+          "recorded_at": "2025-12-20T06:45:00+00:00",
+          "body": "Medication review. Dose of current therapy adjusted after discussing side effects. Patient understands and agrees with plan.",
+          "created_at": "2025-12-20T10:27:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "4d40434a-c54b-4c2c-8cbd-ac8287983950",
+      "first_name": "Monica",
+      "last_name": "Washington",
+      "date_of_birth": "1940-01-22",
+      "email": "monica.washington@example.com",
+      "phone": "+15125550117",
+      "address": {
+        "line1": "2861 Adams Well",
+        "line2": null,
+        "city": "Barrettfort",
+        "region": "NV",
+        "postal_code": "57716",
+        "country": "US"
+      },
+      "blood_type": "A+",
+      "status": "inactive",
+      "allergies": [],
+      "conditions": [
+        {
+          "name": "Atrial fibrillation"
+        }
+      ],
+      "version": 1,
+      "created_at": "2026-01-17T12:00:00+00:00",
+      "updated_at": "2026-01-17T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "5e3e5392-98f8-4bfc-b861-5db06f6dfd1f",
+          "recorded_at": "2026-10-26T06:15:00+00:00",
+          "body": "Presented with dizziness for 3 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-10-26T06:52:00+00:00"
+        },
+        {
+          "id": "52a992d6-35e2-43f9-a800-1845f5dc278c",
+          "recorded_at": "2026-03-17T05:15:00+00:00",
+          "body": "Lab results reviewed with patient: values within expected range except mildly elevated LDL. Dietary counselling provided.",
+          "created_at": "2026-03-17T07:32:00+00:00"
+        },
+        {
+          "id": "c5a67985-7270-4f3c-a15b-b2029f8958e5",
+          "recorded_at": "2026-01-19T03:30:00+00:00",
+          "body": "Reports intermittent cough. Examination unremarkable. Symptom diary started; referral considered if persists.",
+          "created_at": "2026-01-19T06:33:00+00:00"
+        },
+        {
+          "id": "d9ef48f8-2807-47ff-8b17-6fdce4d1daf3",
+          "recorded_at": "2026-01-14T02:30:00+00:00",
+          "body": "Reports intermittent cough. Examination unremarkable. Symptom diary started; referral considered if persists.",
+          "created_at": "2026-01-14T05:30:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "2ee2b171-06a0-47bf-82cd-f83aaa1f1eda",
+      "first_name": "Cindy",
+      "last_name": "Collier",
+      "date_of_birth": "1945-07-27",
+      "email": "cindy.collier@example.com",
+      "phone": "+14155550107",
+      "address": {
+        "line1": "30980 William Vista",
+        "line2": "Suite 460",
+        "city": "South Amanda",
+        "region": "KS",
+        "postal_code": "68375",
+        "country": "US"
+      },
+      "blood_type": "O+",
+      "status": "active",
+      "allergies": [
+        {
+          "name": "Peanuts"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Hypertension"
+        },
+        {
+          "name": "GERD"
+        }
+      ],
+      "version": 1,
+      "created_at": "2025-03-01T12:00:00+00:00",
+      "updated_at": "2025-03-01T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "7e18882d-5461-406c-860a-c68c5cb70dad",
+          "recorded_at": "2026-08-04T06:30:00+00:00",
+          "body": "Telehealth check-in. Symptoms improving since last visit. No new concerns raised. Next review in 12 weeks.",
+          "created_at": "2026-08-04T07:09:00+00:00"
+        },
+        {
+          "id": "bdaf2de1-2adc-4518-9de1-3a15c9165131",
+          "recorded_at": "2026-07-12T03:15:00+00:00",
+          "body": "Telehealth check-in. Symptoms improving since last visit. No new concerns raised. Next review in 8 weeks.",
+          "created_at": "2026-07-12T03:46:00+00:00"
+        },
+        {
+          "id": "220c6a20-7310-43be-8e91-630cbd2129a2",
+          "recorded_at": "2026-05-31T02:30:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-05-31T03:13:00+00:00"
+        },
+        {
+          "id": "2e887b7d-3289-4ce6-acbf-24bf98088fdf",
+          "recorded_at": "2025-12-12T12:00:00+00:00",
+          "body": "Lab results reviewed with patient: values within expected range except mildly elevated LDL. Dietary counselling provided.",
+          "created_at": "2025-12-12T15:33:00+00:00"
+        },
+        {
+          "id": "b2558c4d-7067-43ed-b14f-a4dfcc3d3465",
+          "recorded_at": "2025-10-14T02:30:00+00:00",
+          "body": "Reports intermittent sore throat. Examination unremarkable. Symptom diary started; referral considered if persists.",
+          "created_at": "2025-10-14T05:40:00+00:00"
+        },
+        {
+          "id": "a3709749-2b51-4295-8ef1-3591301a6260",
+          "recorded_at": "2025-10-11T07:30:00+00:00",
+          "body": "Medication review. Dose of current therapy adjusted after discussing side effects. Patient understands and agrees with plan.",
+          "created_at": "2025-10-11T09:49:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "6093c11a-8c6b-4cdd-9684-fe7739158f03",
+      "first_name": "Lisa",
+      "last_name": "Benton",
+      "date_of_birth": "1958-12-04",
+      "email": "lisa.benton@example.com",
+      "phone": "+15125550189",
+      "address": {
+        "line1": "4199 Charles Meadows Apt. 321",
+        "line2": null,
+        "city": "Lutzton",
+        "region": "MP",
+        "postal_code": "10450",
+        "country": "US"
+      },
+      "blood_type": "AB-",
+      "status": "active",
+      "allergies": [
+        {
+          "name": "Codeine"
+        },
+        {
+          "name": "Sulfa drugs"
+        },
+        {
+          "name": "Pollen"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Hypertension"
+        }
+      ],
+      "version": 1,
+      "created_at": "2026-01-29T12:00:00+00:00",
+      "updated_at": "2026-01-29T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "df85799b-c50b-475a-a7c7-0e38b94e71de",
+          "recorded_at": "2026-05-26T02:45:00+00:00",
+          "body": "Annual physical. Weight 78 kg, BP 148/83. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "created_at": "2026-05-26T03:41:00+00:00"
+        },
+        {
+          "id": "3e81b73d-dd72-415e-b57e-082bfc8433d2",
+          "recorded_at": "2026-02-06T11:45:00+00:00",
+          "body": "Presented with headache for 5 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-02-06T14:11:00+00:00"
+        },
+        {
+          "id": "d30a76c3-bf38-45b9-8081-2bf7374db7cd",
+          "recorded_at": "2026-01-13T09:45:00+00:00",
+          "body": "Reports intermittent cough. Examination unremarkable. Symptom diary started; referral considered if persists.",
+          "created_at": "2026-01-13T11:11:00+00:00"
+        },
+        {
+          "id": "4f1ddec4-0bc6-4750-aee1-5f8036d9ce3a",
+          "recorded_at": "2025-12-06T04:15:00+00:00",
+          "body": "Annual physical. Weight 77 kg, BP 147/86. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "created_at": "2025-12-06T05:06:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "cd748450-1442-4a36-a476-c17e169159d4",
+      "first_name": "Donald",
+      "last_name": "Peterson",
+      "date_of_birth": "1934-10-17",
+      "email": "donald.peterson@example.com",
+      "phone": "+15125550193",
+      "address": {
+        "line1": "57695 Julia Shores Apt. 769",
+        "line2": null,
+        "city": "Patriciaburgh",
+        "region": "PR",
+        "postal_code": "87978",
+        "country": "US"
+      },
+      "blood_type": "A+",
+      "status": "active",
+      "allergies": [
+        {
+          "name": "Ibuprofen"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Iron-deficiency anemia"
+        },
+        {
+          "name": "Chronic kidney disease (stage 2)"
+        }
+      ],
+      "version": 1,
+      "created_at": "2024-06-07T12:00:00+00:00",
+      "updated_at": "2024-06-07T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "8949eaf9-abfd-4f42-8447-fbaf53392827",
+          "recorded_at": "2026-10-18T05:45:00+00:00",
+          "body": "Presented with cough for 8 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-10-18T07:54:00+00:00"
+        },
+        {
+          "id": "8395aa54-d535-4287-b92b-3950b9f181e9",
+          "recorded_at": "2026-08-27T10:45:00+00:00",
+          "body": "Medication review. Dose of current therapy adjusted after discussing side effects. Patient understands and agrees with plan.",
+          "created_at": "2026-08-27T12:16:00+00:00"
+        },
+        {
+          "id": "3cd4e7b9-4de1-4120-a2fd-2e3735958eb8",
+          "recorded_at": "2026-03-24T09:00:00+00:00",
+          "body": "Annual physical. Weight 65 kg, BP 112/82. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "created_at": "2026-03-24T09:42:00+00:00"
+        },
+        {
+          "id": "80ec61bd-25fd-4eda-b4d5-eace68210dc3",
+          "recorded_at": "2026-02-18T02:45:00+00:00",
+          "body": "Presented with fatigue for 7 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-02-18T05:45:00+00:00"
+        },
+        {
+          "id": "1a44d8ab-f245-456e-a691-dfdacf47f620",
+          "recorded_at": "2025-12-08T04:45:00+00:00",
+          "body": "Routine follow-up. BP 113/87. Patient reports good adherence to medication. Continue current plan; recheck in 12 weeks.",
+          "created_at": "2025-12-08T07:56:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "0e018a6d-1cbc-43a8-9dd4-0a0c3fab392a",
+      "first_name": "Lisa",
+      "last_name": "Rosario",
+      "date_of_birth": "1962-07-17",
+      "email": "lisa.rosario@example.com",
+      "phone": "+13125550185",
+      "address": {
+        "line1": "4576 Horne Fords Suite 510",
+        "line2": null,
+        "city": "Cindymouth",
+        "region": "WI",
+        "postal_code": "68509",
+        "country": "US"
+      },
+      "blood_type": "A+",
+      "status": "inactive",
+      "allergies": [
+        {
+          "name": "Peanuts"
+        },
+        {
+          "name": "Latex"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "GERD"
+        }
+      ],
+      "version": 1,
+      "created_at": "2023-11-30T12:00:00+00:00",
+      "updated_at": "2023-11-30T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "7264ebd3-95cf-4140-9a24-0c985b8b7b59",
+          "recorded_at": "2026-09-28T03:00:00+00:00",
+          "body": "Reports intermittent lower back pain. Examination unremarkable. Symptom diary started; referral considered if persists.",
+          "created_at": "2026-09-28T04:45:00+00:00"
+        },
+        {
+          "id": "eaaf7f45-b58a-4859-a0f0-69f78d4c28d9",
+          "recorded_at": "2025-12-17T03:00:00+00:00",
+          "body": "Lab results reviewed with patient: values within expected range except mildly elevated LDL. Dietary counselling provided.",
+          "created_at": "2025-12-17T05:10:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "e0bb831d-4fdd-492a-af7f-057e2931cd4d",
+      "first_name": "Stephanie",
+      "last_name": "Gibson",
+      "date_of_birth": "1964-06-17",
+      "email": "stephanie.gibson@example.com",
+      "phone": "+14155550158",
+      "address": {
+        "line1": "958 Townsend Stream",
+        "line2": "Apt. 049",
+        "city": "Lake Matthew",
+        "region": "FM",
+        "postal_code": "27013",
+        "country": "US"
+      },
+      "blood_type": "unknown",
+      "status": "active",
+      "allergies": [
+        {
+          "name": "Latex"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Migraine"
+        },
+        {
+          "name": "Atrial fibrillation"
+        },
+        {
+          "name": "Iron-deficiency anemia"
+        }
+      ],
+      "version": 1,
+      "created_at": "2023-07-23T12:00:00+00:00",
+      "updated_at": "2023-07-23T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "7e894121-3755-42f2-81eb-4b4c857c1246",
+          "recorded_at": "2026-10-13T06:30:00+00:00",
+          "body": "Presented with dizziness for 10 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-10-13T08:29:00+00:00"
+        },
+        {
+          "id": "154bfe2b-3895-41c2-be0e-c8015101bc0d",
+          "recorded_at": "2026-10-02T04:15:00+00:00",
+          "body": "Reports intermittent lower back pain. Examination unremarkable. Symptom diary started; referral considered if persists.",
+          "created_at": "2026-10-02T06:51:00+00:00"
+        },
+        {
+          "id": "c0fdf695-7a9a-4699-96b4-0dd973fd8b42",
+          "recorded_at": "2026-09-07T12:00:00+00:00",
+          "body": "Medication review. Dose of current therapy adjusted after discussing side effects. Patient understands and agrees with plan.",
+          "created_at": "2026-09-07T15:00:00+00:00"
+        },
+        {
+          "id": "722c21cf-14a6-4b9e-a1de-274877bacfec",
+          "recorded_at": "2026-08-23T03:45:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-08-23T03:52:00+00:00"
+        },
+        {
+          "id": "2a1d17f9-5848-483b-b970-024c45bcdda9",
+          "recorded_at": "2025-12-14T03:15:00+00:00",
+          "body": "Annual physical. Weight 104 kg, BP 142/77. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "created_at": "2025-12-14T03:21:00+00:00"
+        },
+        {
+          "id": "c8d98f6f-cb3b-4115-b175-a8e99a37f561",
+          "recorded_at": "2025-11-02T09:15:00+00:00",
+          "body": "Medication review. Dose of current therapy adjusted after discussing side effects. Patient understands and agrees with plan.",
+          "created_at": "2025-11-02T13:04:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "878fc0fc-026b-4dd9-a892-9e7e870cc469",
+      "first_name": "Danielle",
+      "last_name": "Bowman",
+      "date_of_birth": "2012-10-18",
+      "email": "danielle.bowman@example.com",
+      "phone": "+14155550146",
+      "address": {
+        "line1": "25060 Sanchez Falls Suite 554",
+        "line2": "Suite 744",
+        "city": "Liland",
+        "region": "RI",
+        "postal_code": "33732",
+        "country": "US"
+      },
+      "blood_type": "B+",
+      "status": "follow_up",
+      "allergies": [
+        {
+          "name": "Shellfish"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Type 2 diabetes"
+        }
+      ],
+      "version": 1,
+      "created_at": "2023-03-09T12:00:00+00:00",
+      "updated_at": "2023-03-09T12:00:00+00:00",
+      "notes": []
+    },
+    {
+      "id": "2238cbed-2eda-45b0-b210-6f7f8d6dfd5c",
+      "first_name": "Dennis",
+      "last_name": "Mccann",
+      "date_of_birth": "1990-11-15",
+      "email": "dennis.mccann@example.com",
+      "phone": "+13125550119",
+      "address": {
+        "line1": "872 Larson Ridges Suite 825",
+        "line2": null,
+        "city": "Hortonview",
+        "region": "NE",
+        "postal_code": "52498",
+        "country": "US"
+      },
+      "blood_type": "O+",
+      "status": "inactive",
+      "allergies": [],
+      "conditions": [
+        {
+          "name": "Hypothyroidism"
+        }
+      ],
+      "version": 1,
+      "created_at": "2026-02-05T12:00:00+00:00",
+      "updated_at": "2026-02-05T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "ee7747eb-5c0e-45d3-828c-a2f26637dc4a",
+          "recorded_at": "2026-10-02T02:30:00+00:00",
+          "body": "Annual physical. Weight 83 kg, BP 148/83. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "created_at": "2026-10-02T05:13:00+00:00"
+        },
+        {
+          "id": "7b2de803-8f35-4b59-ada3-dfd1c55b12a8",
+          "recorded_at": "2026-08-12T09:30:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-08-12T10:56:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "304ddb8b-4009-4f84-bb03-5fd07c92c7d9",
+      "first_name": "David",
+      "last_name": "George",
+      "date_of_birth": "2003-11-13",
+      "email": "david.george@example.com",
+      "phone": "+14155550150",
+      "address": {
+        "line1": "3428 Jeffrey Fords Apt. 998",
+        "line2": null,
+        "city": "Lake Penny",
+        "region": "KY",
+        "postal_code": "16149",
+        "country": "US"
+      },
+      "blood_type": "A+",
+      "status": "active",
+      "allergies": [
+        {
+          "name": "Penicillin"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Iron-deficiency anemia"
+        },
+        {
+          "name": "Hyperlipidemia"
+        }
+      ],
+      "version": 1,
+      "created_at": "2025-09-19T12:00:00+00:00",
+      "updated_at": "2025-09-19T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "b6533130-8a07-43d8-a821-9391086e79b4",
+          "recorded_at": "2026-08-31T09:00:00+00:00",
+          "body": "Annual physical. Weight 83 kg, BP 110/81. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "created_at": "2026-08-31T11:08:00+00:00"
+        },
+        {
+          "id": "9463ce6f-791e-42f4-b03a-7b9a8ffa9d1f",
+          "recorded_at": "2026-07-21T10:00:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-07-21T10:58:00+00:00"
+        },
+        {
+          "id": "c916d719-c3c6-468c-ae18-7a2a00675896",
+          "recorded_at": "2026-05-25T07:30:00+00:00",
+          "body": "Medication review. Dose of current therapy adjusted after discussing side effects. Patient understands and agrees with plan.",
+          "created_at": "2026-05-25T11:23:00+00:00"
+        },
+        {
+          "id": "c57120c2-aaeb-4ed8-84b0-02c0e948d9f4",
+          "recorded_at": "2026-01-10T06:15:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-01-10T08:26:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "b6be7982-ef16-436f-b201-7ed4519cf1e0",
+      "first_name": "Jason",
+      "last_name": "Hudson",
+      "date_of_birth": "1976-09-26",
+      "email": "jason.hudson@example.com",
+      "phone": "+15125550174",
+      "address": {
+        "line1": "802 Brian Camp",
+        "line2": "Apt. 417",
+        "city": "South Benjaminmouth",
+        "region": "PA",
+        "postal_code": "95348",
+        "country": "US"
+      },
+      "blood_type": "B+",
+      "status": "active",
+      "allergies": [
+        {
+          "name": "Bee stings"
+        },
+        {
+          "name": "Pollen"
+        },
+        {
+          "name": "Shellfish"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Atrial fibrillation"
+        }
+      ],
+      "version": 1,
+      "created_at": "2025-02-08T12:00:00+00:00",
+      "updated_at": "2025-02-08T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "e93f4d81-aaca-468e-bcf9-20be0b0733d6",
+          "recorded_at": "2026-03-29T03:30:00+00:00",
+          "body": "Lab results reviewed with patient: values within expected range except mildly elevated LDL. Dietary counselling provided.",
+          "created_at": "2026-03-29T07:15:00+00:00"
+        },
+        {
+          "id": "f371191a-6739-4857-8f70-ee973c0f73ad",
+          "recorded_at": "2026-03-24T04:15:00+00:00",
+          "body": "Presented with cough for 8 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-03-24T07:15:00+00:00"
+        },
+        {
+          "id": "015fc1d3-796e-4f7e-9078-952f4d5ebb90",
+          "recorded_at": "2026-03-17T10:45:00+00:00",
+          "body": "Lab results reviewed with patient: values within expected range except mildly elevated LDL. Dietary counselling provided.",
+          "created_at": "2026-03-17T11:53:00+00:00"
+        },
+        {
+          "id": "2258bc52-b745-4dc0-92ad-51b5e3a58c13",
+          "recorded_at": "2026-01-23T09:45:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-01-23T11:19:00+00:00"
+        },
+        {
+          "id": "2d44e4f4-7fbb-4b42-8970-0c713d9571c9",
+          "recorded_at": "2026-01-16T03:45:00+00:00",
+          "body": "Medication review. Dose of current therapy adjusted after discussing side effects. Patient understands and agrees with plan.",
+          "created_at": "2026-01-16T05:24:00+00:00"
+        },
+        {
+          "id": "5f8a6beb-b7d4-4e0e-9f4c-9451e00b7690",
+          "recorded_at": "2025-10-26T07:15:00+00:00",
+          "body": "Telehealth check-in. Symptoms improving since last visit. No new concerns raised. Next review in 8 weeks.",
+          "created_at": "2025-10-26T08:34:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "af1db74e-b6b4-4383-b6a6-7c32db84501e",
+      "first_name": "Maximiliana-Josephine",
+      "last_name": "Vanderbilt-Okonkwo-Hargreaves",
+      "date_of_birth": "2004-08-28",
+      "email": "maximiliana.vanderbilt@example.com",
+      "phone": "+16175550137",
+      "address": {
+        "line1": "645 Hobbs Flats",
+        "line2": null,
+        "city": "Ericshire",
+        "region": "NY",
+        "postal_code": "16739",
+        "country": "US"
+      },
+      "blood_type": "A+",
+      "status": "follow_up",
+      "allergies": [
+        {
+          "name": "Penicillin"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Hypothyroidism"
+        },
+        {
+          "name": "Osteoarthritis"
+        }
+      ],
+      "version": 1,
+      "created_at": "2025-11-13T12:00:00+00:00",
+      "updated_at": "2025-11-13T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "97ad8635-6cac-4eca-a927-5f9241ff6cd2",
+          "recorded_at": "2026-06-22T10:45:00+00:00",
+          "body": "Routine follow-up. BP 120/90. Patient reports good adherence to medication. Continue current plan; recheck in 12 weeks.",
+          "created_at": "2026-06-22T12:26:00+00:00"
+        },
+        {
+          "id": "defa6229-9a1a-4705-8c43-6450b455b76b",
+          "recorded_at": "2026-06-19T06:45:00+00:00",
+          "body": "Routine follow-up. BP 118/84. Patient reports good adherence to medication. Continue current plan; recheck in 4 weeks.",
+          "created_at": "2026-06-19T08:19:00+00:00"
+        },
+        {
+          "id": "66bbeb29-7f22-46ae-8c4a-2aaa3f036d9e",
+          "recorded_at": "2026-02-02T05:45:00+00:00",
+          "body": "Lab results reviewed with patient: values within expected range except mildly elevated LDL. Dietary counselling provided.",
+          "created_at": "2026-02-02T09:12:00+00:00"
+        },
+        {
+          "id": "bef53972-845c-4c2a-9330-fa7aba302bb1",
+          "recorded_at": "2026-01-12T03:45:00+00:00",
+          "body": "Annual physical. Weight 67 kg, BP 115/83. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "created_at": "2026-01-12T06:16:00+00:00"
+        },
+        {
+          "id": "b49ba7c9-c894-4be7-a46c-386b0d507f3c",
+          "recorded_at": "2025-11-29T10:45:00+00:00",
+          "body": "Presented with headache for 5 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2025-11-29T14:28:00+00:00"
+        },
+        {
+          "id": "b0f7261f-f77e-4ded-9cd2-c33ffe5ece21",
+          "recorded_at": "2025-10-05T08:45:00+00:00",
+          "body": "Presented with joint pain for 4 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2025-10-05T10:49:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "490ade9f-ef5a-47fa-b27e-6acfcc88c597",
+      "first_name": "Gina",
+      "last_name": "Myers",
+      "date_of_birth": "1950-08-01",
+      "email": "gina.myers@example.com",
+      "phone": "+16175550180",
+      "address": {
+        "line1": "38772 Jonathan Lake",
+        "line2": "Suite 803",
+        "city": "Port John",
+        "region": "NC",
+        "postal_code": "91702",
+        "country": "US"
+      },
+      "blood_type": "O+",
+      "status": "inactive",
+      "allergies": [
+        {
+          "name": "Latex"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Chronic kidney disease (stage 2)"
+        }
+      ],
+      "version": 1,
+      "created_at": "2025-03-09T12:00:00+00:00",
+      "updated_at": "2025-03-09T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "0405c96a-0794-4e40-a90b-9c97be295218",
+          "recorded_at": "2026-07-15T07:15:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-07-15T09:47:00+00:00"
+        },
+        {
+          "id": "b3892617-c9f8-406b-b2cc-6c8ba03fb853",
+          "recorded_at": "2026-07-15T06:15:00+00:00",
+          "body": "Telehealth check-in. Symptoms improving since last visit. No new concerns raised. Next review in 12 weeks.",
+          "created_at": "2026-07-15T09:27:00+00:00"
+        },
+        {
+          "id": "21166453-bf53-4399-8153-064bbfa4dba1",
+          "recorded_at": "2026-03-18T09:30:00+00:00",
+          "body": "Medication review. Dose of current therapy adjusted after discussing side effects. Patient understands and agrees with plan.",
+          "created_at": "2026-03-18T13:09:00+00:00"
+        },
+        {
+          "id": "3af02a1c-f781-4cd8-905c-5c3e6078b1d9",
+          "recorded_at": "2025-12-16T10:00:00+00:00",
+          "body": "Presented with lower back pain for 6 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2025-12-16T11:37:00+00:00"
+        },
+        {
+          "id": "2b5bcc04-a057-4d6f-8542-4039628d2eae",
+          "recorded_at": "2025-12-03T07:15:00+00:00",
+          "body": "Medication review. Dose of current therapy adjusted after discussing side effects. Patient understands and agrees with plan.",
+          "created_at": "2025-12-03T07:55:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "dc3dbc39-eb3c-4526-8514-da7b160aaebe",
+      "first_name": "Ana",
+      "last_name": "Terry",
+      "date_of_birth": "1958-03-26",
+      "email": "ana.terry@example.com",
+      "phone": "+14155550126",
+      "address": {
+        "line1": "70838 Dillon Square Suite 383",
+        "line2": null,
+        "city": "Port Raymondmouth",
+        "region": "AK",
+        "postal_code": "88559",
+        "country": "US"
+      },
+      "blood_type": "AB-",
+      "status": "active",
+      "allergies": [
+        {
+          "name": "Peanuts"
+        },
+        {
+          "name": "Codeine"
+        },
+        {
+          "name": "Pollen"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Migraine"
+        },
+        {
+          "name": "Hypertension"
+        },
+        {
+          "name": "Type 2 diabetes"
+        }
+      ],
+      "version": 1,
+      "created_at": "2025-03-18T12:00:00+00:00",
+      "updated_at": "2025-03-18T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "0d6d28d6-4e5a-4ca2-ae26-607f5a72937b",
+          "recorded_at": "2026-07-14T06:30:00+00:00",
+          "body": "Reports intermittent joint pain. Examination unremarkable. Symptom diary started; referral considered if persists.",
+          "created_at": "2026-07-14T10:29:00+00:00"
+        },
+        {
+          "id": "7685f2ad-b29a-4306-ab30-d40fa815caef",
+          "recorded_at": "2026-06-04T10:45:00+00:00",
+          "body": "Telehealth check-in. Symptoms improving since last visit. No new concerns raised. Next review in 4 weeks.",
+          "created_at": "2026-06-04T12:45:00+00:00"
+        },
+        {
+          "id": "732aa896-7eb0-4cc4-8fe2-02673e1f5123",
+          "recorded_at": "2026-05-15T09:15:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-05-15T11:28:00+00:00"
+        },
+        {
+          "id": "6417e122-ac5f-4821-bfc7-6adc2ddf5a1c",
+          "recorded_at": "2026-04-11T11:15:00+00:00",
+          "body": "Routine follow-up. BP 112/75. Patient reports good adherence to medication. Continue current plan; recheck in 6 weeks.",
+          "created_at": "2026-04-11T13:10:00+00:00"
+        },
+        {
+          "id": "fd3804d1-dab2-44c3-911a-d2c5b09be192",
+          "recorded_at": "2026-03-19T08:15:00+00:00",
+          "body": "Presented with headache for 4 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-03-19T08:50:00+00:00"
+        },
+        {
+          "id": "0677e4b7-08ed-4642-a90b-1639dd42d08f",
+          "recorded_at": "2026-02-12T10:00:00+00:00",
+          "body": "Reports intermittent joint pain. Examination unremarkable. Symptom diary started; referral considered if persists.",
+          "created_at": "2026-02-12T12:04:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "23ba7cac-9cb9-4632-a1a0-dc0623b83dc1",
+      "first_name": "Amanda",
+      "last_name": "Pacheco",
+      "date_of_birth": "1951-07-23",
+      "email": "amanda.pacheco@example.com",
+      "phone": "+16175550128",
+      "address": {
+        "line1": "67478 Richard Drive Apt. 829",
+        "line2": null,
+        "city": "Jenningsberg",
+        "region": "CO",
+        "postal_code": "28462",
+        "country": "US"
+      },
+      "blood_type": "A+",
+      "status": "active",
+      "allergies": [],
+      "conditions": [
+        {
+          "name": "Hypothyroidism"
+        }
+      ],
+      "version": 1,
+      "created_at": "2023-01-12T12:00:00+00:00",
+      "updated_at": "2023-01-12T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "228517b4-280f-4bd6-af77-ec1e77064edf",
+          "recorded_at": "2026-07-03T07:15:00+00:00",
+          "body": "Lab results reviewed with patient: values within expected range except mildly elevated LDL. Dietary counselling provided.",
+          "created_at": "2026-07-03T09:42:00+00:00"
+        },
+        {
+          "id": "fbae499c-498d-481d-890d-c2803ec76a85",
+          "recorded_at": "2026-05-31T11:15:00+00:00",
+          "body": "Telehealth check-in. Symptoms improving since last visit. No new concerns raised. Next review in 4 weeks.",
+          "created_at": "2026-05-31T14:34:00+00:00"
+        },
+        {
+          "id": "67636aab-eef8-4b6a-a3d3-9915b15eb74f",
+          "recorded_at": "2026-04-17T10:30:00+00:00",
+          "body": "Presented with headache for 10 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-04-17T12:54:00+00:00"
+        },
+        {
+          "id": "3948274f-11b1-4df5-bd8b-658dfc459ce7",
+          "recorded_at": "2025-12-24T06:30:00+00:00",
+          "body": "Annual physical. Weight 71 kg, BP 123/84. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "created_at": "2025-12-24T07:53:00+00:00"
+        },
+        {
+          "id": "cda17f29-4733-413f-8d13-ed816a043ad1",
+          "recorded_at": "2025-10-02T05:45:00+00:00",
+          "body": "Lab results reviewed with patient: values within expected range except mildly elevated LDL. Dietary counselling provided.",
+          "created_at": "2025-10-02T08:53:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "8d64ff06-cb8f-46b3-8ba3-99c23b44ed2f",
+      "first_name": "Jessica",
+      "last_name": "Wall",
+      "date_of_birth": "2019-02-23",
+      "email": "jessica.wall@example.com",
+      "phone": "+12125550104",
+      "address": {
+        "line1": "07573 Jason Hollow",
+        "line2": "Apt. 206",
+        "city": "Whitneyborough",
+        "region": "MO",
+        "postal_code": "19569",
+        "country": "US"
+      },
+      "blood_type": "B-",
+      "status": "follow_up",
+      "allergies": [
+        {
+          "name": "Pollen"
+        }
+      ],
+      "conditions": [],
+      "version": 1,
+      "created_at": "2023-07-23T12:00:00+00:00",
+      "updated_at": "2023-07-23T12:00:00+00:00",
+      "notes": []
+    },
+    {
+      "id": "0210eb62-cb34-4edc-9b0c-22e84dbf169c",
+      "first_name": "Deborah",
+      "last_name": "Martinez",
+      "date_of_birth": "1947-09-15",
+      "email": "deborah.martinez@example.com",
+      "phone": "+13125550134",
+      "address": {
+        "line1": "08729 Jessica Divide",
+        "line2": null,
+        "city": "Toddfurt",
+        "region": "NJ",
+        "postal_code": "91444",
+        "country": "US"
+      },
+      "blood_type": "B-",
+      "status": "active",
+      "allergies": [
+        {
+          "name": "Peanuts"
+        },
+        {
+          "name": "Sulfa drugs"
+        },
+        {
+          "name": "Codeine"
+        }
+      ],
+      "conditions": [],
+      "version": 1,
+      "created_at": "2023-06-11T12:00:00+00:00",
+      "updated_at": "2023-06-11T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "3536051a-658a-4dec-be17-b2e55059b923",
+          "recorded_at": "2026-10-19T07:30:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2026-10-19T07:56:00+00:00"
+        },
+        {
+          "id": "cc144d51-fe0f-44a1-91ce-030f5b93b30f",
+          "recorded_at": "2026-04-19T10:15:00+00:00",
+          "body": "Reports intermittent fatigue. Examination unremarkable. Symptom diary started; referral considered if persists.",
+          "created_at": "2026-04-19T13:57:00+00:00"
+        },
+        {
+          "id": "91903d0e-8eb2-4844-88f9-5033f69ca5c0",
+          "recorded_at": "2026-03-09T05:15:00+00:00",
+          "body": "Telehealth check-in. Symptoms improving since last visit. No new concerns raised. Next review in 6 weeks.",
+          "created_at": "2026-03-09T08:54:00+00:00"
+        },
+        {
+          "id": "d4bce82b-d159-4bfc-b6e2-556012d4b005",
+          "recorded_at": "2025-11-11T06:45:00+00:00",
+          "body": "Lab results reviewed with patient: values within expected range except mildly elevated LDL. Dietary counselling provided.",
+          "created_at": "2025-11-11T09:59:00+00:00"
+        },
+        {
+          "id": "74d6efdc-91c6-4ee6-aecf-34f5ced6818d",
+          "recorded_at": "2025-10-02T02:15:00+00:00",
+          "body": "Seasonal vaccination administered. No immediate adverse reaction observed during 15-minute observation.",
+          "created_at": "2025-10-02T03:19:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "8f516ebb-0334-4d0b-8926-37cabc195fcb",
+      "first_name": "Gina",
+      "last_name": "Anderson",
+      "date_of_birth": "1987-07-03",
+      "email": "gina.anderson@example.com",
+      "phone": "+15125550146",
+      "address": {
+        "line1": "703 Jones Ridges Apt. 597",
+        "line2": "Suite 007",
+        "city": "Lopezberg",
+        "region": "MO",
+        "postal_code": "33099",
+        "country": "US"
+      },
+      "blood_type": "O+",
+      "status": "active",
+      "allergies": [],
+      "conditions": [],
+      "version": 1,
+      "created_at": "2023-09-22T12:00:00+00:00",
+      "updated_at": "2023-09-22T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "fdc26178-f09d-4d47-8914-7875c309ba03",
+          "recorded_at": "2026-03-25T03:00:00+00:00",
+          "body": "Presented with lower back pain for 3 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-03-25T04:33:00+00:00"
+        },
+        {
+          "id": "df62c90d-251b-4322-87d2-e439901e9dac",
+          "recorded_at": "2026-03-17T08:00:00+00:00",
+          "body": "Lab results reviewed with patient: values within expected range except mildly elevated LDL. Dietary counselling provided.",
+          "created_at": "2026-03-17T09:29:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "47009a31-7b76-450e-b4b7-1049a8475c93",
+      "first_name": "Christina",
+      "last_name": "Brown",
+      "date_of_birth": "1995-05-19",
+      "email": "christina.brown@example.com",
+      "phone": "+16175550142",
+      "address": {
+        "line1": "891 Julia Neck Suite 177",
+        "line2": null,
+        "city": "West Danaview",
+        "region": "WY",
+        "postal_code": "32872",
+        "country": "US"
+      },
+      "blood_type": "unknown",
+      "status": "active",
+      "allergies": [
+        {
+          "name": "Sulfa drugs"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Chronic kidney disease (stage 2)"
+        },
+        {
+          "name": "Type 2 diabetes"
+        }
+      ],
+      "version": 1,
+      "created_at": "2025-01-02T12:00:00+00:00",
+      "updated_at": "2025-01-02T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "eeb64e18-32fd-48a8-8f3a-5552f9ff0971",
+          "recorded_at": "2025-12-10T09:15:00+00:00",
+          "body": "Annual physical. Weight 87 kg, BP 135/88. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "created_at": "2025-12-10T12:04:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "3affcdaf-c8aa-4db0-a90f-049e4b22d4db",
+      "first_name": "Brittney",
+      "last_name": "Love",
+      "date_of_birth": "2021-10-13",
+      "email": "brittney.love@example.com",
+      "phone": "+13125550142",
+      "address": {
+        "line1": "326 Louis Mall",
+        "line2": null,
+        "city": "Frankburgh",
+        "region": "WI",
+        "postal_code": "85241",
+        "country": "US"
+      },
+      "blood_type": "AB-",
+      "status": "active",
+      "allergies": [
+        {
+          "name": "Pollen"
+        }
+      ],
+      "conditions": [
+        {
+          "name": "Osteoarthritis"
+        },
+        {
+          "name": "Atrial fibrillation"
+        }
+      ],
+      "version": 1,
+      "created_at": "2023-05-19T12:00:00+00:00",
+      "updated_at": "2023-05-19T12:00:00+00:00",
+      "notes": [
+        {
+          "id": "024f4351-3a9e-4f4e-aaa4-be896966fc26",
+          "recorded_at": "2026-10-20T07:45:00+00:00",
+          "body": "Routine follow-up. BP 127/78. Patient reports good adherence to medication. Continue current plan; recheck in 6 weeks.",
+          "created_at": "2026-10-20T11:17:00+00:00"
+        },
+        {
+          "id": "2660ec75-c07f-4a34-9933-e0dd7c76a2b5",
+          "recorded_at": "2026-08-28T06:15:00+00:00",
+          "body": "Annual physical. Weight 84 kg, BP 139/81. Labs ordered: CBC, lipid panel, HbA1c. Discussed exercise and diet.",
+          "created_at": "2026-08-28T08:48:00+00:00"
+        },
+        {
+          "id": "6503020d-52c3-4a7f-b677-d3a5cb928628",
+          "recorded_at": "2026-06-12T11:15:00+00:00",
+          "body": "Presented with cough for 7 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2026-06-12T12:21:00+00:00"
+        },
+        {
+          "id": "a6cf8d28-c7cf-4e81-9109-d871c091c81b",
+          "recorded_at": "2025-11-09T02:30:00+00:00",
+          "body": "Presented with fatigue for 9 days. Afebrile, vitals stable. Advised rest and fluids; return if symptoms worsen.",
+          "created_at": "2025-11-09T04:29:00+00:00"
+        }
+      ]
+    }
+  ]
+}

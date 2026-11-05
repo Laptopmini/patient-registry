@@ -5,8 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 1 complete, waiting for the owner's "go". The owner works in Claude Design in parallel.
-> **Next action:** after "go", push `main`, then write `docs/plan/stage-2.md` and launch `backend-engineer` in a worktree.
+> **Current:** Stage 2 in progress. `backend-engineer` is running in a worktree from `docs/plan/stage-2.md`. The owner is in Claude Design.
+> **Next action:** review the agent's branch diff, run `make check` on it, merge into `main`, update REQUIREMENTS, and check in. If the agent was lost, relaunch it from the brief.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 
@@ -32,7 +32,7 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 - [x] Check in. While the owner works in Claude Design, Stages 2–4 continue
 
 ## Stage 2: Backend (`backend-engineer`, worktree)
-- [ ] Brief: `docs/plan/stage-2.md`
+- [x] Brief: `docs/plan/stage-2.md`
 - [ ] Models (patients, allergies, conditions, notes), Alembic migrations, idempotent seed (Faker, fixed seed, `SEED_PATIENTS`)
 - [ ] Patient CRUD with ETag/If-Match, soft delete, offset pagination, allowlisted sort, pg_trgm search, filters
 - [ ] Notes endpoints; summary endpoint with the `template` provider and caching

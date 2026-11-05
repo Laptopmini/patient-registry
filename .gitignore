@@ -31,3 +31,6 @@ apps/web/blob-report/
 .claude/settings.local.json
 .claude/worktrees/
 .tanstack/
+
+# Generated CSS Module typings (apps/web/scripts/css-types.mjs)
+*.module.d.css.ts

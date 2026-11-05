@@ -1,69 +1,132 @@
-.form {
+/* Composer card, always above the list. */
+.stack {
   display: grid;
-  gap: var(--space-3);
-  margin-block-end: var(--space-6);
-  padding: var(--space-4);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-md);
-  background: var(--color-surface-subtle);
+  gap: var(--space-6);
+  min-width: 0;
 }
 
-.formActions {
+.composer {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.when {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.whenFields {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.date {
+  flex: 0 1 200px;
+  min-width: 0;
+}
+
+.time {
+  flex: 0 1 140px;
+  min-width: 0;
+}
+
+.help {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-sm);
+}
+
+.failure {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-3);
 }
 
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Notes list */
+.listHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+}
+
+.listMeta {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
 .list {
-  display: grid;
-  gap: var(--space-3);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .note {
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-md);
+  padding: var(--space-5) 0;
+  border-block-end: 1px solid var(--color-border);
+}
+
+.note:last-child {
+  border-block-end: 0;
 }
 
 .noteHeader {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
-  margin-block-end: var(--space-2);
+  min-height: var(--size-touch);
+  margin-block-end: var(--space-1);
+}
+
+.noteTimes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-2);
 }
 
 .recordedAt {
-  font-weight: 700;
+  font-weight: var(--weight-strong);
 }
 
 .added {
   color: var(--color-text-muted);
-  font-size: var(--text-md);
+  font-size: var(--text-sm);
+}
+
+.saving {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
 }
 
 .body {
-  margin: 0 0 var(--space-2);
-  white-space: pre-wrap;
+  max-width: var(--measure-note);
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-line;
   overflow-wrap: anywhere;
 }
 
+/* Six lines, then "Show more": no height animation. */
 .clamped {
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.noteActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
 }
 
 .pending {
@@ -71,20 +134,23 @@
 }
 
 .empty {
+  margin: 0;
   padding: var(--space-4);
   border: 1px dashed var(--color-border-strong);
   border-radius: var(--radius-md);
+  color: var(--color-text-muted);
 }
 
-.skeleton {
-  height: 5rem;
-  border-radius: var(--radius-md);
-  background: var(--color-surface-subtle);
-  animation: pulse 1.4s ease-in-out infinite;
+.skeletons {
+  display: grid;
+  gap: var(--space-6);
 }
 
-@keyframes pulse {
-  50% {
-    opacity: 0.5;
-  }
+.skeletonNote {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.quoteTime {
+  font-weight: var(--weight-semibold);
 }

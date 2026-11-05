@@ -28,7 +28,7 @@ export const noteFormSchema = CreateNoteBody.extend({
   recorded_at: z.iso
     .datetime({ offset: true, error: 'Enter the date and time of the encounter.' })
     .refine((value) => new Date(value).getTime() <= Date.now() + 60_000, {
-      error: "The encounter can't be in the future.",
+      error: "The clinical time can't be in the future.",
     }),
 });
 

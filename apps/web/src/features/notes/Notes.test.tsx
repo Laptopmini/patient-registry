@@ -61,7 +61,7 @@ describe('notes tab', () => {
     await user.type(textarea, 'Important detail');
     await user.click(screen.getByRole('button', { name: 'Add note' }));
 
-    expect(await screen.findByText("Couldn't reach the server. Your note is kept.")).toBeVisible();
+    expect(await screen.findByText("We couldn't save this note.")).toBeVisible();
     expect(textarea).toHaveValue('Important detail');
     // The optimistic note was rolled back.
     expect(screen.queryByText('Important detail', { selector: 'p' })).not.toBeInTheDocument();
@@ -122,7 +122,7 @@ describe('summary tab', () => {
     expect(screen.getByText('First paragraph of the narrative.')).toBeVisible();
     expect(screen.getByText('Second paragraph of the narrative.')).toBeVisible();
     expect(screen.getByText(/Based on 2 notes/)).toBeVisible();
-    expect(screen.getByText('Penicillin')).toBeVisible();
+    expect(screen.getAllByText('Penicillin').length).toBeGreaterThan(0);
   });
 
   it('labels AI summaries', async () => {
@@ -144,7 +144,7 @@ describe('summary tab', () => {
     );
     renderWithProviders({ path: `/patients/${ID}/summary` });
     expect(await screen.findByText('AI-generated, verify before clinical use')).toBeVisible();
-    expect(screen.getByText(/Based on 1 note$/)).toBeVisible();
+    expect(screen.getByText(/Based on 1 note ·/)).toBeVisible();
   });
 });
 
@@ -152,10 +152,10 @@ describe('patient detail', () => {
   it('shows the allergy strip, route-based tabs and a not-found page for unknown patients', async () => {
     const { user, router } = renderWithProviders({ path: `/patients/${ID}` });
     expect(await screen.findByRole('heading', { level: 1, name: 'David Maldonado' })).toBeVisible();
-    expect(screen.getByText('Allergies: Penicillin')).toBeVisible();
-    await user.click(screen.getByRole('tab', { name: 'Notes' }));
+    expect(screen.getByRole('region', { name: /^Allergies/ })).toHaveTextContent('Penicillin');
+    await user.click(screen.getByRole('tab', { name: /^Notes/ }));
     await waitFor(() => expect(router.state.location.pathname).toBe(`/patients/${ID}/notes`));
-    expect(screen.getByRole('tab', { name: 'Notes' })).toHaveAttribute('aria-selected', 'true');
+    expect(screen.getByRole('tab', { name: /^Notes/ })).toHaveAttribute('aria-selected', 'true');
   });
 
   it('renders Not found inside the shell for an unknown patient', async () => {

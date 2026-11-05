@@ -1,15 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  getLocalTimeZone,
+  toCalendarDate,
+  toCalendarDateTime,
+  toTime,
+  toZoned,
+} from '@internationalized/date';
 import { useRef, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { isNetworkError } from '../../api/http';
-import { Banner } from '../../components/ui/Banner';
 import { Button } from '../../components/ui/Button';
 import { DatePickerField } from '../../components/ui/DatePickerField';
+import { InlineError } from '../../components/ui/FieldMessage';
 import { TextField } from '../../components/ui/TextField';
+import { TimeFieldInput } from '../../components/ui/TimeFieldInput';
 import styles from './Notes.module.css';
 import {
-  COUNTER_THRESHOLD,
   currentMinuteIso,
   isoFromZoned,
   NOTE_MAX,
@@ -20,6 +26,10 @@ import {
 import { useAddNote } from './useNotes';
 
 type NoteFormOutput = z.output<typeof noteFormSchema>;
+
+/** The counter stays hidden until 4,500 characters, then turns red from 4,900. */
+const COUNTER_SHOWS_AT = 4500;
+const COUNTER_WARNS_AT = 4900;
 
 export function NoteForm({ patientId }: { patientId: string }) {
   const addNote = useAddNote(patientId);
@@ -32,19 +42,14 @@ export function NoteForm({ patientId }: { patientId: string }) {
     defaultValues: { recorded_at: currentMinuteIso(), body: '' },
   });
   const body = useWatch({ control: form.control, name: 'body' });
-  const remaining = NOTE_MAX - body.length;
 
   const submit = form.handleSubmit(async (values) => {
     setFailure(null);
     try {
       await addNote.mutateAsync(values);
-    } catch (error) {
+    } catch {
       // Keep the text so nothing is lost; the user can retry.
-      setFailure(
-        isNetworkError(error)
-          ? "Couldn't reach the server. Your note is kept."
-          : "We couldn't save the note. Your text is kept.",
-      );
+      setFailure("We couldn't save this note.");
       return;
     }
     form.reset({ recorded_at: currentMinuteIso(), body: '' });
@@ -52,21 +57,55 @@ export function NoteForm({ patientId }: { patientId: string }) {
   });
 
   return (
-    <form className={styles.form} onSubmit={submit} aria-label="Add a note" noValidate>
+    <form className={styles.composer} onSubmit={submit} aria-labelledby="composer-title" noValidate>
+      <h2 id="composer-title">Add a note</h2>
       <Controller
         control={form.control}
         name="recorded_at"
-        render={({ field, fieldState }) => (
-          <DatePickerField
-            label="Date and time of encounter"
-            granularity="minute"
-            value={field.value ? zonedFromIso(field.value) : null}
-            onChange={(value) => field.onChange(value ? isoFromZoned(value) : '')}
-            onBlur={field.onBlur}
-            name={field.name}
-            error={fieldState.error?.message}
-          />
-        )}
+        render={({ field, fieldState }) => {
+          const zoned = field.value ? zonedFromIso(field.value) : null;
+          const timeZone = getLocalTimeZone();
+          return (
+            <div className={styles.when}>
+              <div className={styles.whenFields}>
+                <div className={styles.date}>
+                  <DatePickerField
+                    label="Clinical date"
+                    value={zoned ? toCalendarDate(zoned) : null}
+                    onChange={(date) => {
+                      if (!date || !zoned) return field.onChange('');
+                      const next = toCalendarDateTime(toCalendarDate(date), toTime(zoned));
+                      field.onChange(isoFromZoned(toZoned(next, timeZone)));
+                    }}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    isInvalid={Boolean(fieldState.error)}
+                  />
+                </div>
+                <div className={styles.time}>
+                  <TimeFieldInput
+                    label="Time"
+                    value={zoned ? toTime(zoned) : null}
+                    onChange={(time) => {
+                      if (!time || !zoned) return field.onChange('');
+                      const next = toCalendarDateTime(
+                        toCalendarDate(zoned),
+                        toTime(zoned).set({ hour: time.hour, minute: time.minute }),
+                      );
+                      field.onChange(isoFromZoned(toZoned(next, timeZone)));
+                    }}
+                    onBlur={field.onBlur}
+                    isInvalid={Boolean(fieldState.error)}
+                  />
+                </div>
+              </div>
+              <p className={styles.help}>
+                Defaults to now. The clinical time can't be in the future.
+              </p>
+              {fieldState.error?.message && <InlineError>{fieldState.error.message}</InlineError>}
+            </div>
+          );
+        }}
       />
       <Controller
         control={form.control}
@@ -75,6 +114,9 @@ export function NoteForm({ patientId }: { patientId: string }) {
           <TextField
             label="Note"
             multiline
+            placeholder="What happened at this encounter?"
+            description="Plain text, up to 5,000 characters. Line breaks are kept."
+            maxLength={NOTE_MAX}
             value={field.value}
             onChange={field.onChange}
             onBlur={field.onBlur}
@@ -84,29 +126,21 @@ export function NoteForm({ patientId }: { patientId: string }) {
               bodyRef.current = element;
             }}
             error={fieldState.error?.message}
-            footer={
-              remaining <= COUNTER_THRESHOLD
-                ? `${remaining.toLocaleString()} characters remaining`
-                : undefined
-            }
+            {...(body.length >= COUNTER_SHOWS_AT
+              ? { footer: `${body.length.toLocaleString()} / ${NOTE_MAX.toLocaleString()}` }
+              : {})}
+            footerTone={body.length >= COUNTER_WARNS_AT ? 'danger' : 'muted'}
           />
         )}
       />
       {failure && (
-        <Banner
-          tone="error"
-          role="alert"
-          action={
-            <Button variant="primary" onPress={() => void submit()}>
-              Retry
-            </Button>
-          }
-        >
-          {failure}
-        </Banner>
+        <div className={styles.failure}>
+          <InlineError>{failure}</InlineError>
+          <Button onPress={() => void submit()}>Retry</Button>
+        </div>
       )}
       <div className={styles.formActions}>
-        <Button type="submit" variant="primary" isDisabled={addNote.isPending}>
+        <Button type="submit" variant="primary" isPending={addNote.isPending}>
           {addNote.isPending ? 'Adding…' : 'Add note'}
         </Button>
       </div>

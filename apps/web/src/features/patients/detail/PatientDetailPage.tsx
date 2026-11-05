@@ -1,56 +1,26 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { getRouteApi, Link, Outlet, useNavigate, useRouterState } from '@tanstack/react-router';
-import { useState } from 'react';
-import { Tab, TabList, TabPanel, Tabs } from 'react-aria-components';
-import { deletePatient, useGetPatient } from '../../../api/generated/client';
+import { Archive, Pencil, TriangleAlert } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Button as AriaButton } from 'react-aria-components';
+import { useGetPatient, useListNotes } from '../../../api/generated/client';
 import type { PatientOut } from '../../../api/generated/model';
-import { isApiError } from '../../../api/http';
-import { ifMatch, invalidatePatientLists, removePatient } from '../../../api/invalidate';
+import { removePatient } from '../../../api/invalidate';
 import { unwrap } from '../../../api/unwrap';
+import { AllergyStrip } from '../../../components/ui/AllergyStrip';
+import { Breadcrumbs } from '../../../components/ui/Breadcrumbs';
 import { Button, buttonClass } from '../../../components/ui/Button';
-import { ConfirmDialog } from '../../../components/ui/ConfirmDialog';
+import { CountPill } from '../../../components/ui/CountPill';
+import { LinkTabs } from '../../../components/ui/LinkTabs';
+import { Skeleton } from '../../../components/ui/Skeleton';
 import { StatusBadge } from '../../../components/ui/StatusBadge';
 import { bloodTypeLabel, formatAge, formatDate, fullName } from '../../../lib/format';
-import { showToast } from '../../../lib/toast';
+import { useLayout } from '../../../lib/layout';
+import { usePageTitle } from '../../../lib/usePageTitle';
+import { ArchiveDialog } from '../ArchiveDialog';
+import { useArchivePatient } from '../useArchivePatient';
 import styles from './Detail.module.css';
-
-function AllergyStrip({ patient }: { patient: PatientOut }) {
-  const names = patient.allergies.map((a) => a.name);
-  return (
-    <section
-      aria-label="Allergies"
-      className={`${styles.allergies} ${names.length === 0 ? styles.allergiesNone : ''}`}
-    >
-      <span aria-hidden="true">{names.length ? '⚠' : '✓'}</span>
-      <p className={styles.allergyText}>
-        {names.length ? `Allergies: ${names.join(', ')}` : 'No known allergies'}
-      </p>
-    </section>
-  );
-}
-
-function useArchive(patient: PatientOut) {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  return useMutation({
-    mutationFn: () => deletePatient(patient.id, { headers: ifMatch(patient.version) }),
-    onSuccess: async () => {
-      void invalidatePatientLists(queryClient);
-      showToast('Patient archived');
-      await navigate({ to: '/patients' });
-      // Only after leaving the page, so nothing refetches the now-missing patient.
-      removePatient(queryClient, patient.id);
-    },
-    onError: (error) => {
-      showToast(
-        isApiError(error) && error.status === 412
-          ? 'This patient was changed by someone else. Reload and try again.'
-          : "The patient couldn't be archived. Try again.",
-        'error',
-      );
-    },
-  });
-}
+import { Snapshot } from './Snapshot';
 
 const route = getRouteApi('/patients/$patientId/_detail');
 
@@ -64,66 +34,73 @@ function useActiveTab(): TabKey {
   return 'profile';
 }
 
-/** Shared layout: header, allergy strip, tabs (router links) and the active child route. */
-export function PatientDetailLayout() {
-  const { patientId } = route.useParams();
-  const tab = useActiveTab();
-  const { data: patient, error } = useGetPatient(patientId, { query: { select: unwrap } });
-  const [archiveOpen, setArchiveOpen] = useState(false);
+const ALLERGY_STRIP_ID = 'allergy-strip';
 
-  // The route loader normally has this cached. If it's missing, let the error component handle it.
-  if (!patient) {
-    if (error) throw error;
-    return <div aria-busy="true" className={styles.skeletonPage} />;
-  }
-
-  return (
-    <>
-      <PatientHeader patient={patient} onArchive={() => setArchiveOpen(true)} />
-      <Tabs selectedKey={tab}>
-        <TabList aria-label="Patient sections" className={styles.tabList}>
-          <Tab id="profile" href={`/patients/${patient.id}`} className={styles.tab}>
-            Profile
-          </Tab>
-          <Tab id="notes" href={`/patients/${patient.id}/notes`} className={styles.tab}>
-            Notes
-          </Tab>
-          <Tab id="summary" href={`/patients/${patient.id}/summary`} className={styles.tab}>
-            Summary
-          </Tab>
-        </TabList>
-        <TabPanel id={tab} className={styles.panel}>
-          <Outlet />
-        </TabPanel>
-      </Tabs>
-      <ArchiveDialog patient={patient} isOpen={archiveOpen} onOpenChange={setArchiveOpen} />
-    </>
-  );
+/** True once the element has scrolled up behind the sticky header. */
+function useScrolledPast(ref: React.RefObject<HTMLElement | null>, enabled: boolean) {
+  const [past, setPast] = useState(false);
+  useEffect(() => {
+    const element = ref.current;
+    if (!enabled || !element || typeof IntersectionObserver === 'undefined') {
+      setPast(false);
+      return;
+    }
+    // The header is 64px tall; the block counts as gone once it has slid under it.
+    const observer = new IntersectionObserver(
+      ([entry]) =>
+        setPast(Boolean(entry && !entry.isIntersecting && entry.boundingClientRect.top < 0)),
+      { rootMargin: '-64px 0px 0px 0px' },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [ref, enabled]);
+  return past;
 }
 
-function PatientHeader({ patient, onArchive }: { patient: PatientOut; onArchive: () => void }) {
+function PatientHeader({
+  patient,
+  headerRef,
+  onArchive,
+}: {
+  patient: PatientOut;
+  headerRef: React.Ref<HTMLElement>;
+  onArchive: () => void;
+}) {
   return (
-    <header className={styles.header}>
-      <h1 tabIndex={-1} className={styles.title}>
-        {fullName(patient)}
-      </h1>
-      <p className={styles.meta}>
-        <span>
-          {formatAge(patient.date_of_birth)} (born {formatDate(patient.date_of_birth)})
-        </span>
-        <StatusBadge status={patient.status} />
-        <span>Blood type: {bloodTypeLabel(patient.blood_type)}</span>
-      </p>
-      <AllergyStrip patient={patient} />
+    <header ref={headerRef} className={styles.header}>
+      <div className={styles.identity}>
+        <div className={styles.nameRow}>
+          <h1 tabIndex={-1} className={styles.title}>
+            {fullName(patient)}
+          </h1>
+          <StatusBadge status={patient.status} />
+        </div>
+        <dl className={styles.facts}>
+          <div>
+            <dt>Age</dt>
+            <dd>{formatAge(patient.date_of_birth)}</dd>
+          </div>
+          <div>
+            <dt>Born</dt>
+            <dd>{formatDate(patient.date_of_birth)}</dd>
+          </div>
+          <div>
+            <dt>Blood type</dt>
+            <dd>{bloodTypeLabel(patient.blood_type)}</dd>
+          </div>
+        </dl>
+      </div>
       <div className={styles.actions}>
         <Link
           to="/patients/$patientId/edit"
           params={{ patientId: patient.id }}
-          className={buttonClass('primary')}
+          className={buttonClass()}
         >
+          <Pencil />
           Edit
         </Link>
         <Button variant="danger" onPress={onArchive}>
+          <Archive />
           Archive patient
         </Button>
       </div>
@@ -131,30 +108,133 @@ function PatientHeader({ patient, onArchive }: { patient: PatientOut; onArchive:
   );
 }
 
-function ArchiveDialog({
-  patient,
-  isOpen,
-  onOpenChange,
-}: {
-  patient: PatientOut;
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-}) {
-  const archive = useArchive(patient);
+/** Compact only: once the header block scrolls away, the name and an allergy chip stay pinned. */
+function PinnedBar({ patient }: { patient: PatientOut }) {
+  const count = patient.allergies.length;
   return (
-    <ConfirmDialog
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      title="Archive this patient?"
-      confirmLabel="Archive patient"
-      destructive
-      isPending={archive.isPending}
-      onConfirm={() => archive.mutate()}
-    >
-      <p>
-        {fullName(patient)} will disappear from the registry. Their record is kept, but it can't be
-        restored from here.
+    <div className={styles.pinAnchor}>
+      <div className={styles.pinned}>
+        <span className={styles.pinnedName}>{fullName(patient)}</span>
+        {count > 0 && (
+          <AriaButton
+            className={styles.pinnedChip}
+            aria-label={`${count} ${count === 1 ? 'allergy' : 'allergies'}, show the allergy list`}
+            onPress={() =>
+              document
+                .getElementById(ALLERGY_STRIP_ID)
+                ?.scrollIntoView({ behavior: 'auto', block: 'center' })
+            }
+          >
+            <TriangleAlert />
+            {count} {count === 1 ? 'allergy' : 'allergies'}
+          </AriaButton>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function NotesTabLabel({ patientId }: { patientId: string }) {
+  const { data: count } = useListNotes(patientId, {
+    query: { select: (response) => unwrap(response).items.length },
+  });
+  return (
+    <>
+      Notes
+      {count !== undefined && (
+        <CountPill count={count} label={`${count} ${count === 1 ? 'note' : 'notes'}`} />
+      )}
+    </>
+  );
+}
+
+function DetailSkeleton() {
+  return (
+    <div aria-busy="true" className={styles.skeletons}>
+      <p role="status" className="visually-hidden">
+        Loading patient…
       </p>
-    </ConfirmDialog>
+      <Skeleton width="40%" height="34px" />
+      <Skeleton width="55%" />
+      <Skeleton height="60px" />
+      <Skeleton height="48px" />
+    </div>
+  );
+}
+
+/** Shared layout: breadcrumb, header, allergy strip, tabs (router links) and the active child route. */
+export function PatientDetailLayout() {
+  const { patientId } = route.useParams();
+  const tab = useActiveTab();
+  const layout = useLayout();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { data: patient, error } = useGetPatient(patientId, { query: { select: unwrap } });
+  const [archiveOpen, setArchiveOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const pinned = useScrolledPast(headerRef, layout === 'compact');
+  usePageTitle(patient ? fullName(patient) : undefined);
+
+  const archive = useArchivePatient({
+    onArchived: async (id) => {
+      await navigate({ to: '/patients' });
+      // Only after leaving the page, so nothing refetches the now-missing patient.
+      removePatient(queryClient, id);
+    },
+  });
+
+  // The route loader normally has this cached. If it's missing, let the error component handle it.
+  if (!patient) {
+    if (error) throw error;
+    return <DetailSkeleton />;
+  }
+
+  const outlet =
+    layout === 'wide' && tab !== 'profile' ? (
+      <div className={styles.withSnapshot}>
+        <div>
+          <Outlet />
+        </div>
+        <Snapshot patient={patient} />
+      </div>
+    ) : (
+      <Outlet />
+    );
+
+  return (
+    <>
+      {layout === 'compact' && pinned && <PinnedBar patient={patient} />}
+      <Breadcrumbs
+        items={[{ label: 'Patients', href: '/patients' }, { label: fullName(patient) }]}
+      />
+      <PatientHeader
+        patient={patient}
+        headerRef={headerRef}
+        onArchive={() => setArchiveOpen(true)}
+      />
+      <AllergyStrip id={ALLERGY_STRIP_ID} allergies={patient.allergies.map((a) => a.name)} />
+      <LinkTabs
+        label="Patient sections"
+        selectedKey={tab}
+        tabs={[
+          { id: 'profile', label: 'Profile', href: `/patients/${patient.id}` },
+          {
+            id: 'notes',
+            label: <NotesTabLabel patientId={patient.id} />,
+            href: `/patients/${patient.id}/notes`,
+          },
+          { id: 'summary', label: 'Summary', href: `/patients/${patient.id}/summary` },
+        ]}
+      >
+        {outlet}
+      </LinkTabs>
+      <ArchiveDialog
+        name={fullName(patient)}
+        isOpen={archiveOpen}
+        onOpenChange={setArchiveOpen}
+        isPending={archive.isPending}
+        onConfirm={() => archive.mutate({ id: patient.id, version: patient.version })}
+      />
+    </>
   );
 }

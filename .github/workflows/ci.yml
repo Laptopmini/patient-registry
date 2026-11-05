@@ -65,3 +65,71 @@ jobs:
         run: docker compose logs --no-color
       - if: always()
         run: docker compose down -v
+
+  e2e:
+    name: E2E · Playwright and axe
+    needs: [stack]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium firefox
+      # A fresh database each run: the seed is re-applied and no test depends on its order.
+      - run: docker compose down -v && docker compose up --build --wait --wait-timeout 300
+        working-directory: .
+      - run: pnpm e2e
+        env:
+          BASE_URL: http://localhost:8080
+      - if: failure()
+        run: docker compose logs --no-color
+        working-directory: .
+      - if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            apps/web/playwright-report/
+            apps/web/test-results/
+          retention-days: 7
+      - if: always()
+        run: docker compose down -v
+        working-directory: .
+
+  lighthouse:
+    name: Lighthouse · mobile and desktop
+    needs: [stack]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: docker compose up --build --wait --wait-timeout 300
+        working-directory: .
+      - run: pnpm lhci
+        env:
+          BASE_URL: http://localhost:8080
+      - if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-report
+          path: apps/web/.lighthouseci/
+          retention-days: 7
+      - if: always()
+        run: docker compose down -v
+        working-directory: .

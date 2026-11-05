@@ -11,19 +11,19 @@ Each requirement has a stable ID. Code, tests, commits and reviews refer to requ
 | R-1.2 | The web client has an explicit, documented choice of component library, server/client state management, router and styling approach. | in progress | `docs/decisions/` | — |
 | R-1.3 | Linting and formatting are configured and enforced for both apps. | in progress | `apps/web/biome.json`, `apps/api/pyproject.toml` | — |
 | R-1.4 | TypeScript runs in strict mode. | in progress | `apps/web/tsconfig*.json` | — |
-| R-1.5 | The API is a FastAPI service exposing `GET /health`, which answers `{"status": "ok"}`. | in progress | `apps/api` | — |
-| R-1.6 | Patient data lives in PostgreSQL, and any developer can recreate the schema from versioned migrations. | planned | — | — |
-| R-1.7 | On startup the database is seeded idempotently with at least 15–20 realistic synthetic patients. | planned | — | — |
+| R-1.5 | The API is a FastAPI service exposing `GET /health`, which answers `{"status": "ok"}`. | done | `apps/api/src/app/main.py` | `tests/api/test_platform.py::test_health` |
+| R-1.6 | Patient data lives in PostgreSQL, and any developer can recreate the schema from versioned migrations. | done | `apps/api/migrations/`, `alembic.ini` | `tests/api/test_platform.py::TestMigrations` |
+| R-1.7 | On startup the database is seeded idempotently with at least 15–20 realistic synthetic patients. | done | `apps/api/src/app/seed.py` | `tests/api/test_seed.py`, `tests/unit/test_seed_data.py` |
 
 ## R-2 Dashboard and patient CRUD
 
 | ID | Requirement | Status | Where | Test |
 |----|-------------|--------|-------|------|
-| R-2.1 | `GET /patients` returns a paginated list. | planned | — | — |
-| R-2.2 | `GET /patients/{id}` returns one patient. | planned | — | — |
-| R-2.3 | `POST /patients` creates a patient. | planned | — | — |
-| R-2.4 | `PUT /patients/{id}` updates a patient (full replacement). | planned | — | — |
-| R-2.5 | `DELETE /patients/{id}` removes a patient from the registry. | planned | — | — |
+| R-2.1 | `GET /patients` returns a paginated list. | done | `routers/patients.py`, `services/patients.py` | `tests/api/test_patients_list.py` |
+| R-2.2 | `GET /patients/{id}` returns one patient. | done | `routers/patients.py` | `tests/api/test_patients_crud.py::TestRead` |
+| R-2.3 | `POST /patients` creates a patient. | done | `routers/patients.py` | `tests/api/test_patients_crud.py::TestCreate` |
+| R-2.4 | `PUT /patients/{id}` updates a patient (full replacement). | done | `routers/patients.py` (ETag / If-Match) | `tests/api/test_patients_crud.py::TestReplace` |
+| R-2.5 | `DELETE /patients/{id}` removes a patient from the registry. | done | `routers/patients.py` (soft delete, ADR 0003) | `tests/api/test_patients_crud.py::TestDelete` |
 | R-2.6 | The app shell is responsive and has a header with navigation, a sidebar and a main content region. | planned | — | — |
 | R-2.7 | The patient list shows each patient's name, age, last visit and status, as rows or cards. | planned | — | — |
 | R-2.8 | The patient list can be searched and filtered. | planned | — | — |
@@ -33,16 +33,16 @@ Each requirement has a stable ID. Code, tests, commits and reviews refer to requ
 | R-2.12 | The list stays efficient with well over 100 patients. | planned | — | — |
 | R-2.13 | Typing in search never blocks the UI. | planned | — | — |
 | R-2.14 | The UI works on small, low-resolution screens. | planned | — | — |
-| R-2.15 | The API validates input and answers with the appropriate HTTP status codes. | planned | — | — |
+| R-2.15 | The API validates input and answers with the appropriate HTTP status codes. | done | `apps/api/src/app/errors.py`, `schemas/` | `tests/api/test_patients_crud.py::TestCreate::test_validation_errors`, `tests/api/test_platform.py::TestErrorHandlers` |
 
 ## R-3 Clinical notes and summary
 
 | ID | Requirement | Status | Where | Test |
 |----|-------------|--------|-------|------|
-| R-3.1 | `POST /patients/{id}/notes` attaches a note, made of a timestamp and text, to a patient. | planned | — | — |
-| R-3.2 | `GET /patients/{id}/notes` lists a patient's notes. | planned | — | — |
-| R-3.3 | `DELETE /patients/{id}/notes/{note_id}` removes a note. | planned | — | — |
-| R-3.4 | `GET /patients/{id}/summary` returns a readable summary with identifiers (name, age, blood type), a narrative drawn from the notes, and key clinical facts (conditions, allergies). | planned | — | — |
+| R-3.1 | `POST /patients/{id}/notes` attaches a note, made of a timestamp and text, to a patient. | done | `routers/notes.py` | `tests/api/test_notes_and_summary.py::TestCreateNote` |
+| R-3.2 | `GET /patients/{id}/notes` lists a patient's notes. | done | `routers/notes.py` | `tests/api/test_notes_and_summary.py::TestListNotes` |
+| R-3.3 | `DELETE /patients/{id}/notes/{note_id}` removes a note. | done | `routers/notes.py` | `tests/api/test_notes_and_summary.py::TestGetAndDeleteNote` |
+| R-3.4 | `GET /patients/{id}/summary` returns a readable summary with identifiers (name, age, blood type), a narrative drawn from the notes, and key clinical facts (conditions, allergies). | done | `routers/summary.py`, `summary/` | `tests/api/test_notes_and_summary.py::TestSummary`, `tests/unit/test_logic.py::TestTemplateProvider` |
 | R-3.5 | The patient view shows notes with their timestamps, a form to add one, and a way to delete one. | planned | — | — |
 | R-3.6 | The patient view shows the generated summary. | planned | — | — |
 
@@ -61,7 +61,7 @@ Each requirement has a stable ID. Code, tests, commits and reviews refer to requ
 
 | ID | Requirement | Status | Where | Test |
 |----|-------------|--------|-------|------|
-| R-5.1 | The API ships with a Dockerfile. | planned | — | — |
+| R-5.1 | The API ships with a Dockerfile. | done | `apps/api/Dockerfile` | Image built and `/health` checked against a throwaway Postgres (Stage 2 verification) |
 | R-5.2 | The web client ships with a Dockerfile. | planned | — | — |
 | R-5.3 | One `docker-compose.yml` starts the API, PostgreSQL and the web client. | planned | — | — |
 | R-5.4 | `.env.example` documents every environment variable. | planned | — | — |
@@ -74,10 +74,10 @@ Chosen focus: **Advanced Backend** (R-S.1–R-S.3) and **Testing & Quality** (R-
 
 | ID | Requirement | Status | Where | Test |
 |----|-------------|--------|-------|------|
-| R-S.1 | The list endpoint accepts sorting and filtering query parameters. | planned | — | — |
-| R-S.2 | Middleware logs every request. | planned | — | — |
-| R-S.3 | Schema changes are managed with Alembic migrations. | planned | — | — |
-| R-S.4 | API endpoints have automated tests. | planned | — | — |
+| R-S.1 | The list endpoint accepts sorting and filtering query parameters. | done | `services/patients.py` (`q`, `status`, `blood_type`, `condition`, `allergy`, `sort`) | `tests/api/test_patients_list.py` |
+| R-S.2 | Middleware logs every request. | done | `apps/api/src/app/logging.py` | `tests/api/test_platform.py::TestRequestLogging` |
+| R-S.3 | Schema changes are managed with Alembic migrations. | done | `apps/api/migrations/` | `tests/api/test_platform.py::TestMigrations` |
+| R-S.4 | API endpoints have automated tests. | done | `apps/api/tests/` | `uv run pytest`: 170 tests, 98% line coverage |
 | R-S.5 | Critical UI components have component tests. | planned | — | — |
 | R-S.6 | The main user journeys have end-to-end tests. | planned | — | — |
 | R-S.7 | Users can switch between light and dark themes manually. | planned | — | — |

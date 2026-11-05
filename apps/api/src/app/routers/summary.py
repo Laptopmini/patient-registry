@@ -11,9 +11,10 @@ from app.schemas.patient import calculate_age
 from app.schemas.summary import SummaryOut
 from app.services import notes as notes_service
 from app.services import patients as patients_service
-from app.summary.base import NoteForSummary
+from app.summary.base import NoteForSummary, SummaryProvider, SummaryUnavailableError
 from app.summary.cache import CachedSummary, SummaryCache, cache_key
 from app.summary.registry import select_provider
+from app.summary.template import TemplateProvider
 
 router = APIRouter(prefix="/patients/{patient_id}/summary", tags=["summary"])
 
@@ -31,15 +32,23 @@ async def get_patient_summary(
 
     settings = cast(Settings, request.app.state.settings)  # pyright: ignore[reportAny]
     cache = cast(SummaryCache, request.app.state.summary_cache)  # pyright: ignore[reportAny]
-    provider = await select_provider(settings)
+    anthropic_provider = cast(
+        SummaryProvider | None,
+        request.app.state.anthropic_provider,  # pyright: ignore[reportAny]
+    )
+    provider = await select_provider(settings, anthropic=anthropic_provider)
 
-    key = cache_key(provider.name, notes)
-    cached = cache.get(key)
+    cached = cache.get(cache_key(provider.name, notes))
     if cached is None:
-        cached = CachedSummary(
-            narrative=await provider.generate(notes), generated_at=datetime.now(UTC)
-        )
-        cache.put(key, cached)
+        try:
+            narrative = await provider.generate(notes)
+        except SummaryUnavailableError:
+            provider = TemplateProvider()
+            narrative = await provider.generate(notes)
+        cached = cache.get(cache_key(provider.name, notes))
+        if cached is None:
+            cached = CachedSummary(narrative=narrative, generated_at=datetime.now(UTC))
+            cache.put(cache_key(provider.name, notes), cached)
 
     return SummaryOut(
         patient_id=patient.id,

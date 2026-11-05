@@ -17,5 +17,5 @@ class Settings(BaseSettings):
     log_format: Literal["json", "console"] = "json"
     flagd_host: str | None = None
     flagd_port: int = 8013
-    # Wired only: the anthropic summary provider arrives in a later stage.
     anthropic_api_key: SecretStr | None = None
+    anthropic_model: str = "claude-haiku-5-5"

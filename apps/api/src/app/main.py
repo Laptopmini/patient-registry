@@ -4,6 +4,7 @@ from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from typing import Any
 
+import anthropic
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -14,6 +15,7 @@ from app.flags import init_flags, shutdown_flags
 from app.logging import RequestLoggingMiddleware, configure_logging
 from app.routers import notes, patients, summary
 from app.seed import seed
+from app.summary.anthropic_provider import AnthropicProvider
 from app.summary.cache import SummaryCache
 
 
@@ -46,6 +48,15 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         engine = create_engine(settings.database_url)
         app.state.engine = engine
         app.state.sessionmaker = create_sessionmaker(engine)
+        client: anthropic.AsyncAnthropic | None = None
+        app.state.anthropic_provider = None
+        if settings.anthropic_api_key is not None:
+            client = anthropic.AsyncAnthropic(
+                api_key=settings.anthropic_api_key.get_secret_value(),
+                timeout=20.0,
+                max_retries=2,
+            )
+            app.state.anthropic_provider = AnthropicProvider(client, settings.anthropic_model)
         await init_flags(settings)
         try:
             if settings.seed_on_startup:
@@ -53,6 +64,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             yield
         finally:
             await shutdown_flags()
+            if client is not None:
+                await client.close()
             await engine.dispose()
 
     app = FastAPI(title="Patient Registry API", version="0.1.0", lifespan=lifespan)

@@ -18,3 +18,7 @@ class SummaryProvider(Protocol):
     name: str
 
     async def generate(self, notes: Sequence[NoteForSummary]) -> str: ...
+
+
+class SummaryUnavailableError(Exception):
+    """A provider could not produce a usable narrative; the caller falls back to the template."""

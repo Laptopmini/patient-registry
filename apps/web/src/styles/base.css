@@ -37,6 +37,14 @@ h1 {
   letter-spacing: var(--tracking-tight);
 }
 
+/* Medium and wide: the larger h1 (the app container is named in Shell.module.css). */
+@container app (min-width: 768px) {
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-4xl);
+  }
+}
+
 h2 {
   font-size: var(--text-xl);
   line-height: var(--leading-xl);

@@ -60,9 +60,12 @@ interface Screen {
   after?: (page: Page) => Promise<void>;
 }
 
+/** Waits for the page to be ready: no network-idle (the flag stream never goes idle), so look at the DOM. */
 const settle = async (page: Page) => {
-  await page.waitForLoadState('networkidle');
+  await page.locator('main h1').first().waitFor();
+  await page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
   await page.evaluate(() => document.fonts.ready);
+  await page.waitForTimeout(400);
 };
 
 function screens(p: Awaited<ReturnType<typeof pickPatients>>): Screen[] {

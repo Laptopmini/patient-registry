@@ -72,6 +72,11 @@
 
 /* Compact: New patient is a 44px icon button; the words stay for screen readers. */
 @container app (max-width: 767px) {
+  .header {
+    gap: var(--space-1);
+    padding-inline: var(--space-3);
+  }
+
   .newPatient {
     padding: 0;
   }

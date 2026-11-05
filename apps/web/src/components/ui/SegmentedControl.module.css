@@ -42,5 +42,4 @@
 .count {
   font-weight: var(--weight-medium);
   font-variant-numeric: var(--font-numeric);
-  opacity: 0.85;
 }

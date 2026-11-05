@@ -24,7 +24,7 @@ Each requirement has a stable ID. Code, tests, commits and reviews refer to requ
 | R-2.3 | `POST /patients` creates a patient. | done | `routers/patients.py` | `tests/api/test_patients_crud.py::TestCreate` |
 | R-2.4 | `PUT /patients/{id}` updates a patient (full replacement). | done | `routers/patients.py` (ETag / If-Match) | `tests/api/test_patients_crud.py::TestReplace` |
 | R-2.5 | `DELETE /patients/{id}` removes a patient from the registry. | done | `routers/patients.py` (soft delete, ADR 0003) | `tests/api/test_patients_crud.py::TestDelete` |
-| R-2.6 | The app shell is responsive and has a header with navigation, a sidebar and a main content region. | done | `apps/web/src/components/shell/` | `apps/web/src/features/notes/Notes.test.tsx` (shell, nav), `apps/web/src/features/patients/list/PatientListPage.test.tsx` |
+| R-2.6 | The app shell is responsive and has a header with navigation, a sidebar and a main content region. | done | `apps/web/src/components/shell/` (container-query shell, rail, drawer, header search, skip link, offline banner, toasts); token styling in `src/styles/tokens.css`, enforced by `pnpm lint:css` | `apps/web/src/features/notes/Notes.test.tsx` (shell, nav), `apps/web/src/features/patients/list/PatientListPage.test.tsx` |
 | R-2.7 | The patient list shows each patient's name, age, last visit and status, as rows or cards. | done | `apps/web/src/features/patients/list/` | `apps/web/src/features/patients/list/PatientListPage.test.tsx` |
 | R-2.8 | The patient list can be searched and filtered. | done | `apps/web/src/features/patients/list/PatientListPage.tsx` | `apps/web/src/features/patients/list/PatientListPage.test.tsx` |
 | R-2.9 | The patient list can be sorted. | done | `apps/web/src/features/patients/list/PatientTable.tsx` | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (sort) |
@@ -32,7 +32,7 @@ Each requirement has a stable ID. Code, tests, commits and reviews refer to requ
 | R-2.11 | Routes exist for the dashboard home `/`, the list `/patients`, a patient `/patients/:id`, and a not-found page. | done | `apps/web/src/routes/` | `apps/web/src/features/notes/Notes.test.tsx` (detail, not found, dashboard) |
 | R-2.12 | The list stays efficient with well over 100 patients. | in progress | Server-side paging (20 per page), keepPreviousData, deferred query key | `apps/web/src/features/patients/list/PatientListPage.test.tsx`; no 100+ row profiling yet (Stage 5) |
 | R-2.13 | Typing in search never blocks the UI. | done | `PatientListPage.tsx` (local input, 250 ms debounce, `useDeferredValue`) | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (debounce, keeps previous results) |
-| R-2.14 | The UI works on small, low-resolution screens. | in progress | Cards below 768px, drawer nav; visual polish and 360px checks in Stage 5 | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (cards) |
+| R-2.14 | The UI works on small, low-resolution screens. | in progress | Cards below 768px, drawer nav, 360px captures with axe and no horizontal scroll (`apps/web/e2e/visual.capture.ts`); create and edit forms are Run 5b | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (cards) |
 | R-2.15 | The API validates input and answers with the appropriate HTTP status codes. | done | `apps/api/src/app/errors.py`, `schemas/` | `tests/api/test_patients_crud.py::TestCreate::test_validation_errors`, `tests/api/test_platform.py::TestErrorHandlers` |
 
 ## R-3 Clinical notes and summary

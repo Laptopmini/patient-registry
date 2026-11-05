@@ -12,15 +12,18 @@ import styles from './Disclosure.module.css';
 interface DisclosureProps extends Omit<AriaDisclosureProps, 'className' | 'children'> {
   title: string;
   children: ReactNode;
+  /** A small icon before the title. */
+  icon?: ReactNode;
 }
 
 /** A collapsed-by-default section, for example the tips under the wizard's progress bar. */
-export function Disclosure({ title, children, ...props }: DisclosureProps) {
+export function Disclosure({ title, icon, children, ...props }: DisclosureProps) {
   return (
     <AriaDisclosure {...props} className={styles.root}>
       <Heading level={2} className={styles.heading}>
         <Button slot="trigger" className={styles.trigger}>
-          {title}
+          {icon}
+          <span className={styles.title}>{title}</span>
           <ChevronDown className={styles.chevron} />
         </Button>
       </Heading>

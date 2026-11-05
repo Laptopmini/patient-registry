@@ -143,3 +143,17 @@ textarea.input {
 .nested > legend {
   padding-inline: 0;
 }
+
+@container app (min-width: 768px) {
+  .group {
+    padding: var(--space-6);
+  }
+
+  .nested {
+    padding: 0;
+  }
+}
+
+.nested > legend {
+  padding-block-end: var(--space-4);
+}

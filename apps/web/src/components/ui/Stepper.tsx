@@ -34,10 +34,10 @@ export function Stepper({ label, steps, current }: StepperProps) {
     return (
       <div className={styles.compact}>
         <p className={styles.compactText}>
+          <span className={styles.compactName}>{currentStep?.label}</span>
           <span className={styles.compactCount}>
             Step {current} of {steps.length}
           </span>
-          <span className={styles.compactName}>{currentStep?.label}</span>
         </p>
         <ProgressBar
           label="Progress"

@@ -218,7 +218,7 @@ export function PatientWizard() {
         <div className={styles.main}>
           {stepper}
           {layout !== 'wide' && (
-            <Disclosure title="Tips for this step">
+            <Disclosure title="Tips for this step" icon={<Info aria-hidden="true" />}>
               <Tips step={step} heading={false} />
             </Disclosure>
           )}

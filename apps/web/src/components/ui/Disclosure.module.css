@@ -49,3 +49,15 @@
   color: var(--color-text-muted);
   font-size: var(--text-md);
 }
+
+.title {
+  flex: 1;
+}
+
+.trigger > svg:first-child:not(.chevron) {
+  flex: none;
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+  margin-inline-end: var(--space-2);
+  color: var(--color-info-fg);
+}

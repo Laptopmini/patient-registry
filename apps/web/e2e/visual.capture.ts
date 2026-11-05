@@ -60,6 +60,14 @@ interface Screen {
   after?: (page: Page) => Promise<void>;
 }
 
+/** Step 1 of the wizard: name and date of birth (typed into the localised segments). */
+async function fillWizardStep1(page: Page) {
+  await page.getByRole('textbox', { name: /First name/ }).fill('Jessica');
+  await page.getByRole('textbox', { name: /Last name/ }).fill('Wall');
+  await page.getByRole('spinbutton', { name: /day, Date of birth/i }).click();
+  await page.keyboard.type('23022019');
+}
+
 /** Waits for the page to be ready: no network-idle (the flag stream never goes idle), so look at the DOM. */
 const settle = async (page: Page) => {
   await page.locator('main h1').first().waitFor();
@@ -70,6 +78,7 @@ const settle = async (page: Page) => {
 
 function screens(p: Awaited<ReturnType<typeof pickPatients>>): Screen[] {
   return [
+    { name: 'dashboard', path: '/' },
     { name: 'patient-list', path: '/patients' },
     {
       name: 'patient-list-loading',
@@ -115,9 +124,82 @@ function screens(p: Awaited<ReturnType<typeof pickPatients>>): Screen[] {
         await page.getByRole('alertdialog').waitFor();
       },
     },
+    { name: 'patient-form', path: '/patients/new' },
+    {
+      name: 'patient-form-step2',
+      path: '/patients/new',
+      once: true,
+      after: async (page) => {
+        await fillWizardStep1(page);
+        await page.getByRole('button', { name: /^Continue/ }).click();
+        await page.getByRole('group', { name: 'Address' }).waitFor();
+      },
+    },
+    {
+      name: 'patient-form-step1-errors',
+      path: '/patients/new',
+      once: true,
+      after: async (page) => {
+        await page.getByRole('button', { name: /^Continue/ }).click();
+        await page.getByRole('alert').filter({ hasText: 'problem' }).waitFor();
+      },
+    },
+    {
+      name: 'patient-form-review',
+      path: '/patients/new',
+      after: async (page) => {
+        await fillWizardStep1(page);
+        await page.getByRole('button', { name: 'Skip optional steps and review' }).click();
+        await page.getByText('Check the details below, then create the patient.').waitFor();
+      },
+    },
+    {
+      name: 'dialog-unsaved-changes',
+      path: '/patients/new',
+      once: true,
+      after: async (page) => {
+        await page.getByRole('textbox', { name: /First name/ }).fill('Nora');
+        await page.getByRole('link', { name: 'Cancel' }).click();
+        await page.getByRole('alertdialog').waitFor();
+      },
+    },
+    {
+      name: 'patient-form-errors',
+      path: `/patients/${p.rich.id}/edit`,
+      after: async (page) => {
+        await page.getByRole('textbox', { name: /Email/ }).fill('ana.terry@');
+        // Enter, not a click: the blur validation inserts messages that move the button.
+        await page.getByRole('textbox', { name: /Phone/ }).fill('12345');
+        await page.getByRole('textbox', { name: /Phone/ }).press('Enter');
+        await page.getByRole('alert').filter({ hasText: 'problem' }).waitFor();
+      },
+    },
+    {
+      name: 'dialog-conflict',
+      path: `/patients/${p.rich.id}/edit`,
+      prepare: async (page) => {
+        await page.route('**/api/patients/*', async (route) => {
+          if (route.request().method() !== 'PUT') return route.fallback();
+          await route.fulfill({
+            status: 412,
+            contentType: 'application/problem+json',
+            body: JSON.stringify({
+              type: 'about:blank',
+              title: 'Precondition Failed',
+              status: 412,
+            }),
+          });
+        });
+      },
+      after: async (page) => {
+        await page.getByRole('textbox', { name: /First name/ }).fill('Changed');
+        await page.getByRole('button', { name: 'Save changes' }).click();
+        await page.getByRole('alertdialog').waitFor();
+      },
+    },
     {
       name: 'offline-banner',
-      path: `/patients/${p.rich.id}`,
+      path: `/patients/${p.rich.id}/edit`,
       after: async (page) => {
         await page.context().setOffline(true);
         await page.evaluate(() => window.dispatchEvent(new Event('offline')));
@@ -151,6 +233,10 @@ async function capture(
   if (!screen.name.includes('loading')) await settle(page);
   const file = `${screen.name}-${width}-${scheme}`;
   await page.screenshot({ path: `${OUT}${file}.png`, fullPage: true });
+  // Under prefers-reduced-motion nothing may be animating.
+  const running = await page.evaluate(
+    () => document.getAnimations().filter((a) => a.playState === 'running').length,
+  );
   const horizontalScroll = await page.evaluate(
     () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
   );
@@ -161,12 +247,24 @@ async function capture(
   return {
     file,
     horizontalScroll,
-    violations: axe.violations.map((v) => ({
-      id: v.id,
-      impact: v.impact,
-      help: v.help,
-      nodes: v.nodes.slice(0, 3).map((n) => n.target.join(' ')),
-    })),
+    violations: [
+      ...(running > 0
+        ? [
+            {
+              id: 'reduced-motion',
+              impact: 'serious',
+              help: `${running} running animations`,
+              nodes: [],
+            },
+          ]
+        : []),
+      ...axe.violations.map((v) => ({
+        id: v.id,
+        impact: v.impact,
+        help: v.help,
+        nodes: v.nodes.slice(0, 3).map((n) => n.target.join(' ')),
+      })),
+    ],
   };
 }
 

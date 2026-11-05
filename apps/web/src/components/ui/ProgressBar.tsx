@@ -29,7 +29,7 @@ export function ProgressBar({
       className={`${styles.root} ${size === 'thin' ? styles.thin : styles.step}`}
       {...(indeterminate ? { isIndeterminate: true } : { value })}
       maxValue={maxValue}
-      {...(valueText ? { valueText } : {})}
+      {...(valueText ? { valueLabel: valueText } : {})}
       {...(showLabel ? {} : { 'aria-label': label })}
     >
       {({ percentage }) => (

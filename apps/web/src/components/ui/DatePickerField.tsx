@@ -80,8 +80,13 @@ export function DatePickerField({
                   ? 'mmm'
                   : monthShort(segment.value)
                 : segment.type === 'literal'
-                  ? ' '
-                  : segment.text}
+                  ? value
+                    ? ' '
+                    : ' / '
+                  : segment.type === 'day' && !segment.isPlaceholder
+                    ? // "5 Nov 2026", not "05": no leading zero once the day is set.
+                      segment.text.replace(/^0(\d)$/, '$1')
+                    : segment.text}
             </DateSegment>
           )}
         </DateInput>

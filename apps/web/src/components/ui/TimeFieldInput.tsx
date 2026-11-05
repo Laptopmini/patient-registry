@@ -45,7 +45,12 @@ export function TimeFieldInput({
     >
       <Label className={fieldStyles.label}>{label}</Label>
       <DateInput className={`${styles.group} ${styles.input}`}>
-        {(segment) => <DateSegment segment={segment} className={styles.segment} />}
+        {(segment) => (
+          <DateSegment
+            segment={segment}
+            className={segment.type === 'literal' ? styles.literal : styles.segment}
+          />
+        )}
       </DateInput>
       {description && (
         <Text slot="description" className={fieldStyles.description}>

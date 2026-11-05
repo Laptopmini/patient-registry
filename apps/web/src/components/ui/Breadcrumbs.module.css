@@ -1,8 +1,11 @@
 .list {
+  /* The 44px hit area sits above the title; pull the title up so the pair reads as one block. */
+  margin-block-end: calc(-1 * var(--space-4));
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin: 0;
+  margin-block-start: 0;
+  margin-inline: 0;
   padding: 0;
   list-style: none;
   font-size: var(--text-md);
@@ -43,4 +46,10 @@
   width: var(--size-icon-sm);
   height: var(--size-icon-sm);
   color: var(--color-text-muted);
+}
+
+@container app (min-width: 768px) {
+  .list {
+    margin-block-end: calc(-1 * var(--space-4));
+  }
 }

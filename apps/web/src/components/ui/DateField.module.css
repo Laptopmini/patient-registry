@@ -39,9 +39,21 @@
   align-items: center;
 }
 
+/* The colon between hours and minutes sits tight against its numbers. */
+.literal {
+  padding: 0;
+  white-space: pre;
+}
+
 /* A focused segment is filled; placeholders are muted. */
 .segment {
+  /* A 24px target, even for a one-digit day. React Aria sets an inline min-width in ch, so
+     this needs !important to win. */
+  display: inline-block;
+  /* biome-ignore lint/complexity/noImportantStyles: overrides an inline style from React Aria */
+  min-width: var(--space-6) !important;
   padding: var(--space-0-5) var(--space-0-5);
+  text-align: center;
   border-radius: var(--radius-xs);
   outline: none;
   font-variant-numeric: var(--font-numeric);

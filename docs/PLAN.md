@@ -5,8 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 5, run 5a in progress. `frontend-engineer` is running in a worktree from `docs/plan/stage-5.md` (run 5a only).
-> **Next action:** review and merge 5a, then launch run 5b. After 5b merges, compare with Playwright MCP and check in. If the agent was lost, relaunch the current run from the brief.
+> **Current:** Stage 5, run 5a merged; run 5b in progress (`frontend-engineer` worktree, `docs/plan/stage-5.md` run 5b plus the "Run 5b additions").
+> **Next action:** review and merge 5b, compare with Playwright MCP, then check in. If the agent was lost, relaunch run 5b from the brief.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 
@@ -60,8 +60,8 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 
 ## Stage 5: Design implementation (`design/handoff/` committed in 948dd80)
 - [x] Brief: `docs/plan/stage-5.md` (runs 5a and 5b)
-- [~] Run 5a: tokens, font, stylelint, shell, primitives, styleguide, list, detail, dialogs
-- [ ] Run 5b: create wizard, edit, unsaved-changes guard, dashboard, 404, states, motion
+- [x] Run 5a: tokens, font, stylelint, shell, primitives, styleguide, list, detail, dialogs
+- [~] Run 5b: create wizard, edit, unsaved-changes guard, dashboard, 404, states, motion
 - [ ] Compare with Playwright MCP at 360, 768 and 1280px, in light and dark
 
 ## Stage 6: Quality gate and core release

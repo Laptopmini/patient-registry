@@ -49,3 +49,12 @@ The stage is split into two sequential runs, each with its own branch, review an
 - Accessibility smoke: run `@axe-core/playwright` on each captured page in the same script and fix every violation. Stage 6 turns this into CI tests.
 - Bundle: the entry chunk stays at or under 150 kB gzip. Report the numbers. Inter and Lucide must not bloat the entry chunk.
 - Update `docs/REQUIREMENTS.md` (R-2.6, R-2.12, R-2.14 and anything else that changed). Commit in small Conventional Commits with `web` scope (`ci:` for the workflow), with no AI or co-author trailers. The report is 150 words or fewer.
+
+## Run 5b additions (from the 5a review)
+- **Dates:** the `DatePicker`/`DateField` shows "5 Nov 2026", not "05 / 11 / 2026". Display dates must read "27 Sep 1947" in every engine, so build them from `formatToParts` with explicit `day`/`month: 'short'`/`year`. Chrome's en-GB gives "Sept", which is wrong here.
+- **Relative "added …":** never phrase it in the future. A `created_at` after "now" (clock skew, frozen test clocks) reads "just now".
+- **Sidebar:** fills the viewport height at every size (it currently stops at about 900px in full-page captures).
+- **Header block spacing:** match the reference (breadcrumb → h1 → facts → allergy strip is tighter than now).
+- **`ErrorSummary`:** the form switches to the new primitive.
+- **Styleguide:** no horizontal scroll at 360px.
+- **Bundle:** "entry chunk" means the JS needed for first paint (the entry plus its static imports). Lazy-loading non-critical shell extras is the right approach. Keep it at or under 150 kB gzip.

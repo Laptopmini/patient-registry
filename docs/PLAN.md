@@ -5,8 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 2 in progress. `backend-engineer` is running in a worktree from `docs/plan/stage-2.md`. The owner is in Claude Design.
-> **Next action:** review the agent's branch diff, run `make check` on it, merge into `main`, update REQUIREMENTS, and check in. If the agent was lost, relaunch it from the brief.
+> **Current:** Stage 2 merged, waiting for the owner's "go". The owner is in Claude Design.
+> **Next action:** after "go", push, then start Stage 3 (Compose, `.env.example`, Makefile, CI, lefthook), and verify it from a clean clone.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 
@@ -33,14 +33,14 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 
 ## Stage 2: Backend (`backend-engineer`, worktree)
 - [x] Brief: `docs/plan/stage-2.md`
-- [ ] Models (patients, allergies, conditions, notes), Alembic migrations, idempotent seed (Faker, fixed seed, `SEED_PATIENTS`)
-- [ ] Patient CRUD with ETag/If-Match, soft delete, offset pagination, allowlisted sort, pg_trgm search, filters
-- [ ] Notes endpoints; summary endpoint with the `template` provider and caching
-- [ ] Problem-details errors, request-ID + JSON logging middleware, `/health`
-- [ ] OpenAPI export (`apps/api/openapi.json`)
-- [ ] Unit and API tests against real Postgres
-- [ ] Dockerfile: multi-stage, non-root user
-- [ ] Review the diff and merge
+- [x] Models (patients, allergies, conditions, notes), Alembic migrations, idempotent seed (Faker, fixed seed, `SEED_PATIENTS`)
+- [x] Patient CRUD with ETag/If-Match, soft delete, offset pagination, allowlisted sort, pg_trgm search, filters
+- [x] Notes endpoints; summary endpoint with the `template` provider and caching
+- [x] Problem-details errors, request-ID + JSON logging middleware, `/health`
+- [x] OpenAPI export (`apps/api/openapi.json`)
+- [x] Unit and API tests against real Postgres
+- [x] Dockerfile: multi-stage, non-root user
+- [x] Review the diff and merge
 
 ## Stage 3: Compose and developer setup
 - [ ] `docker-compose.yml`: db, migrate, api, flagd, web; health checks; `watch`

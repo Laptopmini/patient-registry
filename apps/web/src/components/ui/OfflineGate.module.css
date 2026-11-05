@@ -1,0 +1,11 @@
+.gate {
+  display: inline-flex;
+  min-width: var(--size-touch);
+  min-height: var(--size-touch);
+  border-radius: var(--radius-md);
+}
+
+.gate:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}

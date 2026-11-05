@@ -1,3 +1,4 @@
+import type { FieldPath } from 'react-hook-form';
 import { z } from 'zod';
 import type { BloodType, PatientIn, PatientOut, PatientStatus } from '../../../api/generated/model';
 import {
@@ -14,6 +15,7 @@ import {
   createPatientBodyLastNameMax,
 } from '../../../api/generated/zod';
 
+export const EMAIL_HINT = 'Enter an email address with a domain, e.g. name@example.com';
 export const PHONE_HINT = 'Enter a phone number in international format, e.g. +1 212 555 0100';
 
 /** What the inputs hold: always strings, with `''` meaning "left blank". */
@@ -75,11 +77,22 @@ const blankToNull = (value: unknown) =>
 
 const isBlank = (value: unknown) => typeof value !== 'string' || value.trim() === '';
 
-/** Today as `YYYY-MM-DD` in the local time zone. */
-const todayLocal = () => {
-  const d = new Date();
+const MAX_AGE_YEARS = 130;
+export const DOB_RANGE_MESSAGE = `Enter a date of birth in the past ${MAX_AGE_YEARS} years.`;
+
+const isoLocal = (d: Date) => {
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
+
+/** Today as `YYYY-MM-DD` in the local time zone. */
+export const todayLocal = () => isoLocal(new Date());
+
+/** The earliest accepted date of birth: today minus 130 years. */
+export const earliestDob = () => {
+  const d = new Date();
+  d.setFullYear(d.getFullYear() - MAX_AGE_YEARS);
+  return isoLocal(d);
 };
 
 const requiredText = (max: number, what: string) =>
@@ -148,14 +161,12 @@ export const patientFormSchema = CreatePatientBody.extend({
     .string()
     .min(1, 'Enter a date of birth.')
     .pipe(
-      CreatePatientBody.shape.date_of_birth.refine((value) => value <= todayLocal(), {
-        error: "The date of birth can't be in the future.",
-      }),
+      CreatePatientBody.shape.date_of_birth.refine(
+        (value) => value <= todayLocal() && value >= earliestDob(),
+        { error: DOB_RANGE_MESSAGE },
+      ),
     ),
-  email: z.preprocess(
-    blankToNull,
-    z.email('Enter an email address like name@example.com.').nullable(),
-  ),
+  email: z.preprocess(blankToNull, z.email(EMAIL_HINT).nullable()),
   phone,
   address,
   allergies: namedItems(createPatientBodyAllergiesMax),
@@ -163,6 +174,27 @@ export const patientFormSchema = CreatePatientBody.extend({
 });
 
 export type PatientFormOutput = z.output<typeof patientFormSchema>;
+
+/** The fields each wizard step owns, for per-step validation. */
+export const STEP_FIELDS = {
+  1: ['first_name', 'last_name', 'date_of_birth', 'email', 'phone'],
+  2: [
+    'address.line1',
+    'address.line2',
+    'address.city',
+    'address.region',
+    'address.postal_code',
+    'address.country',
+  ],
+  3: ['blood_type', 'status', 'allergies', 'conditions'],
+} as const satisfies Record<number, readonly FieldPath<PatientFormValues>[]>;
+
+/** The wizard step that owns a (possibly nested) field path. */
+export function stepOfField(name: string): 1 | 2 | 3 {
+  if (name.startsWith('address')) return 2;
+  if (/^(blood_type|status|allergies|conditions)/.test(name)) return 3;
+  return 1;
+}
 
 /** Compile-time check that the form output is a valid API request body. */
 export const toPatientIn = (values: PatientFormOutput): PatientIn => values;

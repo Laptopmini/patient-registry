@@ -95,8 +95,8 @@ textarea.input {
   display: grid;
   gap: var(--space-4);
   min-width: 0;
-  margin: 0 0 var(--space-6);
-  padding: var(--space-4);
+  margin: 0;
+  padding: var(--space-4) var(--space-4) var(--space-5);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 }
@@ -107,8 +107,39 @@ textarea.input {
   font-weight: var(--weight-strong);
 }
 
+/* Two columns once there is room; a lone field keeps its half width. */
 .row {
   display: grid;
   gap: var(--space-4);
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@container app (min-width: 768px) {
+  .row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* City, region and postal code: three columns once there is room. */
+.row3 {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@container app (min-width: 768px) {
+  .row3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* A group inside a group (the optional address): no second border. */
+.nested {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.nested > legend {
+  padding-inline: 0;
 }

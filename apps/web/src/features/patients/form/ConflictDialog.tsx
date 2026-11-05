@@ -1,3 +1,4 @@
+import { TriangleAlert } from 'lucide-react';
 import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components';
 import { Button } from '../../../components/ui/Button';
 import dialogStyles from '../../../components/ui/ConfirmDialog.module.css';
@@ -5,27 +6,52 @@ import dialogStyles from '../../../components/ui/ConfirmDialog.module.css';
 interface ConflictDialogProps {
   isOpen: boolean;
   isBusy: boolean;
+  patientName: string;
   onReload: () => void;
   onOverwrite: () => void;
 }
 
-/** Shown when the server answers 412: someone else saved this patient first. */
-export function ConflictDialog({ isOpen, isBusy, onReload, onOverwrite }: ConflictDialogProps) {
+/**
+ * Shown when the server answers 412: someone else saved this patient first. Focus starts
+ * on the safe choice, "Load their latest changes". There is no dismiss: one choice is needed.
+ */
+export function ConflictDialog({
+  isOpen,
+  isBusy,
+  patientName,
+  onReload,
+  onOverwrite,
+}: ConflictDialogProps) {
   return (
     <ModalOverlay isOpen={isOpen} className={dialogStyles.overlay}>
-      <Modal className={dialogStyles.modal}>
+      <Modal className={`${dialogStyles.modal} ${dialogStyles.wide}`}>
         <Dialog role="alertdialog" className={dialogStyles.dialog}>
-          <Heading slot="title">This patient was changed by someone else</Heading>
-          <p>
-            Someone saved this record while you were editing. You can load their version and lose
-            your edits, or save yours over theirs.
-          </p>
+          <span className={dialogStyles.iconCircle}>
+            <TriangleAlert aria-hidden="true" />
+          </span>
+          <Heading slot="title" className={dialogStyles.title}>
+            Someone else saved this record
+          </Heading>
+          <div className={dialogStyles.body}>
+            <p>
+              Another person saved changes to {patientName} while you were editing. Choose which
+              version to keep.
+            </p>
+            <ul className={dialogStyles.options}>
+              <li>
+                <strong>Load their latest changes</strong> discards your unsaved changes.
+              </li>
+              <li>
+                <strong>Overwrite with mine</strong> replaces their changes with yours.
+              </li>
+            </ul>
+          </div>
           <div className={dialogStyles.actions}>
-            <Button isDisabled={isBusy} onPress={onReload}>
-              Reload their version
-            </Button>
-            <Button variant="danger" isDisabled={isBusy} onPress={onOverwrite}>
+            <Button isDisabled={isBusy} onPress={onOverwrite}>
               Overwrite with mine
+            </Button>
+            <Button variant="primary" autoFocus isDisabled={isBusy} onPress={onReload}>
+              Load their latest changes
             </Button>
           </div>
         </Dialog>

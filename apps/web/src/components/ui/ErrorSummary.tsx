@@ -14,22 +14,29 @@ interface ErrorSummaryProps {
   items: readonly ErrorSummaryItem[];
   /** Give the summary focus on submit by passing a ref and calling `focus()`. */
   summaryRef?: Ref<HTMLDivElement>;
+  /** What the problems block: "save" (the default) or "continue" in the wizard. */
+  blocks?: 'save' | 'continue';
 }
 
-/** Moves keyboard focus to the field a summary link points to. */
+const FOCUSABLE = 'input, textarea, button, [role="spinbutton"], [tabindex="0"]';
+
+/** Moves keyboard focus to the field a summary link points to (or the first control inside it). */
 function focusField(fieldId: string) {
-  document.getElementById(fieldId)?.focus();
+  const target = document.getElementById(fieldId);
+  if (!target) return;
+  if (target.matches(FOCUSABLE)) target.focus();
+  else target.querySelector<HTMLElement>(FOCUSABLE)?.focus();
 }
 
 /** "2 problems to fix before you can save", each item a link: **Label** – message. */
-export function ErrorSummary({ items, summaryRef }: ErrorSummaryProps) {
+export function ErrorSummary({ items, summaryRef, blocks = 'save' }: ErrorSummaryProps) {
   return (
     <div ref={summaryRef} role="alert" tabIndex={-1} className={styles.summary}>
       <h2 className={styles.title}>
         <CircleAlert />
         {items.length === 1
-          ? '1 problem to fix before you can save'
-          : `${items.length} problems to fix before you can save`}
+          ? `1 problem to fix before you can ${blocks}`
+          : `${items.length} problems to fix before you can ${blocks}`}
       </h2>
       <ul className={styles.list}>
         {items.map((item) => (

@@ -10,6 +10,8 @@ export const buttonClass = (variant: ButtonVariant = 'secondary') =>
   variant === 'secondary' ? styles.button : `${styles.button} ${styles[variant]}`;
 
 interface ButtonProps extends Omit<AriaButtonProps, 'className' | 'children'> {
+  /** Layout-only extras from the parent (width, grid placement). */
+  className?: string;
   variant?: ButtonVariant;
   children?: ReactNode;
   /** The 36px variant, for use inside a 44px row only. */
@@ -27,10 +29,11 @@ export function Button({
   variant = 'secondary',
   small = false,
   danger = false,
+  className: extra,
   children,
   ...props
 }: ButtonProps) {
-  const className = `${buttonClass(variant)}${small ? ` ${styles.small}` : ''}`;
+  const className = `${buttonClass(variant)}${small ? ` ${styles.small}` : ''}${extra ? ` ${extra}` : ''}`;
   return (
     <AriaButton {...props} className={className} {...(danger ? { 'data-danger': true } : {})}>
       {({ isPending }) => (

@@ -30,7 +30,7 @@ export function PatientSearch({
     return () => clearTimeout(timer);
   }, [input]);
 
-  const { data } = useListPatients(
+  const { data, isFetching } = useListPatients(
     { q: query, limit: MAX_OPTIONS },
     { query: { enabled: query !== '', placeholderData: keepPreviousData, select: unwrap } },
   );
@@ -47,7 +47,9 @@ export function PatientSearch({
       inputValue={input}
       onInputChange={setInput}
       textValue={listName}
-      emptyText={`No patients match '${query}'`}
+      emptyText={
+        input.trim() !== query || isFetching ? 'Searching…' : `No patients match '${query}'`
+      }
       onSelect={(id) => void navigate({ to: '/patients/$patientId', params: { patientId: id } })}
       renderItem={(patient) => (
         <>

@@ -62,6 +62,36 @@
   margin-block-start: var(--space-3);
 }
 
+/* The warning circle above the conflict dialog's title. */
+.iconCircle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-touch);
+  height: var(--size-touch);
+  border-radius: var(--radius-pill);
+  background: var(--color-banner-bg);
+  color: var(--color-banner-fg);
+}
+
+.iconCircle svg {
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+}
+
+.options {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding-inline-start: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--text-md);
+}
+
+.options strong {
+  color: var(--color-text);
+}
+
 /* Compact: actions stack full width, with the primary on top. */
 @media (max-width: 767px) {
   .dialog {

@@ -23,6 +23,8 @@ interface TagInputProps {
   inputRef?: Ref<HTMLInputElement | HTMLTextAreaElement>;
   /** Lets an error summary find the field. */
   fieldName?: string;
+  /** Adds "(optional)" to the label. */
+  optional?: boolean;
 }
 
 /**
@@ -40,6 +42,7 @@ export function TagInput({
   onBlur,
   inputRef,
   fieldName,
+  optional = false,
 }: TagInputProps) {
   const [draft, setDraft] = useState('');
   const [localError, setLocalError] = useState<string | undefined>();
@@ -74,6 +77,7 @@ export function TagInput({
       >
         <Label id={labelId} className={fieldStyles.label}>
           {label}
+          {optional && <span className={fieldStyles.optional}> (optional)</span>}
         </Label>
         <TagList
           items={items}

@@ -1,0 +1,115 @@
+.list {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A 3px bar on top, then the numbered circle and the two lines of text. */
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding-block-start: var(--space-3);
+  border-block-start: 3px solid var(--color-border);
+}
+
+.current,
+.done {
+  border-block-start-color: var(--color-accent);
+}
+
+.marker {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-badge);
+  height: var(--size-badge);
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: var(--font-numeric);
+}
+
+.marker svg {
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+}
+
+.current .marker {
+  border-color: var(--color-primary-bg);
+  background: var(--color-primary-bg);
+  color: var(--color-primary-fg);
+}
+
+.done .marker {
+  border-color: var(--color-accent);
+  background: var(--color-info-bg);
+  color: var(--color-info-fg);
+}
+
+.text {
+  display: grid;
+  min-width: 0;
+}
+
+.label {
+  color: var(--color-text-muted);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-md);
+}
+
+.current .label {
+  color: var(--color-text);
+  font-weight: var(--weight-bold);
+}
+
+.link {
+  color: var(--color-text);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-md);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link[data-focus-visible] {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.hint {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-xs);
+}
+
+/* Compact: "Step 2 of 4", the step name and a 6px bar. */
+.compact {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.compactText {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.compactCount {
+  color: var(--color-text-muted);
+  font-size: var(--text-md);
+}
+
+.compactName {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}

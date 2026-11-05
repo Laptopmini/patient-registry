@@ -64,6 +64,9 @@ export function ComboBoxField<T extends { id: string }>({
       }}
       defaultFilter={() => true}
       menuTrigger="input"
+      // Options arrive from the server after typing; the popover must be able to open on an
+      // empty list and fill in, rather than staying closed once results land.
+      allowsEmptyCollection
       autoFocus={autoFocus}
     >
       {!hideLabel && <Label className={styles.label}>{label}</Label>}
@@ -71,7 +74,10 @@ export function ComboBoxField<T extends { id: string }>({
         <Search className={styles.icon} />
         <Input className={styles.input} placeholder={placeholder} />
       </div>
-      <Popover className={popoverStyles.popover}>
+      <Popover
+        className={popoverStyles.popover}
+        {...(inputValue.trim() === '' ? { 'data-hidden': true } : {})}
+      >
         <ListBox
           className={popoverStyles.listbox}
           renderEmptyState={() => <div className={popoverStyles.empty}>{emptyText}</div>}

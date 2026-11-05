@@ -1,4 +1,8 @@
 /* Shared by Select, ComboBox and Menu: the popover surface and its 44px options. */
+.popover[data-hidden] {
+  display: none;
+}
+
 .popover {
   z-index: var(--z-popover);
   min-width: var(--trigger-width);

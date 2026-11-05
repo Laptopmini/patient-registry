@@ -161,7 +161,7 @@ describe('patient detail', () => {
   it('renders Not found inside the shell for an unknown patient', async () => {
     renderWithProviders({ path: '/patients/00000000-0000-4000-8000-0000000000ff' });
     expect(
-      await screen.findByRole('heading', { level: 1, name: "We can't find that page" }),
+      await screen.findByRole('heading', { level: 1, name: 'We couldn’t find that page' }),
     ).toBeVisible();
     expect(screen.getByRole('navigation', { name: 'Main' })).toBeVisible();
     expect(screen.getByRole('link', { name: 'Go to patients' })).toBeVisible();
@@ -179,12 +179,29 @@ describe('patient detail', () => {
 });
 
 describe('dashboard', () => {
-  it('shows counts and recently seen, and quick search navigates to the list', async () => {
-    const { user, router } = renderWithProviders({ path: '/' });
-    expect(await screen.findByText('45')).toBeVisible();
+  it('shows status cards that link to the filtered list, and recently seen patients', async () => {
+    renderWithProviders({ path: '/' });
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /^Good (morning|afternoon|evening)$/,
+      }),
+    ).toBeVisible();
+    const active = await screen.findByRole('link', { name: /^Active/ });
+    expect(active).toHaveAttribute('href', '/patients?status=active');
+    expect(screen.getByRole('link', { name: /^Total patients/ })).toHaveAttribute(
+      'href',
+      '/patients',
+    );
     expect(await screen.findByRole('heading', { name: 'Recently seen' })).toBeVisible();
-    await user.type(screen.getByRole('textbox', { name: /Search patients/ }), 'chen{Enter}');
-    await waitFor(() => expect(router.state.location.pathname).toBe('/patients'));
-    expect(router.state.location.search).toMatchObject({ q: 'chen' });
+    // The reserved chart slot renders nothing in v1.
+    expect(screen.queryByText(/Reserved/)).not.toBeInTheDocument();
+  });
+
+  it('opens a patient from the Find a patient combobox', async () => {
+    const { user, router } = renderWithProviders({ path: '/', width: 360 });
+    await user.type(await screen.findByRole('combobox', { name: 'Find a patient' }), 'chen');
+    await user.click(await screen.findByRole('option', { name: /^Wei, Chen/ }, { timeout: 3000 }));
+    await waitFor(() => expect(router.state.location.pathname).toMatch(/^\/patients\//));
   });
 });

@@ -26,8 +26,12 @@
   padding-inline-start: var(--space-6);
 }
 
-.link {
-  display: inline-block;
+/* Inline (not inline-block) so the bullet aligns with the first line of a wrapped item. */
+.list > li {
   padding-block: var(--space-2);
+}
+
+.link {
+  display: inline;
   color: var(--color-text);
 }

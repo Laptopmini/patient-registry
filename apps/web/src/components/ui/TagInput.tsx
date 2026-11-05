@@ -1,6 +1,6 @@
 import { TriangleAlert, X } from 'lucide-react';
 import { type Ref, useState } from 'react';
-import { Label, Tag, TagGroup, TagList, Text } from 'react-aria-components';
+import { Label, Tag, TagGroup, TagList } from 'react-aria-components';
 import { Button } from './Button';
 import fieldStyles from './Field.module.css';
 import styles from './TagInput.module.css';
@@ -72,10 +72,11 @@ export function TagInput({
   return (
     <div {...(fieldName ? { 'data-field': fieldName } : {})} className={styles.root}>
       <TagGroup
+        className={styles.group}
         aria-labelledby={labelId}
         onRemove={(keys) => onChange(values.filter((name) => !keys.has(name.toLowerCase())))}
       >
-        <Label id={labelId} className={fieldStyles.label}>
+        <Label id={labelId} className={`${fieldStyles.label} ${styles.groupLabel}`}>
           {label}
           {optional && <span className={fieldStyles.optional}> (optional)</span>}
         </Label>
@@ -98,15 +99,13 @@ export function TagInput({
             </Tag>
           )}
         </TagList>
-        <Text slot="description" className={fieldStyles.description}>
-          {items.length} added
-        </Text>
       </TagGroup>
       <div className={styles.addRow}>
         <div className={styles.addField}>
           <TextField
             label={`Add ${noun}`}
-            description="Type a name, then press Enter to add it"
+            placeholder={`Type ${/^[aeiou]/i.test(noun) ? 'an' : 'a'} ${noun}, then press Enter`}
+            description={`Press Enter to add. Each ${noun} appears once.`}
             value={draft}
             onChange={(value) => {
               setDraft(value);

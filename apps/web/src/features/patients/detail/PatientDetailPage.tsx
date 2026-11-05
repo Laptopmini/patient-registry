@@ -12,6 +12,8 @@ import { Breadcrumbs } from '../../../components/ui/Breadcrumbs';
 import { Button, buttonClass } from '../../../components/ui/Button';
 import { CountPill } from '../../../components/ui/CountPill';
 import { LinkTabs } from '../../../components/ui/LinkTabs';
+import { OfflineDataBadge } from '../../../components/ui/OfflineDataBadge';
+import { OfflineGate, useOffline } from '../../../components/ui/OfflineGate';
 import { Skeleton } from '../../../components/ui/Skeleton';
 import { StatusBadge } from '../../../components/ui/StatusBadge';
 import { bloodTypeLabel, formatAge, formatDate, fullName } from '../../../lib/format';
@@ -61,11 +63,14 @@ function PatientHeader({
   patient,
   headerRef,
   onArchive,
+  updatedAt,
 }: {
+  updatedAt: number;
   patient: PatientOut;
   headerRef: React.Ref<HTMLElement>;
   onArchive: () => void;
 }) {
+  const offline = useOffline();
   return (
     <header ref={headerRef} className={styles.header}>
       <div className={styles.identity}>
@@ -74,6 +79,7 @@ function PatientHeader({
             {fullName(patient)}
           </h1>
           <StatusBadge status={patient.status} />
+          <OfflineDataBadge updatedAt={updatedAt} />
         </div>
         <dl className={styles.facts}>
           <div>
@@ -99,10 +105,12 @@ function PatientHeader({
           <Pencil />
           Edit
         </Link>
-        <Button variant="danger" onPress={onArchive}>
-          <Archive />
-          Archive patient
-        </Button>
+        <OfflineGate>
+          <Button variant="danger" isDisabled={offline} onPress={onArchive}>
+            <Archive />
+            Archive patient
+          </Button>
+        </OfflineGate>
       </div>
     </header>
   );
@@ -169,7 +177,11 @@ export function PatientDetailLayout() {
   const layout = useLayout();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: patient, error } = useGetPatient(patientId, { query: { select: unwrap } });
+  const {
+    data: patient,
+    dataUpdatedAt,
+    error,
+  } = useGetPatient(patientId, { query: { select: unwrap } });
   const [archiveOpen, setArchiveOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const pinned = useScrolledPast(headerRef, layout === 'compact');
@@ -210,6 +222,7 @@ export function PatientDetailLayout() {
       <PatientHeader
         patient={patient}
         headerRef={headerRef}
+        updatedAt={dataUpdatedAt}
         onArchive={() => setArchiveOpen(true)}
       />
       <AllergyStrip id={ALLERGY_STRIP_ID} allergies={patient.allergies.map((a) => a.name)} />

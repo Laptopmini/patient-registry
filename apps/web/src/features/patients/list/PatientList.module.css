@@ -80,6 +80,7 @@
 /* Results */
 .results {
   position: relative;
+  view-transition-name: patient-results;
 }
 
 /* The 2px refetch bar runs along the top edge of the results; its height is always reserved. */
@@ -326,5 +327,12 @@
 
 .skeletonList {
   display: grid;
+  gap: var(--space-3);
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: var(--space-3);
 }

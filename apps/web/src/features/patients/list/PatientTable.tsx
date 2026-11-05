@@ -11,6 +11,7 @@ import {
 } from 'react-aria-components';
 import type { PatientListItem, SortField } from '../../../api/generated/model';
 import { ActionMenu } from '../../../components/ui/ActionMenu';
+import { useOffline } from '../../../components/ui/OfflineGate';
 import { StatusBadge } from '../../../components/ui/StatusBadge';
 import { formatAge, formatDate, listName } from '../../../lib/format';
 import styles from './PatientList.module.css';
@@ -49,6 +50,7 @@ function SortIcon({ direction }: { direction: 'ascending' | 'descending' | undef
 }
 
 export function PatientTable({ items, sort, onSortChange, onOpen, onArchive }: PatientTableProps) {
+  const offline = useOffline();
   const descriptor = toDescriptor(sort);
   return (
     <Table
@@ -130,7 +132,14 @@ export function PatientTable({ items, sort, onSortChange, onOpen, onArchive }: P
                     icon: <Pencil />,
                     href: `/patients/${patient.id}/edit`,
                   },
-                  { id: 'archive', label: 'Archive patient…', icon: <Archive />, danger: true },
+                  {
+                    id: 'archive',
+                    label: 'Archive patient…',
+                    icon: <Archive />,
+                    danger: true,
+                    disabled: offline,
+                    hint: 'Not available offline',
+                  },
                 ]}
                 onAction={(id) => {
                   if (id === 'archive') onArchive(patient);

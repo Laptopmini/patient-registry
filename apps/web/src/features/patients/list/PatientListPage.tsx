@@ -11,6 +11,7 @@ import {
 import { unwrap } from '../../../api/unwrap';
 import { Button, buttonClass } from '../../../components/ui/Button';
 import { EmptyState } from '../../../components/ui/EmptyState';
+import { OfflineDataBadge } from '../../../components/ui/OfflineDataBadge';
 import { Pagination } from '../../../components/ui/Pagination';
 import { ProgressBar } from '../../../components/ui/ProgressBar';
 import { SearchField } from '../../../components/ui/SearchField';
@@ -20,6 +21,7 @@ import { Skeleton } from '../../../components/ui/Skeleton';
 import { STATUS_LABELS } from '../../../lib/format';
 import { useLayout } from '../../../lib/layout';
 import { usePageTitle } from '../../../lib/usePageTitle';
+import { useTransitioned } from '../../../lib/viewTransition';
 import { ArchiveDialog } from '../ArchiveDialog';
 import { useArchivePatient } from '../useArchivePatient';
 import { PAGE_SIZE, toListParams } from './listSearch';
@@ -150,10 +152,18 @@ export function PatientListPage() {
 
   // The query key follows a deferred copy of the URL state, so the input stays responsive.
   const deferredSearch = useDeferredValue(search);
-  const { data, isError, isPending, isPlaceholderData, refetch } = useListPatients(
-    toListParams(deferredSearch),
-    { query: { placeholderData: keepPreviousData, select: unwrap } },
-  );
+  const {
+    data: latest,
+    dataUpdatedAt,
+    isError,
+    isPending,
+    isPlaceholderData,
+    refetch,
+  } = useListPatients(toListParams(deferredSearch), {
+    query: { placeholderData: keepPreviousData, select: unwrap },
+  });
+  // New results cross-fade in (a View Transition), unless the user prefers no motion.
+  const data = useTransitioned(latest);
   const isUpdating = isPlaceholderData || deferredSearch !== search;
   const counts = useStatusCounts(deferredSearch.q);
 
@@ -185,9 +195,12 @@ export function PatientListPage() {
 
   return (
     <>
-      <h1 ref={headingRef} tabIndex={-1}>
-        Patients
-      </h1>
+      <div className={styles.titleRow}>
+        <h1 ref={headingRef} tabIndex={-1}>
+          Patients
+        </h1>
+        <OfflineDataBadge updatedAt={dataUpdatedAt} />
+      </div>
 
       <div className={styles.toolbar}>
         <div className={styles.search}>

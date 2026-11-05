@@ -11,6 +11,9 @@ export interface ActionMenuItem {
   /** Set to navigate (a link item); otherwise `onAction` runs. */
   href?: string;
   danger?: boolean;
+  /** Greyed out; `hint` says why (for example "Not available offline"). */
+  disabled?: boolean;
+  hint?: string;
 }
 
 interface ActionMenuProps {
@@ -37,9 +40,11 @@ export function ActionMenu({ label, items, onAction }: ActionMenuProps) {
               className={styles.option}
               {...(item.href ? { href: item.href } : {})}
               {...(item.danger ? { 'data-danger': true } : {})}
+              {...(item.disabled ? { isDisabled: true } : {})}
             >
               {item.icon}
               {item.label}
+              {item.disabled && item.hint && <span className={menuStyles.hint}>{item.hint}</span>}
             </MenuItem>
           ))}
         </Menu>

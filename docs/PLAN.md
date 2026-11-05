@@ -6,6 +6,7 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 ## Resume point
 
 > **Current:** Stage 4 in progress. `frontend-engineer` is running in a worktree from `docs/plan/stage-4.md`. The owner is in Claude Design.
+> **Also:** the design handoff has landed (`design/handoff/`, with the brand removed; ADR 0012). Stage 5 starts after Stage 4 merges and the owner says "go".
 > **Next action:** review the agent's branch, run the web checks, the compose smoke test and the drift check, rebase, fast-forward `main`, and check in. If the agent was lost, relaunch it from the brief.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
@@ -58,7 +59,7 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 - [ ] Component tests (list, form, notes); Dockerfile (Caddy and dev targets)
 - [ ] Review the diff and merge
 
-## Stage 5: Design implementation (after `design/handoff/` exists)
+## Stage 5: Design implementation (`design/handoff/` committed in 948dd80)
 - [ ] Follow `design/handoff/HANDOFF.md`: tokens, themes, motion, responsive layouts
 - [ ] Compare with Playwright MCP at 360, 768 and 1280px, in light and dark
 

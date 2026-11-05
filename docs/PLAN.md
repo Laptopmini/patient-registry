@@ -68,7 +68,8 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 - [x] Brief: `docs/plan/stage-6.md` (runs 6-api and 6-web in parallel)
 - [ ] e2e tests for F1–F8, with an axe scan on every route and a reduced-motion check (`frontend-engineer`)
 - [ ] Lighthouse CI scoring 95 or higher in every category; e2e and Lighthouse jobs in CI
-- [ ] `anthropic` summary provider behind its flag (`backend-engineer`, `claude-api` skill)
+- [x] `anthropic` summary provider behind its flag (`backend-engineer`, `claude-api` skill)
+- [~] Summary narrative eval harness: cases, code graders, optional Opus judge, `make eval` (run 6-eval)
 - [ ] `docs/SECURITY.md`: threat model, what was reviewed, known limitations (never an unqualified "secure")
 - [ ] README complete: quick start, without Docker, architecture (Mermaid), API, decisions, testing, stretch table, "Designed to grow"
 - [ ] `docs/AI-WORKFLOW.md`

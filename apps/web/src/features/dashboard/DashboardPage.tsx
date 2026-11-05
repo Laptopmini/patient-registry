@@ -7,6 +7,7 @@ import { Button } from '../../components/ui/Button';
 import { ErrorState } from '../../components/ui/ErrorState';
 import { TextField } from '../../components/ui/TextField';
 import { formatLastVisit, fullName } from '../../lib/format';
+import { usePageTitle } from '../../lib/usePageTitle';
 import styles from './DashboardPage.module.css';
 import { countParams, recentParams } from './queries';
 
@@ -90,6 +91,7 @@ function RecentlySeen() {
 }
 
 export function DashboardPage() {
+  usePageTitle('Dashboard');
   const now = new Date();
   return (
     <>

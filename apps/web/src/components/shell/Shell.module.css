@@ -1,19 +1,21 @@
 .shell {
-  display: grid;
-  grid-template-rows: auto auto 1fr;
+  container: app / inline-size;
+  display: flex;
+  flex-direction: column;
   min-height: 100dvh;
 }
 
+/* Off-screen until focused, then top-left in primary colours. */
 .skip {
   position: absolute;
   inset-inline-start: var(--space-2);
   inset-block-start: var(--space-2);
   z-index: var(--z-skip-link);
   padding: var(--space-3) var(--space-4);
-  background: var(--color-surface);
-  color: var(--color-text);
-  border: 2px solid var(--color-focus);
   border-radius: var(--radius-md);
+  background: var(--color-primary-bg);
+  color: var(--color-primary-fg);
+  font-weight: var(--weight-semibold);
   transform: translateY(-300%);
 }
 
@@ -21,100 +23,63 @@
   transform: none;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-2) var(--space-4);
-  border-block-end: 1px solid var(--color-border-strong);
-  background: var(--color-surface-subtle);
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--size-touch);
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.headerActions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin-inline-start: auto;
-}
-
-/* Placeholder for a future user menu. */
-.userMenu:empty {
-  display: none;
-}
-
 .body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  display: flex;
+  flex: 1;
   min-height: 0;
 }
 
-@media (min-width: 768px) {
-  .body {
-    grid-template-columns: 14rem minmax(0, 1fr);
-  }
+/* The wide sidebar and the medium rail share one sticky column. */
+.nav {
+  position: sticky;
+  inset-block-start: var(--size-header);
+  flex: none;
+  align-self: flex-start;
+  width: var(--size-sidebar);
+  height: calc(100dvh - var(--size-header));
+  overflow-y: auto;
+  border-inline-end: 1px solid var(--color-border);
+  background: var(--color-sidebar);
 }
 
-.sidebar {
-  padding: var(--space-4);
-  border-inline-end: 1px solid var(--color-border-strong);
+@container app (max-width: 1279px) {
+  .nav {
+    width: var(--size-rail);
+  }
 }
 
 .main {
-  padding: var(--space-4);
-  max-width: 90rem;
-  width: 100%;
+  flex: 1;
   min-width: 0;
-}
-
-.main:focus {
+  padding: var(--space-4);
   outline: none;
 }
 
-@media (min-width: 768px) {
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: var(--size-main-max);
+}
+
+@container app (min-width: 768px) {
   .main {
-    padding: var(--space-6) var(--space-8);
+    padding: var(--space-6);
+  }
+
+  .content {
+    gap: var(--space-6);
   }
 }
 
-.navList {
-  display: grid;
-  gap: var(--space-1);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+@container app (min-width: 1280px) {
+  .main {
+    padding: var(--space-6) var(--space-10) var(--space-12);
+  }
 }
 
-.navLink {
-  display: flex;
-  align-items: center;
-  min-height: var(--size-touch);
-  padding: var(--space-2) var(--space-3);
-  border-inline-start: 4px solid transparent;
-  border-radius: var(--radius-sm);
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-/* The current page is marked by weight, an underline-style bar and the aria-current
-   attribute, not by colour alone. */
-.navLink[aria-current="page"] {
-  border-inline-start-color: var(--color-text);
-  background: var(--color-surface);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
+/* The compact drawer. Portaled, so it answers to the viewport, not the container. */
 .overlay {
   position: fixed;
   inset: 0;
@@ -126,16 +91,16 @@
   position: absolute;
   inset-block: 0;
   inset-inline-start: 0;
-  width: min(18rem, 85vw);
-  background: var(--color-surface);
-  border-inline-end: 1px solid var(--color-border-strong);
+  width: min(var(--size-drawer), 85vw);
   overflow: auto;
+  border-inline-end: 1px solid var(--color-border);
+  background: var(--color-sidebar);
 }
 
 .drawerDialog {
   display: grid;
-  gap: var(--space-4);
-  padding: var(--space-4);
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
   outline: none;
 }
 
@@ -143,8 +108,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 var(--space-2) 0 var(--space-4);
 }
 
-.drawerHeader h2 {
-  margin: 0;
+.drawerTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: var(--tracking-snug);
 }

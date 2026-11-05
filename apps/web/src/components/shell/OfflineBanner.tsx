@@ -1,13 +1,17 @@
+import { useIsFetching, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useOnlineStatus } from '../../lib/useOnlineStatus';
-import { Banner } from '../ui/Banner';
+import { OfflineBanner as OfflineBannerView } from '../ui/OfflineBanner';
 
-const BACK_ONLINE_MS = 5000;
+const BACK_ONLINE_MS = 4000;
 
-/** Shown below the header while offline, then briefly as "Back online". */
+/** Under the header while offline, then "Back online" for 4 seconds. Retry refetches what's on screen. */
 export function OfflineBanner() {
   const online = useOnlineStatus();
+  const queryClient = useQueryClient();
+  const isFetching = useIsFetching() > 0;
   const [wasOffline, setWasOffline] = useState(!online);
+  const [retrying, setRetrying] = useState(false);
 
   if (!online && !wasOffline) setWasOffline(true);
 
@@ -19,14 +23,14 @@ export function OfflineBanner() {
 
   if (online && !wasOffline) return null;
 
-  return online ? (
-    <Banner tone="success" label="Connection status">
-      Back online. You can retry anything that failed.
-    </Banner>
-  ) : (
-    <Banner tone="warning" label="Connection status">
-      You appear to be offline. You can still read what has loaded, but changes can't be saved until
-      you're back online.
-    </Banner>
+  return (
+    <OfflineBannerView
+      state={online ? 'online' : 'offline'}
+      isRetrying={retrying && isFetching}
+      onRetry={() => {
+        setRetrying(true);
+        void queryClient.refetchQueries({ type: 'active' }).finally(() => setRetrying(false));
+      }}
+    />
   );
 }

@@ -1,6 +1,7 @@
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
 import { type ErrorComponentProps, useRouter } from '@tanstack/react-router';
 import { isApiError, isNetworkError } from '../../api/http';
+import { usePageTitle } from '../../lib/usePageTitle';
 import { Button } from '../ui/Button';
 import { NotFoundPage } from './NotFoundPage';
 import styles from './Page.module.css';
@@ -9,8 +10,10 @@ import styles from './Page.module.css';
 export function RouteError({ error, reset }: ErrorComponentProps) {
   const router = useRouter();
   const queryReset = useQueryErrorResetBoundary();
+  const notFound = isApiError(error) && error.status === 404;
+  usePageTitle(notFound ? undefined : "Couldn't load this page");
 
-  if (isApiError(error) && error.status === 404) return <NotFoundPage />;
+  if (notFound) return <NotFoundPage />;
 
   const message = isNetworkError(error)
     ? "We couldn't reach the server. Check your connection and try again."

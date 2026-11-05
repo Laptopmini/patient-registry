@@ -5,8 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 0, scaffolding the repo.
-> **Next action:** finish the Stage 0 scaffold, run `make check`, commit, and check in.
+> **Current:** Stage 0 complete, waiting for the owner's "go".
+> **Next action:** after "go", push `main` to origin, then start Stage 1 (the design handoff package in `design/brief/`).
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 
@@ -22,9 +22,9 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 - [x] `docs/PLAN.md`
 - [x] Decisions (2 rounds) and ADRs 0001–0010
 - [x] Push policy: pre-approved after each approved stage
-- [~] Scaffold: layout, `apps/api`, `apps/web`, Makefile, lefthook + commitlint, `.editorconfig`, `.gitignore`, README placeholder
-- [~] Agent setup: `CLAUDE.md`, `AGENTS.md`, `.claude/settings.json`, agents, skills, `.mcp.json`
-- [ ] Verify (`make check`), commit, check in
+- [x] Scaffold: layout, `apps/api`, `apps/web`, Makefile, lefthook + commitlint, `.editorconfig`, `.gitignore`, README placeholder
+- [x] Agent setup: `CLAUDE.md`, `AGENTS.md`, `.claude/settings.json`, agents, skills, `.mcp.json`
+- [x] Verify (`make check`), commit, check in
 
 ## Stage 1: Design handoff package (main session)
 - [ ] `design/brief/01-product.md` … `07-return-package.md` (at most 8 files)

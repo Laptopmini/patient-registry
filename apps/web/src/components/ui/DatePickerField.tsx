@@ -20,6 +20,7 @@ import {
   Popover,
   Text,
 } from 'react-aria-components';
+import { monthShort } from '../../lib/format';
 import styles from './DateField.module.css';
 import fieldStyles from './Field.module.css';
 import { FieldMessage } from './FieldMessage';
@@ -36,6 +37,8 @@ interface DatePickerFieldProps {
   /** Marks the field invalid when its message is shown elsewhere. */
   isInvalid?: boolean;
   description?: string;
+  minValue?: DateValue;
+  maxValue?: DateValue;
 }
 
 /** A labelled date (or date and time) picker: segmented input plus a calendar popover. */
@@ -50,6 +53,8 @@ export function DatePickerField({
   error,
   isInvalid,
   description,
+  minValue,
+  maxValue,
 }: DatePickerFieldProps) {
   return (
     <DatePicker<DateValue>
@@ -58,6 +63,8 @@ export function DatePickerField({
       onChange={onChange}
       granularity={granularity}
       validationBehavior="aria"
+      {...(minValue ? { minValue } : {})}
+      {...(maxValue ? { maxValue } : {})}
       isInvalid={isInvalid ?? Boolean(error)}
       {...(onBlur ? { onBlur } : {})}
       {...(name ? { name } : {})}
@@ -66,7 +73,17 @@ export function DatePickerField({
       <Label className={fieldStyles.label}>{label}</Label>
       <Group className={styles.group}>
         <DateInput className={styles.input}>
-          {(segment) => <DateSegment segment={segment} className={styles.segment} />}
+          {(segment) => (
+            <DateSegment segment={segment} className={styles.segment}>
+              {segment.type === 'month'
+                ? segment.isPlaceholder || segment.value == null
+                  ? 'mmm'
+                  : monthShort(segment.value)
+                : segment.type === 'literal'
+                  ? ' '
+                  : segment.text}
+            </DateSegment>
+          )}
         </DateInput>
         <Button className={styles.trigger} aria-label={`Open calendar for ${label}`}>
           <CalendarIcon />

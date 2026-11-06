@@ -35,8 +35,8 @@ RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
 MAX_CONCURRENCY = 4
 CHARS_PER_TOKEN = 4
 
-# Assumed list prices in USD per million tokens (input, output); check the pricing page.
-PRICES_PER_MTOK = {"haiku": (1.0, 5.0), JUDGE_MODEL: (5.0, 25.0)}
+# List prices in USD per million tokens (input, output) as of 2026-11; check the pricing page.
+PRICES_PER_MTOK = {"haiku": (0.10, 0.50), JUDGE_MODEL: (4.0, 20.0)}
 ASSUMED_NARRATIVE_TOKENS = 300
 ASSUMED_VERDICT_TOKENS = 120
 

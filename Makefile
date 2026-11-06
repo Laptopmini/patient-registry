@@ -5,7 +5,7 @@ WEB := apps/web
 smoke: ## Check the running stack answers through Caddy
 	./scripts/smoke.sh
 
-.PHONY: smoke help install up down watch logs check lint typecheck test e2e fmt openapi client
+.PHONY: smoke help install up down watch logs check lint typecheck test e2e fmt openapi client eval
 
 help: ## List targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-12s %s\n", $$1, $$2}'
@@ -52,3 +52,6 @@ client: ## Regenerate the web API client and Zod schemas from apps/api/openapi.j
 
 e2e: ## Playwright e2e and axe checks (stack must be up)
 	cd $(WEB) && pnpm e2e
+
+eval: ## Summary eval with the LLM judge (dry run without ANTHROPIC_API_KEY; a paid run with it)
+	cd $(API) && uv run python -m evals.summary.run --judge

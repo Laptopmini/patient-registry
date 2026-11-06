@@ -34,3 +34,6 @@ apps/web/blob-report/
 
 # Generated CSS Module typings (apps/web/scripts/css-types.mjs)
 *.module.d.css.ts
+
+# Eval results (may contain model output)
+apps/api/evals/results/

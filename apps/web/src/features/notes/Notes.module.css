@@ -21,17 +21,20 @@
 
 .whenFields {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-4);
 }
 
+/* Each field is as wide as its content needs (locale order and separators vary), and the time
+   moves to its own line when both don't fit. */
 .date {
-  flex: 0 1 200px;
-  min-width: 0;
+  flex: 0 0 auto;
+  min-width: 200px;
 }
 
 .time {
-  flex: 0 1 140px;
-  min-width: 0;
+  flex: 0 0 auto;
+  min-width: 140px;
 }
 
 .help {

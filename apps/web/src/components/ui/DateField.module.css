@@ -34,9 +34,11 @@
 
 .input {
   display: flex;
-  flex: 1;
-  flex-wrap: wrap;
+  flex: 1 0 auto;
+  /* Segments never wrap, whatever the locale's order and separators ("Nov 5, 2026"). */
+  flex-wrap: nowrap;
   align-items: center;
+  white-space: nowrap;
 }
 
 /* The colon between hours and minutes sits tight against its numbers. */

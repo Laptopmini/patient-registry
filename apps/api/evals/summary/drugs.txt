@@ -1,0 +1,22 @@
+# Drug-like tokens the narrative may only mention if the notes do. One per line, lowercase.
+acetaminophen
+albuterol
+amlodipine
+amoxicillin
+antihistamine
+aspirin
+atorvastatin
+cetirizine
+ibuprofen
+insulin
+levothyroxine
+lisinopril
+loratadine
+metformin
+omeprazole
+paracetamol
+penicillin
+prednisone
+sertraline
+simvastatin
+warfarin

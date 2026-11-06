@@ -47,11 +47,12 @@
 
 /* A focused segment is filled; placeholders are muted. */
 .segment {
-  /* A 24px target, even for a one-digit day. React Aria sets an inline min-width in ch, so
-     this needs !important to win. */
+  /* At least a 24px target (28px leaves room for sub-pixel rounding and narrower fallback digit
+     widths), even for a one-digit day. React Aria sets an inline min-width in ch, so this needs
+     !important to win. */
   display: inline-block;
   /* biome-ignore lint/complexity/noImportantStyles: overrides an inline style from React Aria */
-  min-width: var(--space-6) !important;
+  min-width: calc(var(--space-6) + var(--space-1)) !important;
   padding: var(--space-0-5) var(--space-0-5);
   text-align: center;
   border-radius: var(--radius-xs);

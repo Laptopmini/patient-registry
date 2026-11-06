@@ -8,7 +8,7 @@ smoke: ## Check the running stack answers through Caddy
 .PHONY: smoke help install up down watch logs check lint typecheck test e2e lighthouse fmt openapi client eval
 
 help: ## List targets
-	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-12s %s\n", $$1, $$2}'
+	@grep -E '^[a-z0-9-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "} {printf "  %-12s %s\n", $$1, $$2}'
 
 install: ## Install all dependencies and git hooks
 	cd $(API) && uv sync

@@ -5,8 +5,8 @@ Each stage ends with a check-in, and the next stage starts only after the owner 
 
 ## Resume point
 
-> **Current:** Stage 6 in progress. Runs 6-api (`backend-engineer`) and 6-web (`frontend-engineer`) are running in parallel worktrees from `docs/plan/stage-6.md`.
-> **Next action:** review and merge both runs, then write SECURITY.md, the README and AI-WORKFLOW.md, sweep REQUIREMENTS, do a clean-clone run, tag v1.0.0 and push. If an agent was lost, relaunch its run from the brief.
+> **Current:** Stage 6 complete and tagged `v1.0.0` locally, waiting for the owner's "go".
+> **Next action:** after "go", push `main` and the tag, confirm CI is green (including the first e2e and Lighthouse runs), then hand over the email draft. Making the repo public is the owner's action.
 
 A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` and `docs/decisions/README.md`, then continue at the next action.
 
@@ -74,7 +74,7 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 - [x] README complete: quick start, without Docker, architecture (Mermaid), API, decisions, testing, stretch table, "Designed to grow"
 - [x] `docs/AI-WORKFLOW.md`
 - [x] Every row in `REQUIREMENTS.md` is `done` or explicitly out of scope
-- [ ] Clean-clone run, tag `v1.0.0`, push, and tell the owner it's ready to make public and submit
+- [x] Clean-clone run, tag `v1.0.0` · [ ] push, and tell the owner it's ready to make public and submit
 
 ## Post-submission backlog (not scheduled)
 - Manual theme toggle (R-S.7) · advanced search with filters (R-S.8) · virtualized list (R-S.9) · status chart (R-S.10) · code-splitting audit (R-S.11)

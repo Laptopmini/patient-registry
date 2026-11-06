@@ -66,14 +66,14 @@ A new session resumes here: read this file, `CLAUDE.md`, `docs/REQUIREMENTS.md` 
 
 ## Stage 6: Quality gate and release (final stage before submission)
 - [x] Brief: `docs/plan/stage-6.md` (runs 6-api and 6-web in parallel)
-- [ ] e2e tests for F1–F8, with an axe scan on every route and a reduced-motion check (`frontend-engineer`)
-- [ ] Lighthouse CI scoring 95 or higher in every category; e2e and Lighthouse jobs in CI
+- [x] e2e tests for F1–F8, with an axe scan on every route and a reduced-motion check (`frontend-engineer`)
+- [x] Lighthouse CI scoring 95 or higher in every category; e2e and Lighthouse jobs in CI
 - [x] `anthropic` summary provider behind its flag (`backend-engineer`, `claude-api` skill)
 - [x] Summary narrative eval harness: cases, code graders, optional Opus judge, `make eval` (run 6-eval)
-- [ ] `docs/SECURITY.md`: threat model, what was reviewed, known limitations (never an unqualified "secure")
-- [ ] README complete: quick start, without Docker, architecture (Mermaid), API, decisions, testing, stretch table, "Designed to grow"
-- [ ] `docs/AI-WORKFLOW.md`
-- [ ] Every row in `REQUIREMENTS.md` is `done` or explicitly out of scope
+- [x] `docs/SECURITY.md`: threat model, what was reviewed, known limitations (never an unqualified "secure")
+- [x] README complete: quick start, without Docker, architecture (Mermaid), API, decisions, testing, stretch table, "Designed to grow"
+- [x] `docs/AI-WORKFLOW.md`
+- [x] Every row in `REQUIREMENTS.md` is `done` or explicitly out of scope
 - [ ] Clean-clone run, tag `v1.0.0`, push, and tell the owner it's ready to make public and submit
 
 ## Post-submission backlog (not scheduled)

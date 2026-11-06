@@ -30,7 +30,7 @@ Each requirement has a stable ID. Code, tests, commits and reviews refer to requ
 | R-2.9 | The patient list can be sorted. | done | `apps/web/src/features/patients/list/PatientTable.tsx` | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (sort) |
 | R-2.10 | The patient list is paginated (or scrolls infinitely). | done | `apps/web/src/features/patients/list/Pagination.tsx` | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (pagination) |
 | R-2.11 | Routes exist for the dashboard home `/`, the list `/patients`, a patient `/patients/:id`, and a not-found page. | done | `apps/web/src/routes/` | `apps/web/src/features/notes/Notes.test.tsx` (detail, not found, dashboard) |
-| R-2.12 | The list stays efficient with well over 100 patients. | in progress | Server-side paging (20 per page), keepPreviousData, deferred query key | `apps/web/src/features/patients/list/PatientListPage.test.tsx`; View Transition cross-fade on result changes, skipped under reduced motion; e2e: `journeys.spec.ts` F1 (URL state round-trip across 2 pages, with 21 matching patients), `reduced-motion.spec.ts` (search cross-fade); no 100+ row profiling yet |
+| R-2.12 | The list stays efficient with well over 100 patients. | done | Server-side search, filter, sort and pagination over `pg_trgm` and partial indexes; 20 rows in the DOM; `keepPreviousData` and a deferred query key | With `SEED_PATIENTS=1000`, list, search, sort and deep-offset queries take 4–35 ms through Caddy; `PatientListPage.test.tsx`; e2e list journeys |
 | R-2.13 | Typing in search never blocks the UI. | done | `PatientListPage.tsx` (local input, 250 ms debounce, `useDeferredValue`) | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (debounce, keeps previous results); `apps/web/e2e/journeys.spec.ts` F1 (search debounced into the URL) |
 | R-2.14 | The UI works on small, low-resolution screens. | done | Cards below 768px, drawer nav, sticky wizard and edit footers, 360px captures with axe and no horizontal scroll (`apps/web/e2e/visual.capture.ts`) | `apps/web/src/features/patients/list/PatientListPage.test.tsx` (cards), `apps/web/src/features/patients/form/PatientForm.test.tsx`; `apps/web/e2e/mobile.spec.ts` (cards, selects, 44px targets, no horizontal scroll at 360px), `apps/web/e2e/axe.spec.ts` (360px) |
 | R-2.15 | The API validates input and answers with the appropriate HTTP status codes. | done | `apps/api/src/app/errors.py`, `schemas/` | `tests/api/test_patients_crud.py::TestCreate::test_validation_errors`, `tests/api/test_platform.py::TestErrorHandlers` |
@@ -65,8 +65,8 @@ Each requirement has a stable ID. Code, tests, commits and reviews refer to requ
 | R-5.2 | The web client ships with a Dockerfile. | done | `apps/web/Dockerfile`, `apps/web/docker/Caddyfile` | `scripts/smoke.sh` (CI `stack` job) |
 | R-5.3 | One `docker-compose.yml` starts the API, PostgreSQL and the web client. | done | `docker-compose.yml` (db, migrate, flagd, api, web, all with health checks) | `scripts/smoke.sh`, clean-clone run |
 | R-5.4 | `.env.example` documents every environment variable. | done | `.env.example` | — |
-| R-5.5 | The README is complete but brief, and explains how to run the project locally. | planned | — | — |
-| R-5.6 | The code is published in a public GitHub repository (owner action). | planned | — | — |
+| R-5.5 | The README is complete but brief, and explains how to run the project locally. | done | `README.md` (quick start, without Docker, architecture, API, testing, stretch goals, designed to grow) | Clean-clone run in Stage 6 |
+| R-5.6 | The code is published in a public GitHub repository (owner action). | owner action | github.com/Laptopmini/patient-registry (made public by the owner) | — |
 
 ## R-S Stretch goals
 
@@ -80,12 +80,13 @@ Chosen focus: **Advanced Backend** (R-S.1–R-S.3) and **Testing & Quality** (R-
 | R-S.4 | API endpoints have automated tests. | done | `apps/api/tests/` | `uv run pytest`: 170 tests, 98% line coverage |
 | R-S.5 | Critical UI components have component tests. | done | `apps/web/src/**/*.test.tsx`, `apps/web/src/api/http.test.ts` | `pnpm test` (35 tests) |
 | R-S.6 | The main user journeys have end-to-end tests. | done | `apps/web/playwright.config.ts` (Chromium and Firefox at 1280, Chromium at 360) | `apps/web/e2e/journeys.spec.ts` (F1–F8: list URL state, optimistic note add plus failure and retry, delete with confirmation, wizard, edit with client and server errors, 412 both choices, offline save and recovery, 404 for unknown and archived ids), `apps/web/e2e/axe.spec.ts` (WCAG 2.2 AA, 92 checks), `apps/web/e2e/reduced-motion.spec.ts`, `apps/web/e2e/mobile.spec.ts`; `make e2e` |
-| R-S.7 | Users can switch between light and dark themes manually. | planned | — | — |
-| R-S.8 | Advanced search combines several filters. | planned | — | — |
-| R-S.9 | Large patient lists are virtualized. | planned | — | — |
-| R-S.10 | The dashboard charts patients by status. | planned | — | — |
-| R-S.11 | Routes are code-split and lazy-loaded, and an audit confirms it. | planned | — | — |
+| R-S.7 | Users can switch between light and dark themes manually. | deferred (post-submission) | — | — |
+| R-S.8 | Advanced search combines several filters. | deferred (post-submission) | — | — |
+| R-S.9 | Large patient lists are virtualized. | deferred (post-submission) | — | — |
+| R-S.10 | The dashboard charts patients by status. | deferred (post-submission) | — | — |
+| R-S.11 | Routes are code-split and lazy-loaded, and an audit confirms it. | done | File routes with `autoCodeSplitting`; lazy-loaded shell extras (search popover, drawer, toasts) and `libphonenumber-js` in the detail chunk; entry chunk about 120 kB gzip | `pnpm build` chunk report; Lighthouse performance 99–100 |
 | R-S.12 | A CI pipeline runs all checks. | done | `.github/workflows/ci.yml` (api, web, compose smoke, e2e, lighthouse) | `e2e` job (Playwright and axe, report uploaded on failure) and `lighthouse` job (`lhci`, 0.95 floors, `apps/web/lighthouserc.json`) |
 | R-S.13 | Both apps hot-reload inside Docker. | done | `compose.dev.yaml`, `make watch` | Verified manually: Vite module update and uvicorn reload |
-| R-S.14 | Natural-language search turns a free-text query into filters, behind a flag. | planned | — | — |
-| R-S.15 | A read-only MCP server exposes the patient API. | planned | — | — |
+| R-S.14 | Natural-language search turns a free-text query into filters, behind a flag. | deferred (post-submission) | — | — |
+| R-S.16 | The AI summary narrative has an eval: synthetic cases, code graders and an optional LLM judge. | done | `apps/api/evals/summary/`, `make eval` | `tests/unit/test_summary_eval_graders.py`; dry run passes 25/25 on every grader |
+| R-S.15 | A read-only MCP server exposes the patient API. | deferred (post-submission) | — | — |

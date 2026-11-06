@@ -34,10 +34,13 @@
 
 .input {
   display: flex;
-  flex: 1 0 auto;
-  /* Segments never wrap, whatever the locale's order and separators ("Nov 5, 2026"). */
+  flex: 1 1 auto;
+  /* Segments never wrap, whatever the locale's order and separators ("Nov 5, 2026"), and never
+     slide under the calendar button: if space ever runs out they are clipped, not overlapped. */
   flex-wrap: nowrap;
   align-items: center;
+  min-width: 0;
+  overflow: hidden;
   white-space: nowrap;
 }
 

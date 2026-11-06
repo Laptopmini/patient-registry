@@ -85,7 +85,7 @@ Chosen focus: **Advanced Backend** (R-S.1–R-S.3) and **Testing & Quality** (R-
 | R-S.9 | Large patient lists are virtualized. | deferred (post-submission) | — | — |
 | R-S.10 | The dashboard charts patients by status. | deferred (post-submission) | — | — |
 | R-S.11 | Routes are code-split and lazy-loaded, and an audit confirms it. | done | File routes with `autoCodeSplitting`; lazy-loaded shell extras (search popover, drawer, toasts) and `libphonenumber-js` in the detail chunk; entry chunk about 120 kB gzip | `pnpm build` chunk report; Lighthouse performance 99–100 |
-| R-S.12 | A CI pipeline runs all checks. | done | `.github/workflows/ci.yml` (api, web, compose smoke, e2e, lighthouse) | `e2e` job (Playwright and axe, report uploaded on failure) and `lighthouse` job (`lhci`; 0.95 floors, 0.90 for performance, `apps/web/lighthouserc.json`) |
+| R-S.12 | A CI pipeline runs all checks. | done | `.github/workflows/ci.yml` (api, web, compose smoke, e2e, lighthouse) | `e2e` job (Playwright and axe, report uploaded on failure) and `lighthouse` job (`lhci`; 0.95 floors; performance reported (warning below 0.90), `apps/web/lighthouserc.json`) |
 | R-S.13 | Both apps hot-reload inside Docker. | done | `compose.dev.yaml`, `make watch` | Verified manually: Vite module update and uvicorn reload |
 | R-S.14 | Natural-language search turns a free-text query into filters, behind a flag. | deferred (post-submission) | — | — |
 | R-S.16 | The AI summary narrative has an eval: synthetic cases, code graders and an optional LLM judge. | done | `apps/api/evals/summary/`, `make eval` | `tests/unit/test_summary_eval_graders.py`; dry run passes 25/25 on every grader |
